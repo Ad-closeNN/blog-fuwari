@@ -1,4 +1,5 @@
 import type {
+	ImageFallbackConfig,
 	ExpressiveCodeConfig,
 	LicenseConfig,
 	NavBarConfig,
@@ -8,11 +9,11 @@ import type {
 import { LinkPreset } from "./types/config";
 
 export const siteConfig: SiteConfig = {
-	title: "Fuwari",
-	subtitle: "Demo Site",
-	lang: "en", // Language code, e.g. 'en', 'zh-CN', 'ja', etc.
+	title: "Ad_closeNN Blog",
+	subtitle: "Ad_closeNN 的博客，时不时会刷新一些文档。",
+	lang: "zh_CN", // Language code, e.g. 'en', 'zh-CN', 'ja', etc.
 	themeColor: {
-		hue: 250, // Default hue for the theme color, from 0 to 360. e.g. red: 0, teal: 200, cyan: 250, pink: 345
+		hue: 250, // Invalid but fun( Default hue for the theme color, from 0 to 360. e.g. red: 0, teal: 200, cyan: 250, pink: 345
 		fixed: false, // Hide the theme color picker for visitors
 	},
 	banner: {
@@ -20,16 +21,28 @@ export const siteConfig: SiteConfig = {
 		src: "assets/images/demo-banner.png", // Relative to the /src directory. Relative to the /public directory if it starts with '/'
 		position: "center", // Equivalent to object-position, only supports 'top', 'center', 'bottom'. 'center' by default
 		credit: {
-			enable: false, // Display the credit text of the banner image
-			text: "", // Credit text to be displayed
+			enable: true, // Display the credit text of the banner image
+			text: "a", // Credit text to be displayed
 			url: "", // (Optional) URL link to the original artwork or artist's page
 		},
+	},
+	background: {
+		enable: true, // Enable background image
+		src: "https://eo-pic.2x.nz/h", // Background image URL (supports HTTPS)
+		position: "center", // Background position: 'top', 'center', 'bottom'
+		size: "cover", // Background size: 'cover', 'contain', 'auto'
+		repeat: "no-repeat", // Background repeat: 'no-repeat', 'repeat', 'repeat-x', 'repeat-y'
+		attachment: "fixed", // Background attachment: 'fixed', 'scroll', 'local'
+		opacity: 0.5, // Background opacity (0-1)
 	},
 	toc: {
 		enable: true, // Display the table of contents on the right side of the post
 		depth: 2, // Maximum heading depth to show in the table, from 1 to 3
 	},
 	favicon: [
+		{
+			src: '/assets/avatar.jpg',
+		}
 		// Leave this array empty to use the default favicon
 		// {
 		//   src: '/favicon/icon.png',    // Path of the favicon, relative to the /public directory
@@ -45,7 +58,7 @@ export const navBarConfig: NavBarConfig = {
 		LinkPreset.Archive,
 		LinkPreset.About,
 		{
-			name: "GitHub",
+			name: "GiwtHub",
 			url: "https://github.com/saicaca/fuwari", // Internal links should not include the base path, as it is automatically added
 			external: true, // Show an external link icon and will open in a new tab
 		},
@@ -53,10 +66,11 @@ export const navBarConfig: NavBarConfig = {
 };
 
 export const profileConfig: ProfileConfig = {
-	avatar: "assets/images/demo-avatar.png", // Relative to the /src directory. Relative to the /public directory if it starts with '/'
-	name: "Lorem Ipsum",
-	bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+	avatar: "/assets/avatar.jpg", // Relative to the /src directory. Relative to the /public directory if it starts with '/'
+	name: "Ad_closeNN",
+	bio: "永远相信美好的事情即将发生",
 	links: [
+		/*
 		{
 			name: "Twitter",
 			icon: "fa6-brands:twitter", // Visit https://icones.js.org/ for icon codes
@@ -64,15 +78,16 @@ export const profileConfig: ProfileConfig = {
 			// `pnpm add @iconify-json/<icon-set-name>`
 			url: "https://twitter.com",
 		},
+		*/
 		{
 			name: "Steam",
 			icon: "fa6-brands:steam",
-			url: "https://store.steampowered.com",
+			url: "https://steamcommunity.com/id/Ad_closeNN",
 		},
 		{
 			name: "GitHub",
 			icon: "fa6-brands:github",
-			url: "https://github.com/saicaca/fuwari",
+			url: "https://github.com/Ad-closeNN",
 		},
 	],
 };
@@ -87,4 +102,10 @@ export const expressiveCodeConfig: ExpressiveCodeConfig = {
 	// Note: Some styles (such as background color) are being overridden, see the astro.config.mjs file.
 	// Please select a dark theme, as this blog theme currently only supports dark background color
 	theme: "github-dark",
+};
+
+export const imageFallbackConfig: ImageFallbackConfig = {
+	enable: true,
+	originalDomain: "eo-r2.2x.nz",
+	fallbackDomain: "pub-d433ca7edaa74994b3d7c40a7fd7d9ac.r2.dev",
 };

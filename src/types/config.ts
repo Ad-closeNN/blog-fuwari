@@ -20,6 +20,17 @@ export type SiteConfig = {
 		hue: number;
 		fixed: boolean;
 	};
+	
+	background: {
+		enable: boolean;
+		src: string;
+		position?: "top" | "center" | "bottom";
+		size?: "cover" | "contain" | "auto";
+		repeat?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+		attachment?: "fixed" | "scroll" | "local";
+		opacity?: number;
+	};
+	
 	banner: {
 		enable: boolean;
 		src: string;
@@ -80,7 +91,6 @@ export type LicenseConfig = {
 export type LIGHT_DARK_MODE =
 	| typeof LIGHT_MODE
 	| typeof DARK_MODE
-	| typeof AUTO_MODE;
 
 export type BlogPostData = {
 	body: string;
@@ -99,4 +109,10 @@ export type BlogPostData = {
 
 export type ExpressiveCodeConfig = {
 	theme: string;
+};
+
+export type ImageFallbackConfig = {
+	enable: boolean;
+	originalDomain: string;
+	fallbackDomain: string;
 };
