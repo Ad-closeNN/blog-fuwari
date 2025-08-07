@@ -60,7 +60,7 @@ export const navBarConfig: NavBarConfig = {
 		LinkPreset.About,
 		{
 			name: "统计信息",
-			url: "https://github.com/统计信息", // Internal links should not include the base path, as it is automatically added
+			url: "https://umami.adclosenn.top/share/aW5hYdseDHnqOX8K", // Internal links should not include the base path, as it is automatically added
 			external: true, // Show an external link icon and will open in a new tab
 		},
 	],

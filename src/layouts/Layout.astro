@@ -198,6 +198,8 @@ const bannerOffset =
 		<slot name="head"></slot>
 
 		<link rel="alternate" type="application/rss+xml" title={profileConfig.name} href={`${Astro.site}rss.xml`}/>
+		<!-- Umami分析（自建） -->
+		<script defer src="https://umami.adclosenn.top/script.js" data-website-id="7610548d-677b-40cb-9ebd-31dc14e16be7"></script>
 
 	</head>
 	<body class=" min-h-screen transition " class:list={[{"lg:is-home": isHomePage, "enable-banner": enableBanner}]}
