@@ -9,11 +9,11 @@ import type {
 import { LinkPreset } from "./types/config";
 
 export const siteConfig: SiteConfig = {
-	title: "Ad_closeNN Blog",
-	subtitle: "Ad_closeNN 的小站，时不时会刷新一些文档。",
+	title: "Ad_closeNN 的小站",
+	subtitle: "Ad_closeNN 的小站，时不时会刷新一些野生的文档。",
 	lang: "zh_CN", // Language code, e.g. 'en', 'zh-CN', 'ja', etc.
 	themeColor: {
-		hue: 250, // Invalid but fun( Default hue for the theme color, from 0 to 360. e.g. red: 0, teal: 200, cyan: 250, pink: 345
+		hue: 360, // Invalid but fun( Default hue for the theme color, from 0 to 360. e.g. red: 0, teal: 200, cyan: 250, pink: 345
 		fixed: false, // Hide the theme color picker for visitors
 	},
 	banner: {
@@ -29,7 +29,7 @@ export const siteConfig: SiteConfig = {
 	background: {
 		enable: true, // Enable background image
 		//src: "https://eo-pic.2x.nz/h", // Background image URL (supports HTTPS)
-		src: "https://api.bimg.cc/random", // Bing daily theme
+		src: "https://bing.img.run/rand_1366x768.php", // Bing daily theme
 		position: "center", // Background position: 'top', 'center', 'bottom'
 		size: "cover", // Background size: 'cover', 'contain', 'auto'
 		repeat: "no-repeat", // Background repeat: 'no-repeat', 'repeat', 'repeat-x', 'repeat-y'
@@ -60,7 +60,7 @@ export const navBarConfig: NavBarConfig = {
 		LinkPreset.About,
 		{
 			name: "统计信息",
-			url: "https://umami.adclosenn.top/share/aW5hYdseDHnqOX8K", // Internal links should not include the base path, as it is automatically added
+			url: "https://umami.adclosenn.top/share/XMDJoIb1D21UxHdH", // Internal links should not include the base path, as it is automatically added
 			external: true, // Show an external link icon and will open in a new tab
 		},
 	],

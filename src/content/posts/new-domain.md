@@ -2,7 +2,7 @@
 title: 新域名！
 published: 2099-12-31
 tags: ["域名"]
-description: A simple example of a Markdown blog post.
+description: 获得了一个新域名 *这使我充满了决心
 image: ../assets/images/domain-inlist-adclosenn.top.png
 category: 记录
 draft: false
