@@ -10,7 +10,7 @@ import { LinkPreset } from "./types/config";
 
 export const siteConfig: SiteConfig = {
 	title: "Ad_closeNN Blog",
-	subtitle: "Ad_closeNN 的博客，时不时会刷新一些文档。",
+	subtitle: "Ad_closeNN 的小站，时不时会刷新一些文档。",
 	lang: "zh_CN", // Language code, e.g. 'en', 'zh-CN', 'ja', etc.
 	themeColor: {
 		hue: 250, // Invalid but fun( Default hue for the theme color, from 0 to 360. e.g. red: 0, teal: 200, cyan: 250, pink: 345
