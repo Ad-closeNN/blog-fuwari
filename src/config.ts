@@ -1,10 +1,10 @@
 import type {
-	ImageFallbackConfig,
 	ExpressiveCodeConfig,
 	LicenseConfig,
 	NavBarConfig,
 	ProfileConfig,
 	SiteConfig,
+	UmamiConfig,
 } from "./types/config";
 import { LinkPreset } from "./types/config";
 
@@ -28,7 +28,8 @@ export const siteConfig: SiteConfig = {
 	},
 	background: {
 		enable: true, // Enable background image
-		src: "https://eo-pic.2x.nz/h", // Background image URL (supports HTTPS)
+		//src: "https://eo-pic.2x.nz/h", // Background image URL (supports HTTPS)
+		src: "https://api.bimg.cc/random", // Bing daily theme
 		position: "center", // Background position: 'top', 'center', 'bottom'
 		size: "cover", // Background size: 'cover', 'contain', 'auto'
 		repeat: "no-repeat", // Background repeat: 'no-repeat', 'repeat', 'repeat-x', 'repeat-y'
@@ -58,8 +59,8 @@ export const navBarConfig: NavBarConfig = {
 		LinkPreset.Archive,
 		LinkPreset.About,
 		{
-			name: "GiwtHub",
-			url: "https://github.com/saicaca/fuwari", // Internal links should not include the base path, as it is automatically added
+			name: "统计信息",
+			url: "https://github.com/统计信息", // Internal links should not include the base path, as it is automatically added
 			external: true, // Show an external link icon and will open in a new tab
 		},
 	],
@@ -104,8 +105,9 @@ export const expressiveCodeConfig: ExpressiveCodeConfig = {
 	theme: "github-dark",
 };
 
-export const imageFallbackConfig: ImageFallbackConfig = {
+export const umamiConfig: UmamiConfig = {
 	enable: true,
-	originalDomain: "eo-r2.2x.nz",
-	fallbackDomain: "pub-d433ca7edaa74994b3d7c40a7fd7d9ac.r2.dev",
+	baseUrl: "https://umami.adclosenn.top",
+	shareId: "XMDJoIb1D21UxHdH",
+	timezone: "Asia/Shanghai",
 };

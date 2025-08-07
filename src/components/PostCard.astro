@@ -7,6 +7,7 @@ import { i18n } from "../i18n/translation";
 import { getDir } from "../utils/url-utils";
 import ImageWrapper from "./misc/ImageWrapper.astro";
 import PostMetadata from "./PostMeta.astro";
+import { umamiConfig } from "../config";
 
 interface Props {
 	class?: string;
@@ -64,14 +65,15 @@ const { remarkPluginFrontmatter } = await entry.render();
             { description || remarkPluginFrontmatter.excerpt }
         </div>
 
-        <!-- word count and read time  -->
+            
+        <!-- word count, read time and page views https://github.com/afoim/fuwari/blob/81f22decb17ff7ee1dd480c10773f7ba8f4df296/src/components/PostCard.astro -->
         <div class="text-sm text-black/30 dark:text-white/30 flex gap-4 transition">
-            <div>
-                {remarkPluginFrontmatter.words} {" " + i18n(remarkPluginFrontmatter.words === 1 ? I18nKey.wordCount : I18nKey.wordsCount)}
-            </div>
+            <div>{remarkPluginFrontmatter.words} {" " + i18n(I18nKey.wordsCount)}</div>
+            <div>|</div>
+            <div>{remarkPluginFrontmatter.minutes} {" " + i18n(I18nKey.minutesCount)}</div>
             <div>|</div>
             <div>
-                {remarkPluginFrontmatter.minutes} {" " + i18n(remarkPluginFrontmatter.minutes === 1 ? I18nKey.minuteCount : I18nKey.minutesCount)}
+                <span class="text-50 text-sm font-medium" id={`page-views-${entry.slug}`}>加载中...</span>
             </div>
         </div>
 
@@ -105,6 +107,73 @@ const { remarkPluginFrontmatter } = await entry.render();
     }
 </div>
 <div class="transition border-t-[1px] border-dashed mx-6 border-black/10 dark:border-white/[0.15] last:border-t-0 md:hidden"></div>
+
+
+<!-- https://github.com/afoim/fuwari/blob/81f22decb17ff7ee1dd480c10773f7ba8f4df296/src/components/PostCard.astro -->
+
+<script define:vars={{ entry, umamiConfig }}>
+    // 获取文章浏览量统计
+    async function fetchPostCardViews(slug) {
+        if (!umamiConfig.enable) {
+            return;
+        }
+        
+        try {
+            // 第一步：获取网站ID和token
+            const shareResponse = await fetch(`${umamiConfig.baseUrl}/api/share/${umamiConfig.shareId}`);
+            if (!shareResponse.ok) {
+                throw new Error('获取分享信息失败');
+            }
+            const shareData = await shareResponse.json();
+            const { websiteId, token } = shareData;
+            
+            // 第二步：获取统计数据
+            const currentTimestamp = Date.now();
+            const statsUrl = `${umamiConfig.baseUrl}/api/websites/${websiteId}/stats?startAt=0&endAt=${currentTimestamp}&unit=hour&timezone=${encodeURIComponent(umamiConfig.timezone)}&url=%2Fposts%2F${slug}%2F&compare=false`;
+            
+            const statsResponse = await fetch(statsUrl, {
+                headers: {
+                    'x-umami-share-token': token
+                }
+            });
+            
+            if (!statsResponse.ok) {
+                throw new Error('获取统计数据失败');
+            }
+            
+            const statsData = await statsResponse.json();
+            const pageViews = statsData.pageviews?.value || 0;
+            // const visits = statsData.visits?.value || 0;
+            
+            const displayElement = document.getElementById(`page-views-${slug}`);
+             if (displayElement) {
+                 displayElement.textContent = `浏览量 ${pageViews}`;
+             }
+        } catch (error) {
+            console.error('Error fetching page views for', slug, ':', error);
+            const displayElement = document.getElementById(`page-views-${slug}`);
+            if (displayElement) {
+                displayElement.textContent = '统计不可用';
+            }
+        }
+    }
+
+    // 页面加载完成后获取统计数据
+    function initPostCardStats() {
+        const slug = entry.slug;
+        if (slug) {
+            fetchPostCardViews(slug);
+        }
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initPostCardStats);
+    } else {
+        initPostCardStats();
+    }
+</script>
+
+
 
 <style define:vars={{coverWidth}}>
 </style>

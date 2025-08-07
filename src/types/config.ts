@@ -116,3 +116,10 @@ export type ImageFallbackConfig = {
 	originalDomain: string;
 	fallbackDomain: string;
 };
+
+export type UmamiConfig = {
+	enable: boolean;
+	baseUrl: string;
+	shareId: string;
+	timezone: string;
+};

@@ -1,6 +1,6 @@
 ---
 import { Icon } from "astro-icon/components";
-import { profileConfig } from "../../config";
+import { profileConfig, umamiConfig } from "../../config";
 import { url } from "../../utils/url-utils";
 import ImageWrapper from "../misc/ImageWrapper.astro";
 
@@ -34,6 +34,65 @@ const config = profileConfig;
                 {config.links[0].name}
             </a>}
         </div>
+
+        <!-- 全站访问量统计 https://github.com/afoim/fuwari/blob/81f22decb17ff7ee1dd480c10773f7ba8f4df296/src/components/widget/Profile.astro -->
+        <div class="text-center text-sm text-neutral-500 dark:text-neutral-400 mt-3 pt-3 border-t border-neutral-200 dark:border-neutral-700">
+            <div class="flex items-center justify-center gap-1">
+                <Icon name="material-symbols:visibility-outline" class="text-base"></Icon>
+                <span id="site-stats">加载中...</span>
+            </div>
+        </div>
+
     </div>
 </div>
 
+<script define:vars={{ umamiConfig }}>
+    // 获取全站访问量统计
+    async function loadSiteStats() {
+        if (!umamiConfig.enable) {
+            return;
+        }
+        
+        try {
+            // 第一步：获取网站ID和token
+            const shareResponse = await fetch(`${umamiConfig.baseUrl}/api/share/${umamiConfig.shareId}`);
+            if (!shareResponse.ok) {
+                throw new Error('获取分享信息失败');
+            }
+            const shareData = await shareResponse.json();
+            const { websiteId, token } = shareData;
+            
+            // 第二步：获取全站统计数据（不指定url参数获取全站数据）
+            const currentTimestamp = Date.now();
+            const statsUrl = `${umamiConfig.baseUrl}/api/websites/${websiteId}/stats?startAt=0&endAt=${currentTimestamp}&unit=hour&timezone=${encodeURIComponent(umamiConfig.timezone)}&compare=false`;
+            
+            const statsResponse = await fetch(statsUrl, {
+                 headers: {
+                     'x-umami-share-token': token
+                 }
+             });
+            
+            if (!statsResponse.ok) {
+                throw new Error('获取统计数据失败');
+            }
+            
+            const statsData = await statsResponse.json();
+            const pageviews = statsData.pageviews?.value || 0;
+            // const visitors = statsData.visits?.value || 0;
+            
+            const statsElement = document.getElementById('site-stats');
+            if (statsElement) {
+                statsElement.textContent = `浏览量 ${pageviews}`;
+            }
+        } catch (error) {
+            console.error('获取全站统计失败:', error);
+            const statsElement = document.getElementById('site-stats');
+            if (statsElement) {
+                statsElement.textContent = '统计不可用';
+            }
+        }
+    }
+
+    // 页面加载完成后获取统计数据
+    document.addEventListener('DOMContentLoaded', loadSiteStats);
+</script>

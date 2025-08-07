@@ -11,8 +11,8 @@ import {
 import { onMount } from "svelte";
 import type { LIGHT_DARK_MODE } from "@/types/config.ts";
 
-const seq: LIGHT_DARK_MODE[] = [LIGHT_MODE, DARK_MODE, AUTO_MODE];
-let mode: LIGHT_DARK_MODE = $state(AUTO_MODE);
+const seq: LIGHT_DARK_MODE[] = [LIGHT_MODE, DARK_MODE];
+let mode: LIGHT_DARK_MODE = LIGHT_MODE;
 
 onMount(() => {
 	mode = getStoredTheme();
@@ -65,9 +65,6 @@ function hidePanel() {
         </div>
         <div class="absolute" class:opacity-0={mode !== DARK_MODE}>
             <Icon icon="material-symbols:dark-mode-outline-rounded" class="text-[1.25rem]"></Icon>
-        </div>
-        <div class="absolute" class:opacity-0={mode !== AUTO_MODE}>
-            <Icon icon="material-symbols:radio-button-partial-outline" class="text-[1.25rem]"></Icon>
         </div>
     </button>
 
