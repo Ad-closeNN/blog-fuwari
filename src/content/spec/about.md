@@ -1,13 +1,14 @@
 # 关于 / Hi there!
-既然你来到了这里，就说明你在访问由 [Netlify](https://www.netlify.com) 托管的 [adclosenn.top](https://adclosenn.top)。
+既然你来到了这里，就说明你在访问由 [Netlify](https://www.netlify.com) 托管的 [adclosenn.top](https://adclosenn.top)。本站 Netlify 优选 IP：`3.33.186.135`
 
-本站使用 [@satcaca/fuwari](https://github.com/saicaca/fuwari) 博客模板。嗯，真漂亮，真好用。
+本站使用 [@satcaca/fuwari](https://github.com/saicaca/fuwari) 博客模板，部分代码来源于 [@afoim/fuwri](https://github.com/afoim/fuwar)。嗯，真漂亮，真好用。
 
 ::github{repo="saicaca/fuwari"}
 ::github{repo="withastro/astro"}
+::github{repo="afoim/fuwari"}
 
 ## 域名
-目前你现在见到的，也就是 [adclosenn.top](https://adclosenn.top)。除了这个，还有其他的域名：
+目前你现在见到的，也就是 [adclosenn.top](https://adclosenn.top)。除了这个，我还有其他的域名（部分）：
 
 1. adclosenn.top
 2. 19991230.xyz
@@ -25,3 +26,8 @@
 
 ### 爱好
 玩游戏、写代码、写博客（也许吧），哦，还有读书。只会一点 [Python](https://baike.baidu.com/item/Python/407313)，初学者罢了。
+
+## 关于本站
+### 字体
+使用的是 [MiSans](https://hyperos.mi.com/font)，中英文可变字重字体从官方 CDN 服务器获取。
+# [点此查看详情](/misans/)
