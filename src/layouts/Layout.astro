@@ -602,14 +602,6 @@ const setup = () => {
 		}
 		createPhotoSwipe()
 	})
-
-	window.swup.hooks.on(
-		"content:replace",
-		() => {
-			lightbox?.destroy?.()
-		},
-		{ before: true },
-	)
 }
 
 if (window.swup) {
