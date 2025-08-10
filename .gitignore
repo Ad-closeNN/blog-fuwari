@@ -25,3 +25,8 @@ pnpm-debug.log*
 package-lock.json
 bun.lockb
 yarn.lock
+
+# My test files
+duolingo.py
+duolingo copy.py
+test.py

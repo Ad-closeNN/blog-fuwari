@@ -52,3 +52,72 @@ const config = profileConfig;
     </div>
 </div>
 
+<script>
+// 傻逼脑子 Merge 的时候怎么把这个删了
+// 调用一言 API
+//fetch("https://international.v1.hitokoto.cn")
+// 试试国内，不过容易崩
+fetch("https://v1.hitokoto.cn")
+  .then(response => response.json())
+  .then(data => {
+    // API 返回的字段是 data.text
+    document.getElementById("hitokoto").innerText = data.hitokoto;
+  })
+  .catch(error => {
+    console.error("获取一言失败：", error);
+    //document.getElementById("hitokoto").innerText = "获取失败，请稍后再试。";
+    //失败后用内置的，成功了用别人的。不过，这真的可能用失败吗？
+    document.getElementById("hitokoto").innerText = "再热情的心也经不起冷漠，再爱你的人也经不起冷落。";
+  });
+</script>
+
+<script define:vars={{ umamiConfig }}>
+    // 获取全站访问量统计
+    async function loadSiteStats() {
+        if (!umamiConfig.enable) {
+            return;
+        }
+        
+        try {
+            // 第一步：获取网站ID和token
+            const shareResponse = await fetch(`${umamiConfig.baseUrl}/api/share/${umamiConfig.shareId}`);
+            if (!shareResponse.ok) {
+                throw new Error('获取分享信息失败');
+            }
+            const shareData = await shareResponse.json();
+            const { websiteId, token } = shareData;
+            
+            // 第二步：获取全站统计数据（不指定url参数获取全站数据）
+            const currentTimestamp = Date.now();
+            const statsUrl = `${umamiConfig.baseUrl}/api/websites/${websiteId}/stats?startAt=0&endAt=${currentTimestamp}&unit=hour&timezone=${encodeURIComponent(umamiConfig.timezone)}&compare=false`;
+            
+            const statsResponse = await fetch(statsUrl, {
+                 headers: {
+                     'x-umami-share-token': token
+                 }
+             });
+            
+            if (!statsResponse.ok) {
+                throw new Error('获取统计数据失败');
+            }
+            
+            const statsData = await statsResponse.json();
+            const pageviews = statsData.pageviews?.value || 0;
+            // const visitors = statsData.visits?.value || 0;
+            
+            const statsElement = document.getElementById('site-stats');
+            if (statsElement) {
+                statsElement.textContent = `浏览量 ${pageviews}`;
+            }
+        } catch (error) {
+            console.error('获取全站统计失败:', error);
+            const statsElement = document.getElementById('site-stats');
+            if (statsElement) {
+                statsElement.textContent = '统计不可用';
+            }
+        }
+    }
+
+    // 页面加载完成后获取统计数据
+    document.addEventListener('DOMContentLoaded', loadSiteStats);
+</script>

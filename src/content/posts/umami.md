@@ -56,5 +56,10 @@ Neon 仍有使用限制：[https://neon.com/pricing](https://neon.com/pricing)
 14. 至此，你已成功自托管一个 Umami 网站统计工具。恭喜你。
 
 # 注意事项
-:::caution
-Umami 对于从台湾地区传来的请求，默认展示为 **ROC Flag + 台湾**。请注意风险，如需更改，请手动更改 Umami 文件。
+:::caution[警告 CAUTION]
+### [非必须]
+Umami 对于从台湾地区传来的请求，默认展示为 **ROC Flag + 台湾**。如需更改，请手动更改 Umami 文件。
+- ``/public/datamaps.world.json``
+- ``/public/images/country/tw.png``
+- ``/public/intl/country/zh-CN.json``
+- ``/public/intl/country/zh-TW.json``

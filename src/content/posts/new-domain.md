@@ -10,7 +10,7 @@ draft: false
 
 # .xyz 域名
 :::note
-下面讲的都是[阿里云（国内站）](https://wanwang.aliyun.com/domain)。
+如无特殊指代，阿里云指[阿里云（国内站）](https://wanwang.aliyun.com/domain)。
 :::
 之前在[*里云](https://wanwang.aliyun.com/domain)买了个8位纯数字的 `.xyz` 域名，现在买了 `.top` 后觉得特亏。一是在阿里云里面买任何域名都需要实名认证（14+），还得填一些实际身份的信息，我了个去，填完这些信息都够我在 Spaceship 买两次域名了，真是够麻烦的。。。
 
