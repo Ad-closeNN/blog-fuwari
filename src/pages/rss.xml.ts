@@ -37,6 +37,7 @@ export async function GET(context: APIContext) {
 				}),
 			};
 		}),
-		customData: `<language>${siteConfig.lang}</language>`,
+		// 准备迎接我的 Folo 之验证吧！——鲁迅 not 达摩（bushi
+		customData: `<language>${siteConfig.lang}</language><follow_challenge><feedId>177350379949135872</feedId><userId>83370505718413312</userId></follow_challenge>`,
 	});
 }
