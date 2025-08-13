@@ -111,15 +111,14 @@ const isSaturday = false
                       name="fa6-solid:arrow-up-right-from-square">
                 </Icon>
             </a>}
+            {isSaturday && (
             <script>
-
-            // 检查是否是周6
-            // 检查 localStorage 是否已有记录
-            if (isSaturday && !localStorage.getItem("hasSeenPopup")) {
-                alert("网站可能会在每个周日变个样...");
+                if (!localStorage.getItem("hasSeenPopup")) {
+                alert("网站可能会在每个周日变个样...\n点击确认后将不再显示此弹窗");
                 localStorage.setItem("hasSeenPopup", "true"); // 记录已弹出
-            }
+                }
             </script>
+            )}
             <SideBar class="mb-4 row-start-2 row-end-3 col-span-2 lg:row-start-1 lg:row-end-2 lg:col-span-1 lg:max-w-[17.5rem] onload-animation" headings={headings}></SideBar>
 
             <main id="swup-container" class="transition-swup-fade col-span-2 lg:col-span-1 overflow-hidden">
