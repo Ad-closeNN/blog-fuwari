@@ -128,6 +128,6 @@ export const expressiveCodeConfig: ExpressiveCodeConfig = {
 export const umamiConfig: UmamiConfig = {
 	enable: true,
 	baseUrl: "https://umami.adclosenn.top",
-	shareId: "jME4HFb9JmfJM5zs",
+	shareId: "NOTTYPE",
 	timezone: "Asia/Shanghai",
 };
