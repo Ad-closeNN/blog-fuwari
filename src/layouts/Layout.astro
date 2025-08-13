@@ -130,7 +130,7 @@ const bannerOffset =
 
 			// Load the hue from local storage
 			const currentDay = new Date().getDay();
-			const hue = currentDay === 0 ? 290 : (localStorage.getItem('hue') || configHue);
+			const hue = 290;
 			//const hue = localStorage.getItem('hue') || configHue;
 			document.documentElement.style.setProperty('--hue', hue);
 
