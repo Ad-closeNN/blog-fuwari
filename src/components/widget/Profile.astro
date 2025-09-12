@@ -147,16 +147,16 @@ fetch("https://v1.hitokoto.cn")
                 statsElement.textContent = 'Err. invalid domain name';
             }
             // 第一步：调用 API                
-            const githubResponse = await fetch(`https://api.adclosenn.top/.netlify/functions/commit`);
+            const githubResponse = await fetch(`https://api.github.com/repos/Ad-closeNN/blog-fuwari/commits?per_page=1`);
 
             if (!githubResponse.ok) {
                 throw new Error('获取信息失败');
             }
 
-            const Data = await githubResponse.json();
-
+            let Data = await githubResponse.json();
+            Data = Data[0];
             // 第二步：获取 Commit 数据
-            const latestCommit = Data
+            const latestCommit = Data;
             
             const commitData = {
                 hash: latestCommit.sha.slice(0, 7),

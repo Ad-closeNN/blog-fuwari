@@ -16,9 +16,9 @@ import { Icon } from "astro-icon/components";
             <a href="https://www.netlify.com/" target="_blank" class="friend-card">
                 <div class="flex items-center gap-2">
                     <img src="https://www.netlify.com/favicon.ico" loading="lazy" class="w-5 h-5 rounded">
-                    <div class="font-bold text-black dark:text-white">Netlify（本站托管平台）</div>
+                    <div class="font-bold text-black dark:text-white">Netlify（主站托管平台）</div>
                 </div>
-                <div class="text-sm text-black/50 dark:text-white/50">AWS CDN，优选后简直不要太香！</div>
+                <div class="text-sm text-black/50 dark:text-white/50">亚马逊 AWS CDN</div>
             </a>
 
             <a href="https://github.com/saicaca/fuwari" target="_blank" class="friend-card">
@@ -126,7 +126,34 @@ import { Icon } from "astro-icon/components";
 </MainGridLayout>
 
 <style>
-.friend-card {
-    @apply flex flex-col gap-1 p-4 rounded-lg bg-[var(--card-bg)] hover:bg-black/5 dark:hover:bg-white/5 transition;
-}
+    .friend-card {
+        @apply flex flex-col gap-1 p-4 rounded-lg bg-[var(--card-bg)] hover:bg-black/5 dark:hover:bg-white/5;
+        transition-property: all;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        transition-duration: 0.15s;
+    }
+    
+    .friend-card:active {
+        scale: .98;
+        background-color: var(--btn-regular-bg-active);
+    }
+    
+    .friend-card:hover {
+        background-color: var(--btn-regular-bg-hover);
+    }
+    
+    .friend-card:hover .font-bold {
+        color: var(--btn-content);
+    }
+    
+    .friend-card:hover .text-sm {
+    @apply text-gray-700 dark:text-white;
+    }
+
+    .friend-card .font-bold,
+    .friend-card .text-sm {
+        transition-property: color;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        transition-duration: 0.15s;
+    }
 </style>
