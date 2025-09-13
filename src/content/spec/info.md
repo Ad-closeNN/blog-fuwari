@@ -28,7 +28,6 @@
 <script>
     async function loadCommitStats2() {
         try {
-            // 第零步：检查域名（甚至本地）
             const statsElement = document.getElementById('github-commit2'); // 查找 id
             const link = document.getElementById('github-commit-link2'); // 查找 id
 
@@ -41,9 +40,6 @@
             const authorElementUrl = document.getElementById('github-commit-author-link'); // 查找 id
             const fullElement = document.getElementById('github-commit-full'); // 查找 id
 
-            if (!window.location.hostname.includes('localhost') && !window.location.hostname.includes('adclosenn.top')) {
-                statsElement.textContent = 'Err. invalid domain name';
-            }
             // 第一步：调用 API                
             const githubResponse = await fetch(`https://api.github.com/repos/Ad-closeNN/blog-fuwari/commits?per_page=1`);
 
