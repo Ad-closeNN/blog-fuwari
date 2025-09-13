@@ -33,7 +33,7 @@
 8. 腾讯 EdgeOne Pages（**无**优选）：https://eo.adclosenn.top
 
 :::note[笔记]
-Cloudflare Pages 优选版站点，在中国大陆境内为**优选域名 www.visa.com.sg**，在境外为源 `blog-fuwari-c8w.pages.dev`。
+Cloudflare Pages 优选版站点，在中国大陆境内为**优选域名 `www.visa.com.sg`**，在境外为源 `blog-fuwari-c8w.pages.dev`。
 :::
 
 对于非 Netlify 站点，建议优先选择**无优选**的 [https://cf.adclosenn.dev](https://cf.adclosenn.dev)。如果后续测试中 Netlify 节点的质量成绩始终不如 Cloudflare，则会迁移到 Cloudflare。
