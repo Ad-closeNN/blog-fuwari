@@ -105,7 +105,7 @@ URL of the ICANN WHOIS Data Problem Reporting System: http://wdprs.internic.net/
 
 16:00 点后，来到 gen.xyz，填了填报告，submit了。而这居然还有坑？
 
-:::warning["注意"]
+:::warning[注意]
 当时的情况如此，并非等于现在情况。
 :::
 

@@ -25,7 +25,7 @@ draft: false
 群友目前反馈，已经无法直连
 ```
 
-:::note["笔记"]
+:::note[笔记]
 仅 DC5（数据中心） 用户（包括手机号+86）可直连
 ![telegram-dc-list](../assets/images/telegram-dc-list.png)
 :::
