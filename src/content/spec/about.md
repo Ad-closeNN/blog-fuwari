@@ -115,70 +115,78 @@ the error log is like driving with your eyes closed.
 - <a href="/assets/carbon-config.json" target="_blank">/public/assets/carbon-config.json</a> ：[Carbon 官网](https://carbon.now.sh) 配置文件。
 
 <script>
-    // 主机名解析
-    const hostname = window.location.hostname;
-    const siteType = document.getElementById('cdns');
-    const hName = document.getElementById('cdns-hostname');
-    const cdnType = document.getElementById('cdns-type');
-    if (hostname === "localhost" || hostname === "127.0.0.1" || hostname.includes("192.168.")){
-        // Local
-        siteType.innerHTML = "本地服务器。";
-        cdnType.textContent = "本地"
+    function getHostname(){
+        // 主机名解析
+        const hostname = window.location.hostname;
+        const siteType = document.getElementById('cdns');
+        const hName = document.getElementById('cdns-hostname');
+        const cdnType = document.getElementById('cdns-type');
+        if (hostname === "localhost" || hostname === "127.0.0.1" || hostname.includes("192.168.")){
+            // Local
+            siteType.innerHTML = "本地服务器。";
+            cdnType.textContent = "本地"
+        }
+        else if (hostname === "adclosenn.top"){
+            // Netlify
+            siteType.innerHTML = '由 <a href="https://www.netlify.com" target="_blank">Netlify</a> 托管的 <a href="https://adclosenn.top">https://adclosenn.top</a>。本站 Netlify Amazon CDN 优选 IP：<code>3.33.186.135</code>';
+            cdnType.textContent = "Netlify";
+            
+        }
+        else if (hostname === "worker-cf.adclosenn.dev") {
+            // Cloudflare Workers https://worker-cf.adclosenn.dev
+            siteType.innerHTML = '由 <a href="https://workers.cloudflare.com" target="_blank">Cloudflare Workers</a> 托管的 <a href="https://worker-cf.adclosenn.dev">https://worker-cf.adclosenn.dev</a>。本站点未进行 IP 优选。';
+            cdnType.textContent = "Cloudflare Workers";
+        }
+        else if (hostname === "youxuan-cf-worker.adclosenn.dev") {
+            // Cloudflare Workers 优选 https://youxuan-cf-worker.adclosenn.dev
+            siteType.innerHTML = '由 <a href="https://workers.cloudflare.com" target="_blank">Cloudflare Workers</a> 托管的 <a href="https://youxuan-cf-worker.adclosenn.dev">https://youxuan-cf-worker.adclosenn.dev</a>。本站点已进行 IP 优选，使用的 CNAME 为 <code>youxuan.cf.090227.xyz</code>。';
+            cdnType.textContent = "Cloudflare Workers";
+        }
+        else if (hostname === "cf.adclosenn.dev") {
+            // Cloudflare Pages https://cf.adclosenn.dev
+            siteType.innerHTML = '由 <a href="https://pages.cloudflare.com" target="_blank">Cloudflare Pages</a> 托管的 <a href="https://cf.adclosenn.dev">https://cf.adclosenn.dev</a>。本站点未进行 IP 优选。';
+            cdnType.textContent = "Cloudflare Pages";
+        }
+        else if (hostname === "www.adclosenn.dev") {
+            // Cloudflare Pages 优选 https://www.adclosenn.dev
+            siteType.innerHTML = '由 <a href="https://pages.cloudflare.com" target="_blank">Cloudflare Pages</a> 托管的 <a href="https://www.adclosenn.dev">https://www.adclosenn.dev</a>。本站点已进行 IP 优选，使用的 CNAME 为 <code>www.visa.com.sg</code>。';
+            cdnType.textContent = "Cloudflare Pages";
+        }
+        else if (hostname === "origin.vercel.adclosenn.dev") {
+            // Vercel https://origin.vercel.adclosenn.dev
+            siteType.innerHTML = '由 <a href="https://vercel.com" target="_blank">Vercel</a> 托管的 <a href="https://origin.vercel.adclosenn.dev">https://origin.vercel.adclosenn.dev</a>。本站点未进行 IP 优选，使用的官方 CNAME 为 <code>cname.vercel-dns.com</code>。';
+            cdnType.textContent = "Vercel";
+        }
+        else if (hostname === "vercel.adclosenn.dev") {
+            // Vercel 优选 https://vercel.adclosenn.dev
+            siteType.innerHTML = '由 <a href="https://vercel.com" target="_blank">Vercel</a> 托管的 <a href="https://vercel.adclosenn.dev">https://vercel.adclosenn.dev</a>。本站点已进行 IP 优选，使用的 IP 为 <code>64.29.17.65</code>。';
+            cdnType.textContent = "Vercel";
+        }
+        else if (hostname === "cf-eo.adclosenn.dev") {
+            // EdgeOne CDN https://cf-eo.adclosenn.dev
+            siteType.innerHTML = '由 <a href="https://edgeone.ai/zh" target="_blank">EdgeOne CDN</a> 加速的 <a href="https://cf-eo.adclosenn.dev">https://cf-eo.adclosenn.dev</a>。本站点未进行 IP 优选，源站为 Cloudflare Pages。';
+            cdnType.textContent = "腾讯云 EdgeOne";
+        }
+        else if (hostname === "eo.adclosenn.top") {
+            // EdgeOne Pages https://eo.adclosenn.top
+            siteType.innerHTML = '由 <a href="https://edgeone.ai/zh/products/pages" target="_blank">EdgeOne Pages</a> 托管的 <a href="https://eo.adclosenn.top">https://eo.adclosenn.top</a>。本站点未进行 IP 优选。';
+            cdnType.textContent = "腾讯云 EdgeOne";
+        }
+        else{
+            siteType.innerHTML = "未知主机名：<code>" + hostname + "</code>。";
+            cdnType.innerHTML = "未知主机名"
+        }
+        if (hostname != "") {
+            hName.textContent = hostname;
+        }
+        else {
+            hName.textContent = "本地 HTML 文件";
+        }
     }
-    else if (hostname === "adclosenn.top"){
-        // Netlify
-        siteType.innerHTML = '由 <a href="https://www.netlify.com" target="_blank">Netlify</a> 托管的 <a href="https://adclosenn.top">https://adclosenn.top</a>。本站 Netlify Amazon CDN 优选 IP：<code>3.33.186.135</code>';
-        cdnType.textContent = "Netlify";
-        
-    }
-    else if (hostname === "worker-cf.adclosenn.dev") {
-        // Cloudflare Workers https://worker-cf.adclosenn.dev
-        siteType.innerHTML = '由 <a href="https://workers.cloudflare.com" target="_blank">Cloudflare Workers</a> 托管的 <a href="https://worker-cf.adclosenn.dev">https://worker-cf.adclosenn.dev</a>。本站点未进行 IP 优选。';
-        cdnType.textContent = "Cloudflare Workers";
-    }
-    else if (hostname === "youxuan-cf-worker.adclosenn.dev") {
-        // Cloudflare Workers 优选 https://youxuan-cf-worker.adclosenn.dev
-        siteType.innerHTML = '由 <a href="https://workers.cloudflare.com" target="_blank">Cloudflare Workers</a> 托管的 <a href="https://youxuan-cf-worker.adclosenn.dev">https://youxuan-cf-worker.adclosenn.dev</a>。本站点已进行 IP 优选，使用的 CNAME 为 <code>youxuan.cf.090227.xyz</code>。';
-        cdnType.textContent = "Cloudflare Workers";
-    }
-    else if (hostname === "cf.adclosenn.dev") {
-        // Cloudflare Pages https://cf.adclosenn.dev
-        siteType.innerHTML = '由 <a href="https://pages.cloudflare.com" target="_blank">Cloudflare Pages</a> 托管的 <a href="https://cf.adclosenn.dev">https://cf.adclosenn.dev</a>。本站点未进行 IP 优选。';
-        cdnType.textContent = "Cloudflare Pages";
-    }
-    else if (hostname === "www.adclosenn.dev") {
-        // Cloudflare Pages 优选 https://www.adclosenn.dev
-        siteType.innerHTML = '由 <a href="https://pages.cloudflare.com" target="_blank">Cloudflare Pages</a> 托管的 <a href="https://www.adclosenn.dev">https://www.adclosenn.dev</a>。本站点已进行 IP 优选，使用的 CNAME 为 <code>www.visa.com.sg</code>。';
-        cdnType.textContent = "Cloudflare Pages";
-    }
-    else if (hostname === "origin.vercel.adclosenn.dev") {
-        // Vercel https://origin.vercel.adclosenn.dev
-        siteType.innerHTML = '由 <a href="https://vercel.com" target="_blank">Vercel</a> 托管的 <a href="https://origin.vercel.adclosenn.dev">https://origin.vercel.adclosenn.dev</a>。本站点未进行 IP 优选，使用的官方 CNAME 为 <code>cname.vercel-dns.com</code>。';
-        cdnType.textContent = "Vercel";
-    }
-    else if (hostname === "vercel.adclosenn.dev") {
-        // Vercel 优选 https://vercel.adclosenn.dev
-        siteType.innerHTML = '由 <a href="https://vercel.com" target="_blank">Vercel</a> 托管的 <a href="https://vercel.adclosenn.dev">https://vercel.adclosenn.dev</a>。本站点已进行 IP 优选，使用的 IP 为 <code>64.29.17.65</code>。';
-        cdnType.textContent = "Vercel";
-    }
-    else if (hostname === "cf-eo.adclosenn.dev") {
-        // EdgeOne CDN https://cf-eo.adclosenn.dev
-        siteType.innerHTML = '由 <a href="https://edgeone.ai/zh" target="_blank">EdgeOne CDN</a> 加速的 <a href="https://cf-eo.adclosenn.dev">https://cf-eo.adclosenn.dev</a>。本站点未进行 IP 优选，源站为 Cloudflare Pages。';
-        cdnType.textContent = "腾讯云 EdgeOne";
-    }
-    else if (hostname === "eo.adclosenn.top") {
-        // EdgeOne Pages https://eo.adclosenn.top
-        siteType.innerHTML = '由 <a href="https://edgeone.ai/zh/products/pages" target="_blank">EdgeOne Pages</a> 托管的 <a href="https://eo.adclosenn.top">https://eo.adclosenn.top</a>。本站点未进行 IP 优选。';
-        cdnType.textContent = "腾讯云 EdgeOne";
-    }
-    else{
-        siteType.innerHTML = "未知主机名：<code>" + hostname + "</code>。";
-        cdnType.innerHTML = "未知主机名"
-    }
-    if (hostname != "") {
-        hName.textContent = hostname;
-    }
-    else {
-        hName.textContent = "本地 HTML 文件";
-    }
+
+    // 兼容 Astro 的客户端导航与首次加载
+    document.addEventListener('astro:page-load', getHostname);
+    document.addEventListener('astro:after-swap', getHostname);
+    if (document.readyState !== 'loading') getHostname();
+    document.addEventListener('DOMContentLoaded', getHostname);
 </script>
