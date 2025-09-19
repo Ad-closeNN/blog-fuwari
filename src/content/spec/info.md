@@ -1,5 +1,10 @@
 # 信息/提交记录
 ## 概览
+<style>
+    pre {
+        font-family: 'Cascadia Mono', 'JetBrains Mono'
+    }
+</style>
 **当前提交：**
 <span>
     <a id="github-commit-link2" href="#" target="_blank">
@@ -23,6 +28,7 @@
 
 ## 完整提交记录
 <pre id="github-commit-full">加载中...</pre>
+
 
 
 <script>

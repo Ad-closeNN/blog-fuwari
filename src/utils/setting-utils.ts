@@ -35,13 +35,6 @@ export function applyThemeToDocument(theme: LIGHT_DARK_MODE) {
 		case DARK_MODE:
 			document.documentElement.classList.add("dark");
 			break;
-		case AUTO_MODE:
-			if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-				document.documentElement.classList.add("dark");
-			} else {
-				document.documentElement.classList.remove("dark");
-			}
-			break;
 	}
 
 	// Set the theme for Expressive Code

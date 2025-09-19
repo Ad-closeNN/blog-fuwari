@@ -143,12 +143,6 @@
     }
 }
 
-code, pre {
-    font-family: 'JetBrainsMono-VF', 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
-    font-size: 0.875rem;
-    line-height: 1.5;
-}
-
 @theme {
     --font-sans: 'Inter', 'sans-serif';
 }

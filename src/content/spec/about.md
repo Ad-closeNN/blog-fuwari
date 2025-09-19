@@ -65,6 +65,15 @@ Discord：https://discord.com/users/1068060784300658688
 
 ---
 
+# 2025/9/19
+1. 发现微软做的 [Cascadia Mono](https://github.com/microsoft/cascadia-code) 字体不错，就让他替换 [JetBrains Mono](https://www.jetbrains.com/zh-cn/lp/mono/) 成为第一默认 Code 字体。同时还把用不到的 Roboto 删掉。
+```
+ABCDEFGHIJKLMNOPQRSTUVWXYZ
+abcdefghijklmnopqrstuvwxyz
+0123456789
+!?&@#$%^*()-_+=[]{}<>/\|:;"',.`~
+```
+
 # 2025/9/7
 1. 合并两个文件 `new-domain.md` + `new-free-dev-domain.md` -> [/posts/new-domain/](/posts/new-domain/)。
 2. 删除了网易云音乐外链挂件，因为它加载很慢（最慢10s）。
