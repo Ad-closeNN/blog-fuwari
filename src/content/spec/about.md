@@ -26,28 +26,28 @@
 1. Cloudflare Worker（**无**优选）：https://worker-cf.adclosenn.dev
 2. Cloudflare Worker（[CMLiussss](https://cf.090227.xyz) 优选）：https://youxuan-cf-worker.adclosenn.dev
 3. Cloudflare Pages（**无**优选）：https://cf.adclosenn.dev
-4. Cloudflare Pages（[Visa 新加坡](https://www.visa.com.sg) 优选）：https://www.adclosenn.dev
+4. Cloudflare Pages（[Shopify](https://www.shopify.com) 优选）：https://www.adclosenn.dev
 5. Vercel（**无**优选）：https://origin.vercel.adclosenn.dev
 6. Vercel（`64.29.17.65` 优选）：https://vercel.adclosenn.dev
-6. 腾讯 EdgeOne CDN（加速 Cloudflare Pages，**无**优选）：https://cf-eo.adclosenn.dev
+6. 腾讯 EdgeOne CDN（加速 Cloudflare Pages，`43.174.245.158` 优选）：https://cf-eo.adclosenn.dev
 8. 腾讯 EdgeOne Pages（**无**优选）：https://eo.adclosenn.top
+9. Fastly CDN：https://fastly.adclosenn.top
 
 :::note[笔记]
-Cloudflare Pages 优选版站点，在中国大陆境内为**优选域名 `www.visa.com.sg`**，在境外为源 `blog-fuwari-c8w.pages.dev`。
+Cloudflare Pages 优选版站点，在中国大陆境内为**优选域名 `www.shopify.com`**，在境外或用1.1.1.1 DNS解析为源 `blog-fuwari-c8w.pages.dev`。
 :::
 
-对于非 Netlify 站点，建议优先选择**无优选**的 [https://cf.adclosenn.dev](https://cf.adclosenn.dev)。如果后续测试中 Netlify 节点的质量成绩始终不如 Cloudflare，则会迁移到 Cloudflare。
-
-**还有，在中国大陆境外你随便选一个访问，其速度和稳定性都几乎一样。**
+**在中国大陆境外你随便选一个访问，其速度和稳定性都几乎一样。**
 
 ---
 
 # 关于我
-一位住在[中华人民共和国广西壮族自治区](https://baike.baidu.com/item/%E5%B9%BF%E8%A5%BF%E5%A3%AE%E6%97%8F%E8%87%AA%E6%B2%BB%E5%8C%BA/163178)的学生。
+一位住在 [中华人民共和国广西壮族自治区](https://baike.baidu.com/item/%E5%B9%BF%E8%A5%BF%E5%A3%AE%E6%97%8F%E8%87%AA%E6%B2%BB%E5%8C%BA/163178) 的学生。 [me.adclosenn.top](https://me.adclosenn.top)
 
 ## 联系方式
-电子邮箱：[1709301095@qq.com](mailto:1709301095@qq.com) 或 [admin@adclosenn.top](mailto:admin@adclosenn.top)  
-Discord：https://discord.com/users/1068060784300658688
+电子邮箱：[admin@adclosenn.top](mailto:admin@adclosenn.top)  
+Discord：https://discord.com/users/1068060784300658688  
+BlueSky：https://bsky.app/profile/adclosenn.top
 
 ---
 
@@ -149,7 +149,7 @@ the error log is like driving with your eyes closed.
         }
         else if (hostname === "www.adclosenn.dev") {
             // Cloudflare Pages 优选 https://www.adclosenn.dev
-            siteType.innerHTML = '由 <a href="https://pages.cloudflare.com" target="_blank">Cloudflare Pages</a> 托管的 <a href="https://www.adclosenn.dev">https://www.adclosenn.dev</a>。本站点已进行 IP 优选，使用的 CNAME 为 <code>www.visa.com.sg</code>。';
+            siteType.innerHTML = '由 <a href="https://pages.cloudflare.com" target="_blank">Cloudflare Pages</a> 托管的 <a href="https://www.adclosenn.dev">https://www.adclosenn.dev</a>。本站点已进行 IP 优选，使用的 CNAME 为 <code>www.shopify.com</code>。';
             cdnType.textContent = "Cloudflare Pages";
         }
         else if (hostname === "origin.vercel.adclosenn.dev") {
@@ -164,13 +164,18 @@ the error log is like driving with your eyes closed.
         }
         else if (hostname === "cf-eo.adclosenn.dev") {
             // EdgeOne CDN https://cf-eo.adclosenn.dev
-            siteType.innerHTML = '由 <a href="https://edgeone.ai/zh" target="_blank">EdgeOne CDN</a> 加速的 <a href="https://cf-eo.adclosenn.dev">https://cf-eo.adclosenn.dev</a>。本站点未进行 IP 优选，源站为 Cloudflare Pages。';
+            siteType.innerHTML = '由 <a href="https://edgeone.ai/zh" target="_blank">EdgeOne CDN</a> 加速的 <a href="https://cf-eo.adclosenn.dev">https://cf-eo.adclosenn.dev</a>。本站点已进行 IP 优选，使用的 IP 为 <code>43.174.245.158</code>。源站为 Cloudflare Pages。';
             cdnType.textContent = "腾讯云 EdgeOne";
         }
         else if (hostname === "eo.adclosenn.top") {
             // EdgeOne Pages https://eo.adclosenn.top
             siteType.innerHTML = '由 <a href="https://edgeone.ai/zh/products/pages" target="_blank">EdgeOne Pages</a> 托管的 <a href="https://eo.adclosenn.top">https://eo.adclosenn.top</a>。本站点未进行 IP 优选。';
             cdnType.textContent = "腾讯云 EdgeOne";
+        }
+        else if (hostname === "fastly.adclosenn.top") {
+            // Fastly CDN https://fastly.adclosenn.top
+            siteType.innerHTML = '由 <a href="https://www.fastly.com" target="_blank">Fastly CDN</a> 加速的 <a href="https://fastly.adclosenn.top">fastly.adclosenn.top</a>。本站点已进行 IP 优选。';
+            cdnType.textContent = "Fastly CDN";
         }
         else{
             siteType.innerHTML = "未知主机名：<code>" + hostname + "</code>。";
