@@ -1,7 +1,7 @@
 ---
 title: "使用 CF Workers 搭建 Vless/Trojan 节点并优化"
 published: 2025-10-03
-tags: ["CF Workers"]
+tags: ["CF Workers", "狠活"]
 description: CM大佬的 EdgeTunnel 暂时没了。没事，我们还有勇哥。
 image: ../assets/images/cf-worker-proxy-ygkkk-1.png
 category: 教程
@@ -12,7 +12,7 @@ customcover: ../assets/images/cf-worker-proxy-ygkkk-2.png
 # 前言
 
 :::caution[警告]
-1. 本文章仅供学习交流，请在当地法律允许的情况下使用。
+1. 本教程仅供学习交流，请在当地法律允许的情况下使用。
 2. Cloudflare 已在其 [Self-Serve Subscription Agreement | Cloudflare](https://www.cloudflare.com/terms/) 中规定：
 ```txt
 (j) use the Services to provide a virtual private network or other similar proxy services.

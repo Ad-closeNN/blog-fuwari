@@ -71,7 +71,7 @@ const customcover = entry.data.customcover;
                         <Icon name="material-symbols:schedule-outline-rounded"></Icon>
                     </div>
                     <div class="text-sm">
-                        {remarkPluginFrontmatter.minutes} {" " + i18n(remarkPluginFrontmatter.minutes === 1 ? I18nKey.minuteCount : I18nKey.minutesCount)}
+                        大约 {remarkPluginFrontmatter.minutes} {" " + i18n(remarkPluginFrontmatter.minutes === 1 ? I18nKey.minuteCount : I18nKey.minutesCount)}
                     </div>
                 </div>
             </div>
@@ -89,6 +89,16 @@ const customcover = entry.data.customcover;
                     {entry.data.title}
                 </div>
             </div>
+
+            <!-- description/excerpt -->
+            <!-- https://github.com/afoim/fuwari/commit/e34064899f0a3e7f28107f06213301f7c1167084 -->
+            {(entry.data.description || remarkPluginFrontmatter.excerpt) && (
+                <div class="onload-animation mb-4">
+                    <div class="text-black/75 dark:text-white/75 text-sm leading-relaxed">
+                        {entry.data.description || remarkPluginFrontmatter.excerpt}
+                    </div>
+                </div>
+            )}
 
             <!-- metadata -->
             <div class="onload-animation">
