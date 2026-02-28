@@ -79,6 +79,6 @@ export async function GET(context: APIContext) {
 		description: siteConfig.subtitle || 'No description',
 		site: context.site,
 		items: feed,
-		customData: `<language>${siteConfig.lang}</language><follow_challenge><feedId>177350379949135872</feedId><userId>83370505718413312</userId></follow_challenge>`,
+		customData: `<language>${siteConfig.lang}</language><follow_challenge><feedId>250504037866558464</feedId><userId>83370505718413312</userId></follow_challenge>`,
 	});
 }

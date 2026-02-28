@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>404 未找到 - Ad_closeNN 的小站</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta http-equiv="refresh" content="5;url=/">
+    <meta id="theme-color-meta" name="theme-color" content="#48823b">
+    <link rel="icon" href="/assets/avatar.jpg">
+    <style>
+        body {
+            height: 100%;
+            width: 100%;
+            background: #fefefe center bottom fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+            color: #2E2F30;
+            margin: 0;
+            font-family: MiSans VF, MiSans, Inter, HarmonyOS Sans SC, 鸿蒙黑体, Times New Roman, sans-serif;
+
+        }
+
+        .dialog {
+            float: left;
+            text-align: left;
+            width: 50%;
+            margin: 2% auto 0;
+            padding-left: 10%;
+        }
+
+        h1 {
+            font-size: 5em;
+            color: #393939;
+            line-height: 1em;
+            font-family: MiSans VF, MiSans, Inter, HarmonyOS Sans SC, 鸿蒙黑体, Times New Roman, sans-serif;
+
+        }
+
+        h2 {
+            font-size: 2em;
+            color: #393939;
+            line-height: .5em;
+            font-family: MiSans VF, MiSans, Inter, HarmonyOS Sans SC, 鸿蒙黑体, Times New Roman, sans-serif;
+
+        }
+
+        span {
+            font-size: 1.4em;
+            color: #393939;
+            font-family: MiSans VF, MiSans, Inter, HarmonyOS Sans SC, 鸿蒙黑体, Times New Roman, sans-serif;
+
+        }
+
+        .link {
+            color: grey
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <div class="dialog">
+            <h1>Woops!</h1>
+            <span>我们找不到您要访问的页面</span>
+            <span id="fullpath" class="link"></span>
+            <br>
+            <br>
+            <h2>将在 5 秒后跳转回首页</h2>
+        </div>
+    </div>
+    <script>
+        let fullpath = window.location.href
+        document.getElementById("fullpath").innerText = fullpath
+    </script>
+</body>
+
+</html>
