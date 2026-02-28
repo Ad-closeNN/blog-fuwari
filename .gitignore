@@ -25,15 +25,3 @@ pnpm-debug.log*
 package-lock.json
 bun.lockb
 yarn.lock
-
-# My test files
-duolingo.py
-duolingo copy.py
-test.py
-temp.js
-
-Yeah*.json
-main*.py
-
-# Coming Soon...
-gh-actions-daily-task.md

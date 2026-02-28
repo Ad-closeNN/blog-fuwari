@@ -21,11 +21,11 @@ Folo 也就是之前的 Follow，只不过改名成了 Folo。
 **RSS 标签** 这种方法适用于悄无声息地认证。  
 **纯文本** 这种方法适合大部分博客。
 
-本站使用 [RSS 标签](#rss-标签) 方法进行订阅源认证：[rss.xml](https://adclosenn.top/rss.xml) 。
+本站使用 [RSS 标签](#rss-标签) 方法进行订阅源认证：[rss.xml](https://blog.adclosenn.top/rss.xml) 。
 
 # 纯文本认证
 这种方法极其简单，你只需要发一篇文章到你的博客或者其他平台即可。本质上就是通过读取你的 RSS 订阅文件，查看里面是否有 Folo 给出的文本。所以认证文本**必须**要可在 RSS 订阅文件找到。  
-[https://adclosenn.top/rss.xml](https://adclosenn.top/rss.xml) 这个是本站的 RSS 订阅源地址，你可以在最下面的 Footer 处找到。
+[https://blog.adclosenn.top/rss.xml](https://blog.adclosenn.top/rss.xml) 这个是本站的 RSS 订阅源地址，你可以在最下面的 Footer 处找到。
 
 你需要将类似如这串文本（可在 Folo 中复制）粘贴到你的文章中（不要使用我的，每个人的都不一样）：
 
