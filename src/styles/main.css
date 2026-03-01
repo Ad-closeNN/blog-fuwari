@@ -26,6 +26,10 @@
     td,
     strong {
         @apply transition;
+        
+        &::selection {
+            transition: none;
+        }
     }
 
     .card-shadow {
