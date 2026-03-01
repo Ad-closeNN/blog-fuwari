@@ -28,5 +28,6 @@
   "[json]": {
     "editor.defaultFormatter": "vscode.json-language-features"
   },
-  "markdown.validate.enabled": false
+  "markdown.validate.enabled": false,
+  "Codegeex.RepoIndex": true
 }

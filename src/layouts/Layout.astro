@@ -412,6 +412,13 @@ function showBanner() {
 		return;
 	}
 
+	// 在显示Banner前，先移除所有已加载的onload-animation类，防止动画重复触发
+	const animatedElements = document.querySelectorAll('.onload-animation');
+	animatedElements.forEach(el => {
+		el.style.animation = 'none';
+		el.style.opacity = '1';
+	});
+
 	banner.classList.remove('opacity-0', 'scale-105');
 }
 
