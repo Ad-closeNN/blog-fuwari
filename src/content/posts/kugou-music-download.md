@@ -38,7 +38,7 @@ category: '教程'
 ## 后端
 :::warning[注意]
 1. 请不要信任陌生的后端 API 地址，以免造成数据泄露
-2. 调用时要加上**&amp;和随机的字符**，以免后端缓存结果。
+2. 调用时要加上&amp;和随机的字符，以免后端缓存结果。
 3. 需要将环境变量 `platform` 改为 `lite`（概念版）。参见 https://github.com/MakcRe/KuGouMusicApi#使用接口为概念版
 :::
 
