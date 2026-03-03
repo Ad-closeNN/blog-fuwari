@@ -119,6 +119,7 @@
 
         ::selection {
             @apply bg-[var(--codeblock-selection)];
+            color: inherit;
         }
     }
 

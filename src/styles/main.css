@@ -157,7 +157,8 @@
 }
 
 ::selection {
-    background-color: var(--selection-bg)
+    background-color: var(--selection-bg);
+    color: inherit;
 }
 
 .dash-line {
