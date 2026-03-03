@@ -2,7 +2,16 @@
 ## 概览
 <style>
     pre {
-        font-family: 'Cascadia Mono', 'JetBrains Mono'
+        font-family: 'Cascadia Mono', 'JetBrains Mono';
+        overflow-x: auto;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        word-break: break-all;
+    }
+    code {
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        word-break: break-all;
     }
 </style>
 **当前提交：**
