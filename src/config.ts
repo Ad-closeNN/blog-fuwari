@@ -13,7 +13,7 @@ export const siteConfig: SiteConfig = {
 	subtitle: "Ad_closeNN の 小站，时不时会刷新一些野生东西 | ✨ 欢迎友链 ✨",
 	lang: "zh_CN", // Language code, e.g. 'en', 'zh-CN', 'ja', etc.
 	themeColor: {
-		hue: 140, // Default hue for the theme color, from 0 to 360. e.g. red: 0, teal: 200, cyan: 250, pink: 345
+		hue: 160, // Default hue for the theme color, from 0 to 360. e.g. red: 0, teal: 200, cyan: 250, pink: 345
 		fixed: false, // Hide the theme color picker for visitors
 	},
 	banner: {
