@@ -1,6 +1,6 @@
 ---
 import ConfigCarrier from "@components/ConfigCarrier.astro";
-import { profileConfig, siteConfig } from "@/config";
+import { profileConfig, siteConfig, umamiConfig } from "@/config";
 import {
 	AUTO_MODE,
 	BANNER_HEIGHT,
@@ -195,9 +195,78 @@ const bannerOffset =
 
 		<slot name="head"></slot>
 
+		<script is:inline define:vars={{ umamiConfig }} data-swup-ignore-script>
+			window['__blogUmami'] = window['__blogUmami'] || {
+				shareDataPromise: null,
+				statsPromiseCache: new Map(),
+				statsValueCache: new Map(),
+				async getShareData() {
+					if (!umamiConfig.enable) {
+						return null;
+					}
+					if (this.shareDataPromise) {
+						return this.shareDataPromise;
+					}
+					this.shareDataPromise = fetch(`${umamiConfig.baseUrl}/api/share/${umamiConfig.shareId}`)
+						.then((response) => {
+							if (!response.ok) {
+								throw new Error('获取分享信息失败');
+							}
+							return response.json();
+						})
+						.catch((error) => {
+							this.shareDataPromise = null;
+							throw error;
+						});
+					return this.shareDataPromise;
+				},
+				async getStats(cacheKey, buildStatsUrl) {
+					if (this.statsValueCache.has(cacheKey)) {
+						return this.statsValueCache.get(cacheKey);
+					}
+					if (this.statsPromiseCache.has(cacheKey)) {
+						return this.statsPromiseCache.get(cacheKey);
+					}
+					const requestPromise = this.getShareData()
+						.then(async (shareData) => {
+							if (!shareData) {
+								return null;
+							}
+							const statsUrl = buildStatsUrl(shareData.websiteId);
+							const statsResponse = await fetch(statsUrl, {
+								headers: {
+									'x-umami-share-token': shareData.token,
+								},
+							});
+							if (!statsResponse.ok) {
+								throw new Error('获取统计数据失败');
+							}
+							const statsData = await statsResponse.json();
+							this.statsValueCache.set(cacheKey, statsData);
+							this.statsPromiseCache.delete(cacheKey);
+							return statsData;
+						})
+						.catch((error) => {
+							this.statsPromiseCache.delete(cacheKey);
+							throw error;
+						});
+					this.statsPromiseCache.set(cacheKey, requestPromise);
+					return requestPromise;
+				},
+			};
+		</script>
+
 		<link rel="alternate" type="application/rss+xml" title={profileConfig.name} href={`${Astro.site}rss.xml`}/>
 		<!-- Umami分析（自建） -->
-		<script defer src="https://umami.adclosenn.top/script.js" data-website-id="7610548d-677b-40cb-9ebd-31dc14e16be7"></script>
+		<script defer src="https://umami.adclosenn.top/script.js" data-website-id="7610548d-677b-40cb-9ebd-31dc14e16be7" data-swup-ignore-script></script>
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-YRCGFG45C1"></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+			
+			gtag('config', 'G-YRCGFG45C1');
+		</script>
 
 	</head>
 	<body class=" min-h-screen transition " class:list={[{"lg:is-home": isHomePage, "enable-banner": enableBanner}]}

@@ -5,7 +5,6 @@ import I18nKey from "../i18n/i18nKey";
 import { i18n } from "../i18n/translation";
 import { formatDateToYYYYMMDD } from "../utils/date-utils";
 import { getCategoryUrl, getTagUrl, getDir, url } from "../utils/url-utils";
-import { umamiConfig } from "../config";
 
 interface Props {
 	class: string;
@@ -98,50 +97,36 @@ const className = Astro.props.class;
 <!-- https://github.com/afoim/fuwari/blob/81f22decb17ff7ee1dd480c10773f7ba8f4df296/src/components/PostMeta.astro -->
 
 {slug && (
-    <script define:vars={{ slug, umamiConfig }}>
+    <script define:vars={{ slug }}>
         // 获取访问量统计
         async function fetchPageViews() {
-            if (!umamiConfig.enable) {
+            const displayElement = document.getElementById('page-views-display');
+            if (!displayElement || displayElement.dataset.umamiState === 'loading' || displayElement.dataset.umamiState === 'loaded') {
                 return;
             }
-            
+
+            displayElement.dataset.umamiState = 'loading';
+
             try {
-                // 第一步：获取网站ID和token
-                const shareResponse = await fetch(`${umamiConfig.baseUrl}/api/share/${umamiConfig.shareId}`);
-                if (!shareResponse.ok) {
-                    throw new Error('获取分享信息失败');
-                }
-                const shareData = await shareResponse.json();
-                const { websiteId, token } = shareData;
-                
-                // 第二步：获取统计数据
-                const currentTimestamp = Date.now();
-                const statsUrl = `${umamiConfig.baseUrl}/api/websites/${websiteId}/stats?startAt=0&endAt=${currentTimestamp}&unit=hour&timezone=${encodeURIComponent(umamiConfig.timezone)}&url=%2Fposts%2F${slug}%2F&compare=false`;
-                
-                const statsResponse = await fetch(statsUrl, {
-                    headers: {
-                        'x-umami-share-token': token
-                    }
+                const umamiStore = window['__blogUmami'];
+                const statsData = await umamiStore?.getStats(`post:${slug}`, (websiteId) => {
+                    const currentTimestamp = Date.now();
+                    return `https://umami.adclosenn.top/api/websites/${websiteId}/stats?startAt=0&endAt=${currentTimestamp}&unit=hour&timezone=${encodeURIComponent('Asia/Shanghai')}&url=%2Fposts%2F${slug}%2F&compare=false`;
                 });
-                
-                if (!statsResponse.ok) {
-                    throw new Error('获取统计数据失败');
+
+                if (!statsData) {
+                    throw new Error('统计功能未启用');
                 }
-                
-                const statsData = await statsResponse.json();
+
                 const pageViews = statsData.pageviews?.value || 0;
                 const visits = statsData.visits?.value || 0;
-                
-                const displayElement = document.getElementById('page-views-display');
-                if (displayElement) {
-                    displayElement.textContent = `浏览量 ${pageViews} · 访问数 ${visits}`;
-                }
+
+                displayElement.textContent = `浏览量 ${pageViews} · 访问数 ${visits}`;
+                displayElement.dataset.umamiState = 'loaded';
             } catch (error) {
                 console.error('Error fetching page views:', error);
-                const displayElement = document.getElementById('page-views-display');
-                if (displayElement) {
-                    displayElement.textContent = '统计不可用';
-                }
+                displayElement.textContent = '统计不可用';
+                displayElement.dataset.umamiState = 'error';
             }
         }
 
