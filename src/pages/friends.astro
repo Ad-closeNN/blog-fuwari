@@ -1,6 +1,13 @@
 ---
 import MainGridLayout from "@layouts/MainGridLayout.astro";
 import { Icon } from "astro-icon/components";
+import MarkdownIt from "markdown-it";
+
+const markdown = new MarkdownIt();
+const siteNameHtml = markdown.renderInline("`Ad_closeNN 的小站`");
+const siteDescriptionHtml = markdown.renderInline("`永远相信美好的事情即将发生`");
+const siteUrlHtml = markdown.renderInline("`https://blog.adclosenn.top`");
+const siteAvatarHtml = markdown.renderInline("`https://blog.adclosenn.top/assets/avatar.jpg`");
 ---
 
 <MainGridLayout title="友情链接">
@@ -170,7 +177,7 @@ import { Icon } from "astro-icon/components";
 
             <a href="https://blog.150191.xyz" target="_blank" class="friend-card">
                 <div class="flex items-center gap-2">
-                    <img src="https://blog.150191.xyz/_astro/demo-avatar.D3Ssuv2N_2t8ooY.webp" loading="lazy" class="w-5 h-5 rounded">
+                    <img src="https://i0.hdslb.com/bfs/im_new/a5d3aa9f94ce663d9c2530d9f568ced61059364724.webp" loading="lazy" referrerpolicy="no-referrer"  class="w-5 h-5 rounded">
                     <div class="font-bold text-black dark:text-white">Clina's Blog</div>
                 </div>
                 <div class="text-sm text-black/50 dark:text-white/50">¡El pueblo unido jamás será vencido!</div>
@@ -245,6 +252,15 @@ import { Icon } from "astro-icon/components";
         	<p class="text-sm text-black/60 dark:text-white/60">
         		请自行提交 GitHub Issue ： <a target="_blank" href="https://github.com/Ad-closeNN/form/issues/new?template=friends-link.yml" class="transition link text-[var(--primary)] font-medium">点击这里提交</a>
         	</p>
+            <div class="mt-4 h-px bg-black/10 dark:bg-white/10"></div>
+            <p class="mt-4 text-sm font-medium text-black/70 dark:text-white/70 select-none">本站友链信息</p>
+            <div class="mt-4 text-sm text-black/60 dark:text-white/60 space-y-1">
+                <p><span class="select-none">站点名称：</span><Fragment set:html={siteNameHtml} /></p>
+                <p><span class="select-none">站点描述：</span><Fragment set:html={siteDescriptionHtml} /></p>
+                <p><span class="select-none">站点 URL：</span><Fragment set:html={siteUrlHtml} /></p>
+                <p><span class="select-none">站点图片：</span><Fragment set:html={siteAvatarHtml} /></p>
+            </div>
+            
         <br>
     </div>
 
