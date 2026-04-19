@@ -8,7 +8,7 @@
 ::github{repo="afoim/fuwari"}
 
 # 站点分流
-经过几个月的测试，**本站**之后将弃用 Netlify 托管，转而使用免费且更强大的 Cloudflare。之前使用过的分流测试版站点已移除。谢谢 Netlify，你好 Cloudflare！
+经过几个月的测试，**本站**之后将弃用 Netlify 托管，转而使用免费且更强大的 Cloudflare。之前使用过的分流测试版站点已移除，且博客域名已改为 `blog.adclosenn.top`。谢谢你 Netlify，你好 Cloudflare！
 
 # 关于我
 一位住在 [中华人民共和国广西壮族自治区](https://baike.baidu.com/item/%E5%B9%BF%E8%A5%BF%E5%A3%AE%E6%97%8F%E8%87%AA%E6%B2%BB%E5%8C%BA/163178) 的学生。 [me.adclosenn.top](https://me.adclosenn.top)
@@ -16,7 +16,7 @@
 ## 联系方式
 电子邮箱：[admin@adclosenn.top](mailto:admin@adclosenn.top)  
 Discord：https://discord.com/users/1068060784300658688  
-BlueSky：https://bsky.app/profile/adclosenn.top
+X：https://x.com/Ad_closeNN
 
 # 关于本站
 ## 字体

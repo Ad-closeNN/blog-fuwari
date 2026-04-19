@@ -1,4 +1,4 @@
-import { type CollectionEntry, getCollection } from "astro:content";
+import { render, type CollectionEntry, getCollection } from "astro:content";
 import I18nKey from "@i18n/i18nKey";
 import { i18n } from "@i18n/translation";
 import { getCategoryUrl } from "@utils/url-utils.ts";
@@ -45,6 +45,24 @@ export async function getSortedPostsList(): Promise<PostForList[]> {
 	}));
 
 	return sortedPostsList;
+}
+
+let totalWordsCache: number | undefined;
+
+export async function getTotalWords(): Promise<number> {
+	if (totalWordsCache !== undefined) {
+		return totalWordsCache;
+	}
+
+	const posts = await getRawSortedPosts();
+	const renderedPosts = await Promise.all(posts.map((post) => render(post)));
+	const totalWords = renderedPosts.reduce((sum, { remarkPluginFrontmatter }) => {
+		const words = Number(remarkPluginFrontmatter?.words ?? 0);
+		return sum + (Number.isFinite(words) ? words : 0);
+	}, 0);
+
+	totalWordsCache = totalWords;
+	return totalWords;
 }
 export type Tag = {
 	name: string;
