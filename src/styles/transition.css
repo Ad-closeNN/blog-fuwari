@@ -1,27 +1,31 @@
 /* Page transition animations with Swup */
 html.is-changing .transition-swup-fade {
-    @apply transition-all duration-200
+    transition-property: opacity, transform;
+    transition-duration: 180ms;
+    transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
 }
 html.is-animating .transition-swup-fade {
-    @apply opacity-0 translate-y-4
+    opacity: 0;
+    transform: scale(0.985);
 }
 
 /* Fade-in animations for components */
-@keyframes fade-in-up {
+@keyframes fade-in-soft {
     0% {
-        transform: translateY(2rem);
         opacity: 0;
+        transform: scale(0.992);
     }
     100% {
-        transform: translateY(0);
         opacity: 1;
+        transform: scale(1);
     }
 }
 
 /* Main components */
 .onload-animation {
     opacity: 0;
-    animation: 300ms fade-in-up;
+    animation: 220ms fade-in-soft cubic-bezier(0.22, 1, 0.36, 1);
     animation-fill-mode: forwards;
 }
 #navbar {
