@@ -27,3 +27,5 @@ bun.lockb
 yarn.lock
 
 src/content/.obsidian
+
+.playwright-mcp

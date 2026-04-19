@@ -7,6 +7,7 @@ import { i18n } from "../i18n/translation";
 import { getDir } from "../utils/url-utils";
 import ImageWrapper from "./misc/ImageWrapper.astro";
 import PostMetadata from "./PostMeta.astro";
+import { render } from 'astro:content';
 
 interface Props {
 	class?: string;
@@ -20,7 +21,7 @@ interface Props {
 	image: string;
 	description: string;
 	draft: boolean;
-	style: string;
+	style?: string;
 }
 const {
 	entry,
@@ -32,7 +33,7 @@ const {
 	category,
 	image,
 	description,
-	style,
+	style = "",
 } = Astro.props;
 const className = Astro.props.class;
 
@@ -40,7 +41,7 @@ const hasCover = image !== undefined && image !== null && image !== "";
 
 const coverWidth = "28%";
 
-const { remarkPluginFrontmatter } = await entry.render();
+const { remarkPluginFrontmatter } = await render(entry);
 ---
 <div class:list={["card-base flex flex-col-reverse md:flex-col w-full rounded-[var(--radius-large)] overflow-hidden relative border border-black/20 dark:border-white/20 hover:scale-[1.02] hover:shadow-xl transition-all duration-[300ms]", className]} style={style}>
     <div class:list={["pl-6 md:pl-9 pr-6 md:pr-2 pt-6 md:pt-7 pb-6 relative", {"w-full md:w-[calc(100%_-_52px_-_12px)]": !hasCover, "w-full md:w-[calc(100%_-_var(--coverWidth)_-_12px)]": hasCover}]}>
@@ -72,7 +73,7 @@ const { remarkPluginFrontmatter } = await entry.render();
             <div>{remarkPluginFrontmatter.minutes} {" " + i18n(I18nKey.minutesCount)}</div>
             <div>|</div>
             <div>
-                <span class="text-50 text-sm font-medium" id={`page-views-${entry.slug}`}>加载中...</span>
+                <span class="text-50 text-sm font-medium" id={`page-views-${entry.id}`}>加载中...</span>
             </div>
         </div>
 
@@ -110,7 +111,7 @@ const { remarkPluginFrontmatter } = await entry.render();
 
 <!-- https://github.com/afoim/fuwari/blob/81f22decb17ff7ee1dd480c10773f7ba8f4df296/src/components/PostCard.astro -->
 
-<script define:vars={{ slug: entry.slug }}>
+<script define:vars={{ slug: entry.id }}>
     // 获取文章浏览量统计
     async function fetchPostCardViews(slug) {
         const displayElement = document.getElementById(`page-views-${slug}`);
