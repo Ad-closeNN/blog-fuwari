@@ -29,3 +29,5 @@ yarn.lock
 src/content/.obsidian
 
 .playwright-mcp
+.serena
+.claude
