@@ -1,5 +1,5 @@
 name = "blog-fuwari-worker"
-compatibility_date = "2026-04-19"
+compatibility_date = "2026-04-20"
 
 [assets]
 directory = "./dist/"
