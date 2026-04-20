@@ -1,0 +1,10 @@
+{
+	"id": "fix-public-links",
+	"name": "Fix Public Links",
+	"version": "1.0.0",
+	"minAppVersion": "0.15.0",
+	"description": "Automatically fix image links that start with public/ to /public/",
+	"author": "AcoFork",
+	"authorUrl": "https://blog.acofork.com",
+	"isDesktopOnly": false
+}

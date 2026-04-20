@@ -26,13 +26,13 @@ package-lock.json
 bun.lockb
 yarn.lock
 
-src/content/.obsidian
+# src/content/.obsidian
 
 .playwright-mcp
 .serena
 .claude
 
-.obsidian
+# .obsidian
 .cache
 
 build.log
