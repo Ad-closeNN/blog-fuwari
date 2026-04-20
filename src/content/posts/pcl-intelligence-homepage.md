@@ -3,7 +3,7 @@ title: PCL Intelligence 主页说明书
 published: 2025-08-09
 tags: ["PCL"]
 description: 在 PCL 启动器上面询问大模型？当然可以~
-image: ../assets/images/pcl-gemini-mixed.png
+image: /public/pic/pcl-gemini-mixed.png
 category: 教程
 draft: false
 ---
@@ -18,7 +18,7 @@ draft: false
 :::
 
 截图：
-![pcl-intelligence-home-page](../assets/images/pcl-intelligence-home-page.png)
+![pcl-intelligence-home-page](/public/pic/pcl-intelligence-home-page.png)
 
 感谢 [@Light-Beacon/HomepageBuilder](https://github.com/Light-Beacon/HomepageBuilder) 的主页构建器，使得大模型输出的 Markdown 得以构建并输出为 XAML 文件。
 
@@ -55,9 +55,9 @@ draft: false
 ## 多 API Key 模式
 1. 将 GitHub 仓库的可见性改为 **私密**：
     1. 在仓库顶端点击 **Settings**。
-    2. 滑至底部，点击 **Leave fork network** 按钮并确认操作。 ![Leave fork network](../assets/images/github-leave-fork-network.png)
+    2. 滑至底部，点击 **Leave fork network** 按钮并确认操作。 ![Leave fork network](/public/pic/github-leave-fork-network.png)
     3. 等待10至30秒，使 Fork 后的仓库脱离 Fork 网络。
-    4. 刷新页面，待 **Danger Zone** 里的 **Change visibility** 按钮可用后，点击 **Change visibility** 按钮并确认操作。 ![Change visibility](../assets/images/github-change-visibility.png)
+    4. 刷新页面，待 **Danger Zone** 里的 **Change visibility** 按钮可用后，点击 **Change visibility** 按钮并确认操作。 ![Change visibility](/public/pic/github-change-visibility.png)
 2. 更改 `config/api_key` 文件，删掉原有内容，把从 [Google AI Studio](#需求) 申请的 API Key 以 **一行一个 Key** 的格式填入。
 4. 使用 Vercel 部署：[Create New Project](https://vercel.com/new)  
     需要填写相关变量:
@@ -73,11 +73,11 @@ draft: false
         2. 部署完成后建议**绑定自定义域名**。也可以尝试做**Vercel 优选**（非必须）。
         3. 来到 Vercel 项目的 **Settings**，在左侧菜单选择 **Environment Variables**。
         4. `Key` 填入 `link`；`Value` 填入 **部署后的链接（优先选有绑定好的自定义域名）**（如`https:/url.pcl-community.org` 或 `https://pih.vercel.app`）**必须带上协议！** 如 `http://` 和 `https://`。  
-        关于 `link` 能填什么，例如说，我在 **Domains** 内绑定了几个域名，只有以 `.vercel.app` 结尾的地址是 Vercel 给的，其他剩下的域名是自己的（不包括 `pclc.cc`），所以变量 `link` 就为**除 `vercel.app` 之外的域名**，如 **pclai.adclosenn.top**。如果你不在海外，就不要选带 `vercel.app` 的域名了。 ![vercel-pcl-intelligence-homepage-domains-panel](../assets/images/vercel-pcl-intelligence-homepage-domains-panel.png)
+        关于 `link` 能填什么，例如说，我在 **Domains** 内绑定了几个域名，只有以 `.vercel.app` 结尾的地址是 Vercel 给的，其他剩下的域名是自己的（不包括 `pclc.cc`），所以变量 `link` 就为**除 `vercel.app` 之外的域名**，如 **pclai.adclosenn.top**。如果你不在海外，就不要选带 `vercel.app` 的域名了。 ![vercel-pcl-intelligence-homepage-domains-panel](/public/pic/vercel-pcl-intelligence-homepage-domains-panel.png)
         5. 点击 `Save` 按钮，保存变量。
-        6. 点击右下角弹出的 `Redeploy` 按钮，重新部署 ![Redeploy](../assets/images/vercel-redeploy.png)
+        6. 点击右下角弹出的 `Redeploy` 按钮，重新部署 ![Redeploy](/public/pic/vercel-redeploy.png)
         :::
-5. 部署完成后，就可以把链接填在 PCL 的**自定义主页-联网获取**了。**不要**填我的，要填你部署后用的链接。 ![pcl-settings-homepage-online](../assets/images/pcl-settings-homepage-online.png)
+5. 部署完成后，就可以把链接填在 PCL 的**自定义主页-联网获取**了。**不要**填我的，要填你部署后用的链接。 ![pcl-settings-homepage-online](/public/pic/pcl-settings-homepage-online.png)
 
 ## 单 API Key 模式（推荐轻度使用）
 1. 使用 Vercel 部署：[Create New Project](https://vercel.com/new)  
@@ -91,7 +91,7 @@ draft: false
         :::TIP[提示]
         ### 如果不知道怎么填写 `link`，请返回查看 [#如果不知道怎么填写 `link` 请按照下列指示操作](#如果不知道怎么填写-link请按照下列指示操作)，无需填写 `mode`！
         :::
-2. 部署完成后，就可以把链接填在 PCL 的**自定义主页-联网获取**了。**不要**填我的，要填你部署后用的链接。 ![pcl-settings-homepage-online](../assets/images/pcl-settings-homepage-online.png)
+2. 部署完成后，就可以把链接填在 PCL 的**自定义主页-联网获取**了。**不要**填我的，要填你部署后用的链接。 ![pcl-settings-homepage-online](/public/pic/pcl-settings-homepage-online.png)
 
 # 其他
 

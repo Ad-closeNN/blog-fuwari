@@ -3,11 +3,11 @@ title: "你是人类吗？"
 published: 2025-08-12
 tags: ["验证"]
 description: 我的 Captcha 还蛮多的，欢迎你们来这里玩，玩累了就直接刷新，没问题的~
-image: ../assets/images/cloudflare-turnstile-verify-error-1.png
+image: /public/pic/cloudflare-turnstile-verify-error-1.png
 category: 杂项
 draft: false
 showcover: false
-customcover: ../assets/images/cloudflare-turnstile-verify-error.png
+customcover: /public/pic/cloudflare-turnstile-verify-error.png
 ---
 <head>
     <!-- Google reCaptcha v2-->

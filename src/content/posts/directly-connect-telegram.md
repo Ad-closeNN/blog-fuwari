@@ -3,7 +3,7 @@ title: 什么？Telegram 能直连了？
 published: 2025-08-08
 tags: ["GFW"]
 description: 2025/8/8 早上，Telegram 竟可在国内被访问，不过现在失效了（悲）
-image: ../assets/images/telegram-devices-panel-china.jpg
+image: /public/pic/telegram-devices-panel-china.jpg
 category: 记录
 draft: false
 ---
@@ -27,7 +27,7 @@ draft: false
 
 :::note[笔记]
 仅 DC5（数据中心） 用户（包括手机号+86）可直连
-![telegram-dc-list](../assets/images/telegram-dc-list.png)
+![telegram-dc-list](/public/pic/telegram-dc-list.png)
 :::
 
 8月8日早上 6:40 **之前**，GFW 放开了对 Telegram 的限制。不幸的是，仅仅几小时的 9:30 左右，GFW 已再次封禁 Telegram 的访问。 ~~默哀~~
@@ -36,10 +36,10 @@ draft: false
 另外，再扯一个 Cloudflare Warp，它具有国内直连节点。概率连上后，Google 将会显示国内 Cloudflare Warp IP。
 
 # 合影留念
-- Telegram **China** IP： ![telegram-devices-panel](../assets/images/telegram-devices-panel.jpg)
-- Telegram **中国上海市** IP：（错误的定位） ![telegram-devices-panel-shanghai-ip](../assets/images/telegram-devices-panel-shanghai-ip.jpg)
+- Telegram **China** IP： ![telegram-devices-panel](/public/pic/telegram-devices-panel.jpg)
+- Telegram **中国上海市** IP：（错误的定位） ![telegram-devices-panel-shanghai-ip](/public/pic/telegram-devices-panel-shanghai-ip.jpg)
 
 ---
 
-- Google **广西** IP（Cloudflare Warp）： ![google-guangxi-ip](../assets/images/google-guangxi-ip.jpg)
-- Google **中国浙江省杭州市** IP（错误的定位，Cloudflare Warp）： ![google-zhejiang-hangzhou-ip](../assets/images/google-zhejiang-hangzhou-ip.jpg)
+- Google **广西** IP（Cloudflare Warp）： ![google-guangxi-ip](/public/pic/google-guangxi-ip.jpg)
+- Google **中国浙江省杭州市** IP（错误的定位，Cloudflare Warp）： ![google-zhejiang-hangzhou-ip](/public/pic/google-zhejiang-hangzhou-ip.jpg)

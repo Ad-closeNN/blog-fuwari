@@ -3,8 +3,8 @@ title: 将 Giscus 评论插件添加到博客
 published: 2025-08-17
 tags: ["插件", "网站"]
 description: 博客没有评论区？来试试 Giscus 吧！
-image: ../assets/images/giscus-preview.png
-customcover: ../assets/images/giscus-no-content.png
+image: /public/pic/giscus-preview.png
+customcover: /public/pic/giscus-no-content.png
 showcover: false
 category: 教程
 ---
@@ -28,7 +28,7 @@ category: 教程
 当然，如果你想分开来存放，把**博客源代码**和**评论区的内容**分开，那么请选择使用第二种方法，然后这里的内容可以不用看了，可以前往 [#在专用仓库存放评论](#在专用仓库存放评论) 查看对应的方法。
 :::
 
-1. 打开 GitHub 上你博客的仓库地址，点击顶部 **Settings**（设置），拉到 **Features**（功能），选择 **Discussions** 前面的小方格，点击一下，打开 Discussions 功能。等到出现一个小勾即代表开启了 Discussions 讨论功能。 ![github-settings-features-discussions](../assets/images/github-settings-features-discussions.png)
+1. 打开 GitHub 上你博客的仓库地址，点击顶部 **Settings**（设置），拉到 **Features**（功能），选择 **Discussions** 前面的小方格，点击一下，打开 Discussions 功能。等到出现一个小勾即代表开启了 Discussions 讨论功能。 ![github-settings-features-discussions](/public/pic/github-settings-features-discussions.png)
 2. 点击打开 https://github.com/apps/giscus ，选择带色按钮 Install ，将其安装在你的 GitHub 个人账户中（如果你博客仓库在别的组织，请选择安装到**组织**）。
 3. 安装完毕，可以跳到 [#获取专用代码](#获取专用代码) 查看需要插入的 JS 代码了。
 
@@ -39,15 +39,15 @@ category: 教程
 :::
 
 1. 打开 https://github.com/new ，创建一个新的仓库。
-2. 在新仓库内，点击顶部 **Settings**（设置），拉到 **Features**（功能），选择 **Discussions** 前面的小方格，点击一下，打开 Discussions 功能。等到出现一个小勾即代表开启了 Discussions 讨论功能。 ![github-settings-features-discussions](../assets/images/github-settings-features-discussions.png)
+2. 在新仓库内，点击顶部 **Settings**（设置），拉到 **Features**（功能），选择 **Discussions** 前面的小方格，点击一下，打开 Discussions 功能。等到出现一个小勾即代表开启了 Discussions 讨论功能。 ![github-settings-features-discussions](/public/pic/github-settings-features-discussions.png)
 3. 点击打开 https://github.com/apps/giscus ，选择带色按钮 Install ，将其安装在你的 GitHub 个人账户中（如果你博客仓库在别的组织，请选择安装到**组织**）。
 4. 安装完毕。
 
 ## 获取专用代码
 打开 https://giscus.app/zh-CN ，在其页面进行必要的配置：
 - 语言：如果你的博客不搞 i18n 国际化，那我推荐选择 **简体中文**（博客使用的语言）。反之推荐选择 **English**。
-- 仓库：如果你选择上面第一种方案（在博客仓库内），那么就填写**你博客仓库地址**（以 `用户名/仓库名` 形式填写，填你自己的。比如 `Ad-closeNN/blog-fuwari`）。如果是新的专用仓库，那么就填写**新的专用仓库地址**，格式同理。成功了为如图所示： ![giscus-repo-successful](../assets/images/giscus-repo-successful.png)
-- 页面 ↔️ discussion 映射关系：这个有说法。如果你博客没有很多重复标题的页面，**且不更换文章标题**，推荐选择 **Discussion 的标题包含页面的 `<title>`**，这将会以 `页面标题 -或/或其他分隔符 网站名` 为 title 开一个新讨论。如： ![github-giscus-conversation](../assets/images/github-giscus-conversation.png) 其他如 `pathname`，将会把 `/post/xxx` 显示出来。但是显示效果（特别是中文路径）可能没那么好？  
+- 仓库：如果你选择上面第一种方案（在博客仓库内），那么就填写**你博客仓库地址**（以 `用户名/仓库名` 形式填写，填你自己的。比如 `Ad-closeNN/blog-fuwari`）。如果是新的专用仓库，那么就填写**新的专用仓库地址**，格式同理。成功了为如图所示： ![giscus-repo-successful](/public/pic/giscus-repo-successful.png)
+- 页面 ↔️ discussion 映射关系：这个有说法。如果你博客没有很多重复标题的页面，**且不更换文章标题**，推荐选择 **Discussion 的标题包含页面的 `<title>`**，这将会以 `页面标题 -或/或其他分隔符 网站名` 为 title 开一个新讨论。如： ![github-giscus-conversation](/public/pic/github-giscus-conversation.png) 其他如 `pathname`，将会把 `/post/xxx` 显示出来。但是显示效果（特别是中文路径）可能没那么好？  
 参考&图片原出处： https://www.2x.nz/posts/you-is-me-huh/ ![image.png](https://www.2x.nz/assets/images/2025-08-12-15-45-18-image.png)  
 - Discussion 分类：推荐选择 **General**。如果你只想让访客在博客发布评论，就选择 **Announcements**。这样即使能在 GitHub 看到评论，也无法直接在 GitHub 回复，必须在博客的评论区内回复。没啥用，不如 **General*。
 - 特性：推荐启用 `启用主帖子上的反应（reaction）` `将评论框放在评论上方` `懒加载评论`。
@@ -181,7 +181,7 @@ const { Content } = await render(aboutPost);
 ```
 :::
 
-配置好后，本地开发环境(localhost) 和除你设定之外的域名将会直接被 Giscus 切断评论区的连接： ![chrome-github-deny-connection](../assets/images/chrome-github-deny-connection.png)
+配置好后，本地开发环境(localhost) 和除你设定之外的域名将会直接被 Giscus 切断评论区的连接： ![chrome-github-deny-connection](/public/pic/chrome-github-deny-connection.png)
 
 # 反垃圾评论
 一般来说不会有人无缘无故就对你的文章评论区发布**脑残**、**降智**、**虚假**的评论，因为 Giscus 的评论需要通过 GitHub 授权登录才能发布，所以这算是一个初级发布门槛。

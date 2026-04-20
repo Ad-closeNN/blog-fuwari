@@ -3,7 +3,7 @@ title: 进行 Folo 订阅源认证
 published: 2025-08-10
 tags: ["认证", "网站"]
 description: Folo（Follow）是一个 RSS 订阅源合集软件，用它可以快速浏览新鲜事，也可以认证自己的 RSS 订阅源
-image: ../assets/images/folo-rss-verify-panel.png
+image: /public/pic/folo-rss-verify-panel.png
 category: 教程
 draft: false
 ---
@@ -74,7 +74,7 @@ export const siteConfig: SiteConfig = {
 	});
 ```
 
-![folo-rss-verify-panel-xmlformat](../assets/images/folo-rss-verify-panel-xmlformat.png)
+![folo-rss-verify-panel-xmlformat](/public/pic/folo-rss-verify-panel-xmlformat.png)
 
 # 结束
 写完并 push，等网站部署完毕后，点击 Folo 右下加的 **验证** 按钮，如果通过即为**验证成功**，恭喜你。

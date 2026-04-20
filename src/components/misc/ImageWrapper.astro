@@ -46,7 +46,8 @@ if (isLocal) {
 
 const imageClass = "w-full h-full object-cover";
 const imageStyle = `object-position: ${position}`;
-const originalSrc = isLocal && img ? img.src : isPublic ? url(src) : src;
+const normalizedPublicSrc = src === "/public" ? "/" : src.startsWith("/public/") ? src.slice("/public".length) : src;
+const originalSrc = isLocal && img ? img.src : isPublic ? url(normalizedPublicSrc) : src;
 const originalWidth = isLocal && img ? img.width : undefined;
 const originalHeight = isLocal && img ? img.height : undefined;
 ---

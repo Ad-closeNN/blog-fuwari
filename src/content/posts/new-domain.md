@@ -3,7 +3,7 @@ title: "[置顶] 新域名！"
 published: 2099-12-31
 tags: ["域名"]
 description: 获得了一个新域名 *这使我充满了决心
-image: ../assets/images/domain-inlist-adclosenn.top.png
+image: /public/pic/domain-inlist-adclosenn.top.png
 category: 记录
 draft: false
 ---
@@ -35,7 +35,7 @@ draft: false
 ## 信息
 - 来源：[Spaceship](https://www.spaceship.com) （这是真能省钱）
 - 域名：[adclosenn.top](/)
-- 首年花费：7.33 人民币（汇率：1.00 USD = 7.23002 CNY） ![domain-adclosenn.top-alipay.jpg](../assets/images/domain-adclosenn.top-alipay.jpg)
+- 首年花费：7.33 人民币（汇率：1.00 USD = 7.23002 CNY） ![domain-adclosenn.top-alipay.jpg](/public/pic/domain-adclosenn.top-alipay.jpg)
 - 次年花费：29.07 人民币 （¥27.63 域名费+¥1.44 ICANN 费）
 - [Whois（阿里云国际站）](https://www.alibabacloud.com/zh/whois): 
 ```
@@ -75,16 +75,16 @@ URL of the ICANN WHOIS Data Problem Reporting System: http://wdprs.internic.net/
 ## 2025/8/3 - 预告
 早上起来一看发现仍然没问题，TG反代也能正常访问。
 
-起床打开电脑，输入 TGWeb 反代地址，Chrome 直接开出了个大红。嗯，确实是大红。 ![domain-19991230.xyz-chromeabuse-page](../assets/images/domain-19991230.xyz-chromeabuse-page.png)
+起床打开电脑，输入 TGWeb 反代地址，Chrome 直接开出了个大红。嗯，确实是大红。 ![domain-19991230.xyz-chromeabuse-page](/public/pic/domain-19991230.xyz-chromeabuse-page.png)
 
 不过仍然没收到来自任何关于**钓鱼**、**滥用**的邮件。
 
-飞到 [Google Safe Browsing 透明度报告](https://transparencyreport.google.com/safe-browsing/search) ，一看检查，发现已经被列入了危险列表。 ![domain-19991230.xyz-googlesafe-unsafe](../assets/images/domain-19991230.xyz-googlesafe-unsafe.png)
+飞到 [Google Safe Browsing 透明度报告](https://transparencyreport.google.com/safe-browsing/search) ，一看检查，发现已经被列入了危险列表。 ![domain-19991230.xyz-googlesafe-unsafe](/public/pic/domain-19991230.xyz-googlesafe-unsafe.png)
 
 不过因为是自用的，也就无视风险接着用了。
 
 ## 2025/8/4 - 开始
-2025年8月4日早上醒来，发现 [UptimeRobot](https://uptimerobot.com) 给我发了很多封邮件，全都是 DOWN 的（突然 UP 的是因为 DNS 等缓存问题，后续全都是 DOWN） ![domain-serverHold-qqmail](../assets/images/domain-serverHold-qqmail.png)
+2025年8月4日早上醒来，发现 [UptimeRobot](https://uptimerobot.com) 给我发了很多封邮件，全都是 DOWN 的（突然 UP 的是因为 DNS 等缓存问题，后续全都是 DOWN） ![domain-serverHold-qqmail](/public/pic/domain-serverHold-qqmail.png)
 
 我立马就意识到不对劲了。用 [itdog](https://www.itdog.cn) 查 NS 记录，发现全都**无解析记录**。后来 Whois 发现域名居然被 XYZ 注册局 **serverHold** 了（[注册局暂停解析](https://www.icann.org/resources/pages/epp-status-codes-2014-06-16-en/#serverHold)）。
 

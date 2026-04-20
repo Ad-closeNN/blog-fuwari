@@ -3,10 +3,10 @@ title: "使用 CF Workers 搭建 Vless/Trojan 节点并优化"
 published: 2025-10-03
 tags: ["CF Workers", "狠活"]
 description: CM大佬的 EdgeTunnel 暂时没了。没事，我们还有勇哥。
-image: ../assets/images/cf-worker-proxy-ygkkk-1.png
+image: /public/pic/cf-worker-proxy-ygkkk-1.png
 category: 教程
 showcover: false
-customcover: ../assets/images/cf-worker-proxy-ygkkk-2.png
+customcover: /public/pic/cf-worker-proxy-ygkkk-2.png
 ---
 
 # 前言
@@ -39,9 +39,9 @@ Vless 版的节点和 Trojan 版的节点部署方法类似，只是换了一个
 :::
 
 ## 创建 Worker
-打开 [Cloudflare Dashboard](https://dash.cloudflare.com)，点击右下角的 **计算 (Workers)**，在新的页面点击 **创建应用程序**。 ![cf-workers-menu](../assets/images/cf-workers-menu.png)
+打开 [Cloudflare Dashboard](https://dash.cloudflare.com)，点击右下角的 **计算 (Workers)**，在新的页面点击 **创建应用程序**。 ![cf-workers-menu](/public/pic/cf-workers-menu.png)
 
-选择 **从 Hello World! 开始** 右边的 **开始使用** 按钮：![cf-worker-template-from-helloworld](../assets/images/cf-worker-template-from-helloworld.png)
+选择 **从 Hello World! 开始** 右边的 **开始使用** 按钮：![cf-worker-template-from-helloworld](/public/pic/cf-worker-template-from-helloworld.png)
 
 随便取一个 Worker 名字，但是最好不要包括下面的关键词，否则可能会报错 1101。**一般以默认分配的名称作为 Worker 名称即可**：
 - vpn
@@ -56,7 +56,7 @@ Vless 版的节点和 Trojan 版的节点部署方法类似，只是换了一个
 ## 编辑 Worker
 访问 https://raw.githubusercontent.com/yonggekkk/Cloudflare-vless-trojan/refs/heads/main/Vless_workers_pages/_worker%E6%B7%B7%E6%B7%86.js 并复制整个内容。
 
-返回 Cloudflare Dashboard，点击刚刚创建的 Worker，在控制面板中点击 **编辑代码**： ![cf-workers-editcode-visit-botton](../assets/images/cf-workers-editcode-visit-botton.png)
+返回 Cloudflare Dashboard，点击刚刚创建的 Worker，在控制面板中点击 **编辑代码**： ![cf-workers-editcode-visit-botton](/public/pic/cf-workers-editcode-visit-botton.png)
 
 把从上面链接复制来的内容粘贴到 Worker 代码编辑器中。
 
@@ -77,7 +77,7 @@ const proxyIPs = [""]; //""之间填写proxyip，留空将无法访问CF网站
 let userID = "20a4537b-8da9-4bd4-b666-6e29a62345f7";    
 const proxyIPs = ["ProxyIP.US.CMLiussss.net"];
 ```
-![cf-worker-proxy-editor-edited](../assets/images/cf-worker-proxy-editor-edited.png)
+![cf-worker-proxy-editor-edited](/public/pic/cf-worker-proxy-editor-edited.png)
 
 确认无误后就点击右上角 **部署** 按钮部署你的 Worker 代码。  
 显示 **版本已保存** 说明部署成功。
@@ -90,7 +90,7 @@ const proxyIPs = ["ProxyIP.US.CMLiussss.net"];
 在后台可以查看节点地址。
 
 如果你使用 V2rayN，可点击 **点击复制链接**，然后 Ctrl+V 粘贴到 V2rayN 中。  
-为了追求速度、延迟、IP地区，可以使用优选后的 Cloudflare Anycast IP 地址。具体方法就是将 **地址 (address)** 一行从 `www.visa.sg` 改为 `cf.090227.xyz`。这样IP的地区就会为**新加坡**或**日本**，而且真连接延迟会降低： ![v2rayn-cf-workers-proxy](../assets/images/v2rayn-cf-workers-proxy.png)
+为了追求速度、延迟、IP地区，可以使用优选后的 Cloudflare Anycast IP 地址。具体方法就是将 **地址 (address)** 一行从 `www.visa.sg` 改为 `cf.090227.xyz`。这样IP的地区就会为**新加坡**或**日本**，而且真连接延迟会降低： ![v2rayn-cf-workers-proxy](/public/pic/v2rayn-cf-workers-proxy.png)
 
 
 # 编写 Clash 规则

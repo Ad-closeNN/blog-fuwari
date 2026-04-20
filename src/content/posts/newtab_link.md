@@ -3,8 +3,8 @@ title: 为 Astro 加上在新标签页打开链接的功能
 published: 2025-08-31
 tags: ["插件", "网站"]
 description: 原版 Astro（包括 Fuwari） 中，打开外部链接是在当前页面打开，而非在新标签页打开。这个插件完美适配了这个需求，让我们的链接可以在新的标签页打开。
-image: ../assets/images/newtab-link-npm-plugin-info-1.png
-customcover: ../assets/images/newtab-link-npm-plugin-info-2.png
+image: /public/pic/newtab-link-npm-plugin-info-1.png
+customcover: /public/pic/newtab-link-npm-plugin-info-2.png
 showcover: false
 category: 教程
 ---
@@ -14,7 +14,7 @@ category: 教程
 
 <a href="https://www.bing.com">打开必应</a> &nbsp; | &nbsp; <a href="https://www.bing.com" target="_blank">在新标签页打开必应</a>
 
-可以看到，第一个按钮是在**当前页面**打开必应，而第二个是在**新标签页**打开必应。如果你用的是手机，那这两种在外观上看不出很大的区别（手机版 Chrome 点击第二个按钮会表现为右上角的标签页个数+1）。但是如果你用的是电脑浏览器，那就很容易看出区别了： ![chrome-newtab-blogbing](../assets/images/chrome-newtab-blogbing.png)  
+可以看到，第一个按钮是在**当前页面**打开必应，而第二个是在**新标签页**打开必应。如果你用的是手机，那这两种在外观上看不出很大的区别（手机版 Chrome 点击第二个按钮会表现为右上角的标签页个数+1）。但是如果你用的是电脑浏览器，那就很容易看出区别了： ![chrome-newtab-blogbing](/public/pic/chrome-newtab-blogbing.png)  
 浏览器开了一个新标签页用于访问必应，这就是我们想要的，因为 Astro 的打开行为是第一个按钮（在本页打开）。下面是这两个按钮的代码：
 
 ```html title=打开必应

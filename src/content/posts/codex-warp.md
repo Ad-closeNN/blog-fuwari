@@ -2,9 +2,9 @@
 title: 最新Codex注册机+Warp教程！
 published: 2026-04-06
 description: '大约在今年的2月份，OpenAI 就开始了对免费 ChatGPT 账户开放最新部分模型。不幸的是，注册机使得账号注册越来越困难，但是依然有出路。'
-image: ../assets/images/codex-warp-menu.png
+image: /public/pic/codex-warp-menu.png
 showcover: false
-customcover: ../assets/images/codex-warp-banner.png
+customcover: /public/pic/codex-warp-banner.png
 tags: ["Codex", "Warp", "注册机", "AI"]
 category: '教程'
 ---
@@ -15,10 +15,10 @@ category: '教程'
 不幸的是，从2月至今，一直在进行 **Codex开发者** vs **OpenAI**，导致 OpenAI 升级了防护流程，大量封禁用注册机注册的账户（纯 HTTP 注册流程最容易被 ban）。
 
 目前部分邮箱域名被 Ban、部分邮箱域名要求在 OAuth 流程的时候添加手机号：
-![codex-warp-add-phone.png](../assets/images/codex-warp-add-phone.png)
+![codex-warp-add-phone.png](/public/pic/codex-warp-add-phone.png)
 
 `qq.com` 的邮箱似乎不会被要求添加手机号（图片取自 2026-04-04）：
-![codex-warp-oauth-successful.png|650](../assets/images/codex-warp-oauth-successfully.png)
+![codex-warp-oauth-successful.png|650](/public/pic/codex-warp-oauth-successfully.png)
 
 # 使用注册机
 
@@ -35,11 +35,11 @@ category: '教程'
 
 安装完之后，会在 `localhost:25666` 开放一个 Web 控制台：
 
-![](../assets/images/codex-warp-register-webui-top.png)
+![](/public/pic/codex-warp-register-webui-top.png)
 
 往下滑，可以看到当前注册状态：
 
-![](../assets/images/codex-warp-1.png)
+![](/public/pic/codex-warp-1.png)
 
 # 使用 CF Warp
 

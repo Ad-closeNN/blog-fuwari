@@ -3,16 +3,16 @@ title: "自定义 Astro 的 Frontmatter"
 published: 2025-08-13
 tags: ["教程", "网站"]
 description: 如果你想要在 Astro 的 Makdown Frontmatter 中自定义参数，布尔值或字符串，实现直接开关或更改某样组件，可以这样做
-image: "../assets/images/custom-frontmatter-cover.svg"
+image: "/public/pic/custom-frontmatter-cover.svg"
 category: 教程
 showcover: false
-customcover: ../assets/images/custom-frontmatter-customcover.svg
+customcover: /public/pic/custom-frontmatter-customcover.svg
 ---
 
 # 前言
 如果你用的博客是 [Astro](https://astro.build) 或以它为架构的 [Fuwari](https://github.com/saicaca/fuwari)，那么这篇文章或许适合。  
 
-这篇文章的目的是 **在 Markdown 文件的顶端加入一个自定义的类似 `draft: true` 这类变量控制器**，可以运用它对某些组件进行更改，包括关闭、更改。例如，当你在 fuwari 中的 Markdown 顶端定义一个内置参数 `image`，你可以通过写 `image: "../assets/images/custom-frontmatter-cover.svg"` 来让这篇文章在**博客主页**获得一个图片（而不定义就只有一个 `>` 的按钮）： ![frontmatter-image-example](../assets/images/frontmatter-image-example.png)
+这篇文章的目的是 **在 Markdown 文件的顶端加入一个自定义的类似 `draft: true` 这类变量控制器**，可以运用它对某些组件进行更改，包括关闭、更改。例如，当你在 fuwari 中的 Markdown 顶端定义一个内置参数 `image`，你可以通过写 `image: "/public/pic/custom-frontmatter-cover.svg"` 来让这篇文章在**博客主页**获得一个图片（而不定义就只有一个 `>` 的按钮）： ![frontmatter-image-example](/public/pic/frontmatter-image-example.png)
 
 就是说：
 
@@ -83,7 +83,7 @@ const postsCollection = defineCollection({
             }
 ```
 ## 自定义文章内部头图
-你也看到了，本文在博客主页和本页的头图不一样。这是自定义了头图 `customcover: ../assets/images/custom-frontmatter-customcover.svg`。
+你也看到了，本文在博客主页和本页的头图不一样。这是自定义了头图 `customcover: /public/pic/custom-frontmatter-customcover.svg`。
 
 打开 `src/pages/posts/[...slug].astro`，（这个可选：在**第二处** `---` 上面加入 `const 随便一个不重复名字 = entry.data.你在#定义 Frontmatter定义的参数。`，本站是 `const customcover = entry.data.customcover;`）  
 找到 `{entry.data.image &&` 开头的元素，在其下面添加一个和其**一模一样**的元素。如图所示：

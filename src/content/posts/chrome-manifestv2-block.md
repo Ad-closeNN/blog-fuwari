@@ -3,9 +3,9 @@ title: 恢复 Chrome 对 Manifest V2 的支持
 published: 2025-08-14
 tags: ["bypass"]
 description: 2025 年 7 月 24 日：Chrome 会在所有位置停用 Manifest V2 扩展，所以某些扩展要怎么恢复？
-image: ../assets/images/chrome-ext-block.png
+image: /public/pic/chrome-ext-block.png
 showcover: false
-customcover: ../assets/images/chrome-ext-force-custom-font.png
+customcover: /public/pic/chrome-ext-force-custom-font.png
 category: 教程
 draft: false
 ---
@@ -33,7 +33,7 @@ draft: false
 ## 通过 chrome://flags 关闭
 :::warning[注意]
 目前并不能确认 Chrome 139.0.7258.128 之后的版本是否能继续使用此方法。但可以确定的是，稳定版 139.0.7258.128 能继续使用 Flags 控制开关。
-![chrome-139.0.7258.128-about](../assets/images/chrome-139.0.7258.128-about.png)
+![chrome-139.0.7258.128-about](/public/pic/chrome-139.0.7258.128-about.png)
 :::
 
 1. 地址栏输入 `chrome://flags/`。
@@ -45,13 +45,13 @@ draft: false
 7. 重启浏览器，即可启用旧版扩展。
 
 ## 添加启动参数
-![windows-chrome-lnk-panel](../assets/images/windows-chrome-lnk-panel.png)
+![windows-chrome-lnk-panel](/public/pic/windows-chrome-lnk-panel.png)
 
 1. 关闭 Chrome。
 2. 打开 Chrome 的快捷方式属性。
 3. 在 **目标** 后加上一个**空格**和 `--disable-features=ExtensionManifestV2Unsupported,ExtensionManifestV2Disabled`。
 4. 点击 **确定**。
-5. 再次双击 Chrome 快捷方式，打开 Chrome，即可启用旧版扩展（**暂时保留** 按钮将会出现）。 ![chrome-ext-force-custom-font-2](../assets/images/chrome-ext-force-custom-font-2.png)
+5. 再次双击 Chrome 快捷方式，打开 Chrome，即可启用旧版扩展（**暂时保留** 按钮将会出现）。 ![chrome-ext-force-custom-font-2](/public/pic/chrome-ext-force-custom-font-2.png)
 
 ## 换浏览器
 ### FireFox

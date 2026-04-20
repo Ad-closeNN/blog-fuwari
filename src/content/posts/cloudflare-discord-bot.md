@@ -3,8 +3,8 @@ title: 在 CF Workers 上运行 Discord 机器人
 published: 2025-09-06
 tags: ["机器人", "CF Workers"]
 description: 通过 Cloudflare Workers，你甚至可以运行一个 Discord 机器人，而且完全免费！
-image: ../assets/images/discord-bot-cln-bot-profile.png
-customcover: ../assets/images/discord-bot-cln-bot-profile-wide.png
+image: /public/pic/discord-bot-cln-bot-profile.png
+customcover: /public/pic/discord-bot-cln-bot-profile-wide.png
 showcover: false
 category: 教程
 ---
@@ -25,7 +25,7 @@ category: 教程
 - （非必须）一个 [GitHub](https://github.com) 账号
 
 # 创建 Discord 机器人
-登录好 Discord 账号后，打开 https://discord.com/developers/applications ，点击右上角的 **New Application**，写下你 Bot 的名称，然后勾选协议，再点击蓝色按钮 **Create**： ![discord-create-an-application](../assets/images/discord-create-an-application.png)
+登录好 Discord 账号后，打开 https://discord.com/developers/applications ，点击右上角的 **New Application**，写下你 Bot 的名称，然后勾选协议，再点击蓝色按钮 **Create**： ![discord-create-an-application](/public/pic/discord-create-an-application.png)
 
 如果你[是人类](/posts/captcha/)，那么应该会顺利过完人机验证，创建一个新的 Discord Bot。在 **General Information** 页中，你可以添加 Bot 的头像、横幅、介绍、昵称等信息。
 
@@ -41,16 +41,16 @@ category: 教程
 在默认页面 **General Information** 中，找到 `Public Key`，点击 **Copy** 按钮，粘贴到安全的地方。
 
 ## DISCORD_TOKEN
-在左侧选择 **Bot**，在页面内点击 **Reset Token** 按钮，将 Token 粘贴到安全的地方： ![discord-reset-token](../assets/images/discord-reset-token.png)
+在左侧选择 **Bot**，在页面内点击 **Reset Token** 按钮，将 Token 粘贴到安全的地方： ![discord-reset-token](/public/pic/discord-reset-token.png)
 
 # 配置 Discord 机器人设置
 :::warning[注意]
 这个方案会让**所有人**都可以把你的机器人安装到他们的服务器。前提是你的服务器内要有别人。
 :::
-在左侧选择 **Installation**，在下方 Guild Install 配置成如图所示的权限： ![discord-bot-installation-guild-install](../assets/images/discord-bot-installation-guild-install.png)
+在左侧选择 **Installation**，在下方 Guild Install 配置成如图所示的权限： ![discord-bot-installation-guild-install](/public/pic/discord-bot-installation-guild-install.png)
 
 配置完毕后点击上方 Install Link 中，右侧的 **Copy** 按钮，在浏览器内访问。  
-在接下来的页面中选择 **添加至服务器**，然后选中一个服务器，点击 **继续**，点击 **授权**： ![discord-invite-bot](../assets/images/discord-invite-bot.png)
+在接下来的页面中选择 **添加至服务器**，然后选中一个服务器，点击 **继续**，点击 **授权**： ![discord-invite-bot](/public/pic/discord-invite-bot.png)
 
 当你的机器人出现在你所选的服务器中，那么代表你成功了。
 
@@ -67,7 +67,7 @@ category: 教程
 pnpm install
 ```
 
-如果能用 `npx wrangler`，那就说明安装成功了： ![windows-terminal-pnpm-install-discord-bot-successful](../assets/images/windows-terminal-pnpm-install-discord-bot-successful.png)
+如果能用 `npx wrangler`，那就说明安装成功了： ![windows-terminal-pnpm-install-discord-bot-successful](/public/pic/windows-terminal-pnpm-install-discord-bot-successful.png)
 
 在文件夹根目录下有一个文件 `wrangler.toml`，打开它可以编辑你的 Worker 名字：
 
@@ -95,7 +95,7 @@ npx wrangler secret put DISCORD_TOKEN
 
 如果你没有创建这个 Worker，Wrangler 会让你选择**是否创建名为xxx的 Worker**，这时输入y即可。
 
-当三个密钥上传成功后，Worker 设置应该是如图所示的： ![cloudflare-worker-discord-bot-vars-and-secrets](../assets/images/cloudflare-worker-discord-bot-vars-and-secrets.png)
+当三个密钥上传成功后，Worker 设置应该是如图所示的： ![cloudflare-worker-discord-bot-vars-and-secrets](/public/pic/cloudflare-worker-discord-bot-vars-and-secrets.png)
 
 不过，目前只上传了机密，并没有上传 Worker 主文件。所以会显示 "**There is nothing here yet**"。  
 在终端输入以下命令可将本地 Worker 文件上传到 Cloudflare Workers：
@@ -128,7 +128,7 @@ Current Version ID: bbc5f582-58a9-4e30-94e1-d2a14952efa0
 除此之外，还需要配置 Discord 的 Endpoint URL，将 Discord 和 Cloudflare Worker 打通：
 1. 回到 Discord Developer，选择你的机器人。
 2. 在 **General Information** 中，找到 **Interactions Endpoint URL**。
-3. 将**你部署的 Cloudflare Worker 的链接**填进去，如图所示（实际请替换为自己的）： ![discord-interactions-endpoint-url](../assets/images/discord-interactions-endpoint-url.png)
+3. 将**你部署的 Cloudflare Worker 的链接**填进去，如图所示（实际请替换为自己的）： ![discord-interactions-endpoint-url](/public/pic/discord-interactions-endpoint-url.png)
 4. 点击 **Save Changes** 按钮，保存更改。
 
 还有还有，你还需要向 Discord 注册机器人的命令。  
@@ -149,9 +149,9 @@ pnpm run register
 ```
 4. 当出现 `Registered all commands` 时代表注册命令成功。
 
-回到 Discord，乱点一下你的机器人，比如添加 APP 然后添加到自己什么的，或者发送一条消息给它，总之触发了 **{/}** 这个代表成功了：![discord-bot-supports-commands](../assets/images/discord-bot-supports-commands.png)
+回到 Discord，乱点一下你的机器人，比如添加 APP 然后添加到自己什么的，或者发送一条消息给它，总之触发了 **{/}** 这个代表成功了：![discord-bot-supports-commands](/public/pic/discord-bot-supports-commands.png)
 
-可能会显示离线，但是如果命令能用就代表能用了。 ![discord-bot-channel-cln-bot-test](../assets/images/discord-bot-channel-cln-bot-test.png)
+可能会显示离线，但是如果命令能用就代表能用了。 ![discord-bot-channel-cln-bot-test](/public/pic/discord-bot-channel-cln-bot-test.png)
 
 # 关于今后...
 关于配置更多的命令，`.src/`中的 `commands.js` `register.js` `server.js` 是重要的，不会配置的问 AI 就好了。这就纯纯复制粘贴和 AI。

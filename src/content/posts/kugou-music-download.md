@@ -2,8 +2,8 @@
 title: 教你免费获取酷狗音乐歌曲
 published: 2025-10-18
 description: '使用 NodeJS 版酷狗概念版API + 送的酷狗概念版VIP 直接通过 URL 获取VIP歌曲，而且还自带歌手元数据！'
-image: '../assets/images/kugou-music-nodejs-api.png'
-customcover: ../assets/images/kugou-music-nodejs-api-self-hosting-menu.png
+image: '/public/pic/kugou-music-nodejs-api.png'
+customcover: /public/pic/kugou-music-nodejs-api-self-hosting-menu.png
 showcover: false
 tags: ["酷狗音乐", "狠活"]
 category: '教程'
@@ -21,9 +21,9 @@ category: '教程'
 :::
 
 由于某些原因，我们有时需要下载一些歌曲。  
-如果是**非VIP歌曲**（即无需开通会员即可听完整首歌、下载需要会员），可以直接去到 [酷狗音乐官网](https://www.kugou.com) 对应的歌曲页 ，从 Dev Tools 中获取**128kbps**、**.mp3**歌曲的链接： ![kugou-music-web-1](../assets/images/kugou-music-web-1.png)
+如果是**非VIP歌曲**（即无需开通会员即可听完整首歌、下载需要会员），可以直接去到 [酷狗音乐官网](https://www.kugou.com) 对应的歌曲页 ，从 Dev Tools 中获取**128kbps**、**.mp3**歌曲的链接： ![kugou-music-web-1](/public/pic/kugou-music-web-1.png)
 
-并且，从这个链接获取的是**音乐源文件**，也就是说包含了歌手等数据： ![kugou-music-example-details](../assets/images/kugou-music-example-details.png)
+并且，从这个链接获取的是**音乐源文件**，也就是说包含了歌手等数据： ![kugou-music-example-details](/public/pic/kugou-music-example-details.png)
 
 **但是，对于一些VIP歌曲（即无会员时仅可试听）**，即使购买了会员，一般情况下，在酷狗概念版下载VIP歌曲获得的是类似 `xxx.kgm.flac` 格式的文件。**上锁了**。  
 这种文件直接访问 https://legacy.um-react.app ，解锁一下音乐就好了。
@@ -51,7 +51,7 @@ set platform=lite
 npm run dev
 ```
 
-总之，搭建成功后的后端服务器的根目录应为： ![kugou-music-nodejs-api-self-hosting-menu](../assets/images/kugou-music-nodejs-api-self-hosting-menu.png)
+总之，搭建成功后的后端服务器的根目录应为： ![kugou-music-nodejs-api-self-hosting-menu](/public/pic/kugou-music-nodejs-api-self-hosting-menu.png)
 
 官方 API 文档： https://kugoumusicapi-docs.4everland.app/#/
 
@@ -378,7 +378,7 @@ http://fs.youthandroid.kugou.com/202510181811/474420aee993e180059c8251e69abd37/v
 ```
 即为我们需要的音频源文件。  
 下载到的音频文件不是我们想要的，可以在 [#第三步：搜索音乐](#第三步搜索音乐) 中找到 `FileName`，再与第四步中 `extName` 结合即可。  
-可以看到，下载下来的音频是有歌手名的源文件： ![kugou-music-example-details-2](../assets/images/kugou-music-example-details-2.png)
+可以看到，下载下来的音频是有歌手名的源文件： ![kugou-music-example-details-2](/public/pic/kugou-music-example-details-2.png)
 
 # 两种VIP的不同点
 酷狗概念版中有2种不同的VIP等级之分。分别是**概念版VIP**和**畅听VIP**。
@@ -388,4 +388,4 @@ http://fs.youthandroid.kugou.com/202510181811/474420aee993e180059c8251e69abd37/v
 | 概念版 VIP      | ✔           | ✔                    | ❌              | 500            |
 |     畅听 VIP    | ❌           | ❌                    | ✔              | -              |
 
-![kugou-music-lite-app-vippage](../assets/images/kugou-music-lite-app-vippage.jpg)
+![kugou-music-lite-app-vippage](/public/pic/kugou-music-lite-app-vippage.jpg)

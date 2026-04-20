@@ -10,6 +10,18 @@ import { getSortedPosts } from '@/utils/content-utils';
 
 const markdownParser = new MarkdownIt();
 
+function rewritePublicPath(url: string) {
+	if (url === '/public') {
+		return '/';
+	}
+
+	if (url.startsWith('/public/')) {
+		return url.slice('/public'.length);
+	}
+
+	return url;
+}
+
 // get dynamic import of images as a map collection
 const imagesGlob = import.meta.glob<{ default: ImageMetadata }>(
 	'/src/content/**/*.{jpeg,jpg,png,gif,webp}', // include posts and assets
@@ -33,8 +45,10 @@ export async function GET(context: APIContext) {
 		const images = html.querySelectorAll('img');
 
 		for (const img of images) {
-			const src = img.getAttribute('src');
-			if (!src) continue;
+			const srcAttr = img.getAttribute('src');
+			if (!srcAttr) continue;
+
+			const src = rewritePublicPath(srcAttr);
 
 			// Handle content-relative images and convert them to built _astro paths
 			if (src.startsWith('./') || src.startsWith('../')) {
@@ -45,7 +59,7 @@ export async function GET(context: APIContext) {
 					const prefixRemoved = src.slice(2);
 					importPath = `/src/content/posts/${prefixRemoved}`;
 				} else {
-					// Path like ../assets/images/xxx -> relative to /src/content/
+					// Path like /public/pic/xxx -> relative to /src/content/
 					const cleaned = src.replace(/^\.\.\//, '');
 					importPath = `/src/content/${cleaned}`;
 				}
@@ -56,7 +70,6 @@ export async function GET(context: APIContext) {
 					img.setAttribute('src', new URL(optimizedImg.src, context.site).href);
 				}
 			} else if (src.startsWith('/')) {
-				// images starting with `/` are in public dir
 				img.setAttribute('src', new URL(src, context.site).href);
 			}
 		}
