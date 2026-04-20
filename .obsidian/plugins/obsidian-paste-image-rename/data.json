@@ -1,8 +1,8 @@
 {
-  "imageNamePattern": "{{fileHash}}",
+  "imageNamePattern": "{{fileName}}",
   "dupNumberAtStart": false,
   "dupNumberDelimiter": "-",
-  "dupNumberAlways": false,
+  "dupNumberAlways": true,
   "autoRename": true,
   "handleAllAttachments": true,
   "excludeExtensionPattern": "",
