@@ -1,12 +1,37 @@
 .pswp__button {
     @apply transition bg-black/40 hover:bg-black/50 active:bg-black/60 flex items-center justify-center mr-0 w-12 h-12 !important;
 }
-.pswp__button--zoom, .pswp__button--close {
+.pswp__button--zoom, .pswp__button--open-link, .pswp__button--close {
     @apply mt-4 rounded-xl active:scale-90 !important;
 }
-.pswp__button--zoom {
+.pswp__button--zoom, .pswp__button--open-link {
     @apply mr-2.5 !important;
+}
+.pswp__button--open-link {
+    @apply no-underline !important;
+    color: white !important;
 }
 .pswp__button--close {
     @apply mr-4 !important;
+}
+
+.pswp__button--disabled {
+    @apply opacity-40 pointer-events-none !important;
+}
+
+.pswp__icn {
+    @apply fill-white !important;
+}
+
+.pswp__icn-shadow {
+    display: none !important;
+}
+
+.pswp__button--open-link .pswp__icn {
+    width: 24px !important;
+    height: 24px !important;
+}
+
+.pswp__button--open-link .pswp__icn path {
+    fill: currentColor !important;
 }

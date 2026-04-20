@@ -11,6 +11,12 @@ type SwupLike = {
 type BlogPhotoSwipeState = {
 	lightbox: {
 		destroy: () => void;
+		on: (eventName: string, handler: (...args: unknown[]) => void) => void;
+		pswp?: {
+			ui?: {
+				registerElement: (options: Record<string, unknown>) => void;
+			};
+		};
 	} | null;
 	hookRegistered: boolean;
 	pageLoadRegistered: boolean;
