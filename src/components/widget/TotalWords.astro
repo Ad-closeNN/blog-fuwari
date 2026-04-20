@@ -1,0 +1,15 @@
+---
+import { Icon } from "astro-icon/components";
+import I18nKey from "@i18n/i18nKey";
+import { i18n } from "@i18n/translation";
+import { getTotalWords } from "@utils/content-utils";
+
+const totalWords = await getTotalWords();
+const formattedTotalWords = totalWords.toLocaleString("zh-CN");
+---
+<div class="text-center text-sm text-neutral-500 dark:text-neutral-400 mt-3 pt-3 border-t border-neutral-200 dark:border-neutral-700">
+    <div class="flex items-center justify-center gap-1">
+        <Icon name="material-symbols:article-outline" class="text-base"></Icon>
+        <span>总计 {formattedTotalWords} {i18n(I18nKey.wordsCount)}</span>
+    </div>
+</div>

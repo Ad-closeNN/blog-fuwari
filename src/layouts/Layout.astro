@@ -482,8 +482,8 @@ function showBanner() {
 	}
 
 	// 在显示Banner前，先移除所有已加载的onload-animation类，防止动画重复触发
-	const animatedElements = document.querySelectorAll('.onload-animation');
-	animatedElements.forEach(el => {
+	const animatedElements = document.querySelectorAll<HTMLElement>('.onload-animation');
+	animatedElements.forEach((el) => {
 		el.style.animation = 'none';
 		el.style.opacity = '1';
 	});
@@ -634,53 +634,163 @@ window.onresize = () => {
 <script>
 import PhotoSwipeLightbox from "photoswipe/lightbox"
 import "photoswipe/style.css"
+import "../styles/photoswipe.css"
 
-let lightbox: PhotoSwipeLightbox
-let pswp = import("photoswipe")
+const zoomTargetSelector = ".custom-md img, #post-cover img"
+const pswpModule = import("photoswipe")
+
+type PhotoSwipeState = {
+	lightbox: PhotoSwipeLightbox | null
+	hookRegistered: boolean
+}
+
+const photoSwipeState = (window.__blogPhotoSwipe ??= {
+	lightbox: null,
+	hookRegistered: false,
+	pageLoadRegistered: false,
+}) as PhotoSwipeState & { pageLoadRegistered: boolean }
+
+function getZoomTargets() {
+	return Array.from(document.querySelectorAll<HTMLImageElement>(zoomTargetSelector))
+}
+
+function destroyPhotoSwipe() {
+	photoSwipeState.lightbox?.destroy()
+	photoSwipeState.lightbox = null
+}
 
 function createPhotoSwipe() {
-	lightbox = new PhotoSwipeLightbox({
-		gallery: ".custom-md img, #post-cover img",
-		pswpModule: () => pswp,
+	const lightbox = new PhotoSwipeLightbox({
+		gallery: "body",
+		children: zoomTargetSelector,
+		initialZoomLevel: "fit",
+		pswpModule: () => pswpModule,
 		closeSVG: '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ffffff"><path d="M480-424 284-228q-11 11-28 11t-28-11q-11-11-11-28t11-28l196-196-196-196q-11-11-11-28t11-28q11-11 28-11t28 11l196 196 196-196q11-11 28-11t28 11q11 11 11 28t-11 28L536-480l196 196q11 11 11 28t-11 28q-11 11-28 11t-28-11L480-424Z"/></svg>',
 		zoomSVG: '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ffffff"><path d="M340-540h-40q-17 0-28.5-11.5T260-580q0-17 11.5-28.5T300-620h40v-40q0-17 11.5-28.5T380-700q17 0 28.5 11.5T420-660v40h40q17 0 28.5 11.5T500-580q0 17-11.5 28.5T460-540h-40v40q0 17-11.5 28.5T380-460q-17 0-28.5-11.5T340-500v-40Zm40 220q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l224 224q11 11 11 28t-11 28q-11 11-28 11t-28-11L532-372q-30 24-69 38t-83 14Zm0-80q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/></svg>',
 		padding: { top: 20, bottom: 20, left: 20, right: 20 },
+		showHideAnimationType: "fade",
+		showAnimationDuration: 160,
+		hideAnimationDuration: 140,
+		secondaryZoomLevel: (zoomLevel) => Math.min(2.5, zoomLevel.max),
 		wheelToZoom: true,
 		arrowPrev: false,
 		arrowNext: false,
-		imageClickAction: 'close',
-		tapAction: 'close',
-		doubleTapAction: 'zoom',
+		imageClickAction: "close",
+		tapAction: "close",
+		doubleTapAction: "zoom",
 	})
 
 	lightbox.addFilter("domItemData", (itemData, element) => {
 		if (element instanceof HTMLImageElement) {
-			itemData.src = element.src
+			const fullSrc = element.dataset.pswpSrc || element.currentSrc || element.src
+			const width = Number(element.dataset.pswpWidth) || element.naturalWidth || element.width || window.innerWidth
+			const height = Number(element.dataset.pswpHeight) || element.naturalHeight || element.height || window.innerHeight
+			const thumbSrc = element.currentSrc || element.src
+			const sourceElement = element.closest(zoomTargetSelector)
+			const allImages = getZoomTargets()
+			const index = sourceElement instanceof HTMLImageElement ? allImages.indexOf(sourceElement) : -1
 
-			itemData.w = Number(element.naturalWidth || window.innerWidth)
-			itemData.h = Number(element.naturalHeight || window.innerHeight)
-
-			itemData.msrc = element.src
+			itemData.src = fullSrc
+			itemData.w = Number(width)
+			itemData.h = Number(height)
+			itemData.msrc = thumbSrc
+			if (index >= 0) {
+				itemData.element = sourceElement
+			}
 		}
 
 		return itemData
 	})
 
+	lightbox.addFilter("clickedIndex", (clickedIndex, event) => {
+		const target = event.target instanceof Element ? event.target.closest(zoomTargetSelector) : null
+		if (!(target instanceof HTMLImageElement)) {
+			return clickedIndex
+		}
+
+		const allImages = getZoomTargets()
+		const index = allImages.indexOf(target)
+		return index >= 0 ? index : clickedIndex
+	})
+
+	lightbox.on("uiRegister", () => {
+		lightbox.pswp?.ui?.registerElement({
+			name: "open-link",
+			order: 8,
+			isButton: true,
+			tagName: "a",
+			className: "pswp__button pswp__button--open-link",
+			title: "打开原图",
+			html: '<svg class="pswp__icn" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42 9.3-9.29H14V3Zm5 16V11h2v10H3V3h10v2H5v14h14Z"/></svg>',
+			onInit: (el, pswp) => {
+				if (!(el instanceof HTMLAnchorElement)) {
+					return
+				}
+
+				el.target = "_blank"
+				el.rel = "noreferrer noopener"
+
+				const syncHref = () => {
+					const currSlide = pswp.currSlide
+					const link = typeof currSlide?.data?.src === "string" ? currSlide.data.src : ""
+					el.href = link
+					el.classList.toggle("pswp__button--disabled", !link)
+					el.setAttribute("aria-disabled", link ? "false" : "true")
+					el.tabIndex = link ? 0 : -1
+				}
+
+				pswp.on("change", syncHref)
+				syncHref()
+			},
+		})
+	})
+
 	lightbox.init()
+	photoSwipeState.lightbox = lightbox
 }
 
-const setup = () => {
-	window.swup.hooks.on("page:view", () => {
-		if (lightbox) {
-			lightbox.destroy()
-		}
-		createPhotoSwipe()
+function initPhotoSwipe() {
+	if (photoSwipeState.lightbox || getZoomTargets().length === 0) {
+		return
+	}
+	createPhotoSwipe()
+}
+
+function reinitPhotoSwipe() {
+	destroyPhotoSwipe()
+	window.requestAnimationFrame(() => {
+		initPhotoSwipe()
 	})
 }
 
-if (window.swup) {
-	setup()
+function registerPhotoSwipeHook() {
+	if (photoSwipeState.hookRegistered || !window.swup?.hooks) {
+		return
+	}
+	window.swup.hooks.on("page:view", reinitPhotoSwipe)
+	photoSwipeState.hookRegistered = true
+}
+
+function scheduleInitialPhotoSwipe() {
+	window.requestAnimationFrame(() => {
+		initPhotoSwipe()
+	})
+}
+
+if (document.readyState === "loading") {
+	document.addEventListener("DOMContentLoaded", scheduleInitialPhotoSwipe, { once: true })
 } else {
-	document.addEventListener("swup:enable", setup)
+	scheduleInitialPhotoSwipe()
+}
+
+if (!photoSwipeState.pageLoadRegistered) {
+	document.addEventListener("astro:page-load", scheduleInitialPhotoSwipe)
+	photoSwipeState.pageLoadRegistered = true
+}
+
+if (window.swup?.hooks) {
+	registerPhotoSwipeHook()
+} else {
+	document.addEventListener("swup:enable", registerPhotoSwipeHook, { once: true })
 }
 </script>

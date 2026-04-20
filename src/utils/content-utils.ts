@@ -1,4 +1,4 @@
-import { type CollectionEntry, getCollection } from "astro:content";
+import { render, type CollectionEntry, getCollection } from "astro:content";
 import I18nKey from "@i18n/i18nKey";
 import { i18n } from "@i18n/translation";
 import { getCategoryUrl } from "@utils/url-utils.ts";
@@ -21,11 +21,11 @@ export async function getSortedPosts() {
 	const sorted = await getRawSortedPosts();
 
 	for (let i = 1; i < sorted.length; i++) {
-		sorted[i].data.nextSlug = sorted[i - 1].slug;
+		sorted[i].data.nextSlug = sorted[i - 1].id;
 		sorted[i].data.nextTitle = sorted[i - 1].data.title;
 	}
 	for (let i = 0; i < sorted.length - 1; i++) {
-		sorted[i].data.prevSlug = sorted[i + 1].slug;
+		sorted[i].data.prevSlug = sorted[i + 1].id;
 		sorted[i].data.prevTitle = sorted[i + 1].data.title;
 	}
 
@@ -40,11 +40,29 @@ export async function getSortedPostsList(): Promise<PostForList[]> {
 
 	// delete post.body
 	const sortedPostsList = sortedFullPosts.map((post) => ({
-		slug: post.slug,
+		slug: post.id,
 		data: post.data,
 	}));
 
 	return sortedPostsList;
+}
+
+let totalWordsCache: number | undefined;
+
+export async function getTotalWords(): Promise<number> {
+	if (totalWordsCache !== undefined) {
+		return totalWordsCache;
+	}
+
+	const posts = await getRawSortedPosts();
+	const renderedPosts = await Promise.all(posts.map((post) => render(post)));
+	const totalWords = renderedPosts.reduce((sum, { remarkPluginFrontmatter }) => {
+		const words = Number(remarkPluginFrontmatter?.words ?? 0);
+		return sum + (Number.isFinite(words) ? words : 0);
+	}, 0);
+
+	totalWordsCache = totalWords;
+	return totalWords;
 }
 export type Tag = {
 	name: string;

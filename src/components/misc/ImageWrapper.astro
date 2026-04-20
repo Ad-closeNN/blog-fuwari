@@ -46,9 +46,12 @@ if (isLocal) {
 
 const imageClass = "w-full h-full object-cover";
 const imageStyle = `object-position: ${position}`;
+const originalSrc = isLocal && img ? img.src : isPublic ? url(src) : src;
+const originalWidth = isLocal && img ? img.width : undefined;
+const originalHeight = isLocal && img ? img.height : undefined;
 ---
 <div id={id} class:list={[className, 'overflow-hidden relative']}>
     <div class="transition absolute inset-0 dark:bg-black/10 bg-opacity-50 pointer-events-none"></div>
-    {isLocal && img && <Image src={img} alt={alt || ""} class={imageClass} style={imageStyle}/>}
-    {!isLocal && <img src={isPublic ? url(src) : src} alt={alt || ""} class={imageClass} style={imageStyle}/>}
+    {isLocal && img && <Image src={img} alt={alt || ""} class={imageClass} style={imageStyle} data-pswp-src={originalSrc} data-pswp-width={originalWidth} data-pswp-height={originalHeight} data-original-src={originalSrc}/>}
+    {!isLocal && <img src={originalSrc} alt={alt || ""} class={imageClass} style={imageStyle} data-pswp-src={originalSrc} data-original-src={originalSrc}/>}
 </div>

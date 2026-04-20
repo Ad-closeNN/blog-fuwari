@@ -3,6 +3,7 @@ import { Icon } from "astro-icon/components";
 import { profileConfig } from "../../config";
 import { url } from "../../utils/url-utils";
 import ImageWrapper from "../misc/ImageWrapper.astro";
+import TotalWords from "./TotalWords.astro";
 
 const config = profileConfig;
 ---
@@ -45,6 +46,8 @@ const config = profileConfig;
             </a>}
         </div>
 
+        <TotalWords />
+
         <!-- 全站访问量统计 https://github.com/afoim/fuwari/blob/81f22decb17ff7ee1dd480c10773f7ba8f4df296/src/components/widget/Profile.astro -->
         <div class="text-center text-sm text-neutral-500 dark:text-neutral-400 mt-3 pt-3 border-t border-neutral-200 dark:border-neutral-700">
             <div class="flex items-center justify-center gap-1">
@@ -74,18 +77,37 @@ const config = profileConfig;
 fetch("https://v1.hitokoto.cn")
   .then(response => response.json())
   .then(data => {
-    // API 返回的字段是 data.text
-    document.getElementById("hitokoto").innerText = data.hitokoto;
+    const hitokotoElement = document.getElementById("hitokoto");
+    if (hitokotoElement) {
+      hitokotoElement.innerText = data.hitokoto;
+    }
   })
   .catch(error => {
     console.error("获取一言失败：", error);
-    //document.getElementById("hitokoto").innerText = "获取失败，请稍后再试。";
-    //失败后用内置的，成功了用别人的。
-    document.getElementById("hitokoto").innerText = "再热情的心也经不起冷漠，再爱你的人也经不起冷落。";
+    const hitokotoElement = document.getElementById("hitokoto");
+    if (hitokotoElement) {
+      hitokotoElement.innerText = "再热情的心也经不起冷漠，再爱你的人也经不起冷落。";
+    }
   });
 </script>
 
 <script>
+    type SiteStatsData = {
+        pageviews?: {
+            value?: number;
+        };
+    };
+
+    type BlogUmamiStore = {
+        getStats: (key: string, createUrl: (websiteId: string) => string) => Promise<SiteStatsData | undefined>;
+    };
+
+    declare global {
+        interface Window {
+            __blogUmami?: BlogUmamiStore;
+        }
+    }
+
     // 获取全站访问量统计
     async function loadSiteStats() {
         const statsElement = document.getElementById('site-stats');
@@ -96,8 +118,8 @@ fetch("https://v1.hitokoto.cn")
         statsElement.dataset.umamiState = 'loading';
 
         try {
-            const umamiStore = window['__blogUmami'];
-            const statsData = await umamiStore?.getStats('site:all', (websiteId) => {
+            const umamiStore = window.__blogUmami;
+            const statsData = await umamiStore?.getStats('site:all', (websiteId: string) => {
                 const currentTimestamp = Date.now();
                 return `https://umami.adclosenn.top/api/websites/${websiteId}/stats?startAt=0&endAt=${currentTimestamp}&unit=hour&timezone=${encodeURIComponent('Asia/Shanghai')}&compare=false`;
             });
@@ -125,46 +147,46 @@ fetch("https://v1.hitokoto.cn")
 </script>
 <!-- 获取 Commit 信息 via API -->
 <script>
+    type GithubCommit = {
+        sha: string;
+        html_url: string;
+        commit: {
+            message: string;
+            committer: {
+                date: string;
+            };
+        };
+    };
+
     async function loadCommitStats() {
         try {
-            const statsElement = document.getElementById('github-commit'); // 查找 id
-            const link = document.getElementById('github-commit-link'); // 查找 id
-            
-            // 第一步：调用 API                
+            const statsElement = document.getElementById('github-commit');
+            const link = document.getElementById('github-commit-link');
+
             const githubResponse = await fetch(`https://api.github.com/repos/Ad-closeNN/blog-fuwari/commits?per_page=1`);
 
             if (!githubResponse.ok) {
                 throw new Error('获取信息失败');
             }
 
-            let Data = await githubResponse.json();
-            Data = Data[0];
-            // 第二步：获取 Commit 数据
-            const latestCommit = Data;
-            
-            const commitData = {
-                hash: latestCommit.sha.slice(0, 7),
-                fullHash: latestCommit.sha,
-                message: latestCommit.commit.message.split('\n')[0],
-                author: latestCommit.commit.author.name,
-                date: latestCommit.commit.author.date,
-                url: latestCommit.html_url
-            };
-            
-            
-            if (statsElement) {
-                statsElement.textContent = `当前提交：${Data.sha.slice(0,7)}`;
-            }
-            
+            const data = (await githubResponse.json()) as GithubCommit[];
+            const latestCommit = data[0];
 
-            if (link){
-            // const gurl = "https://github.com/Ad-closeNN/blog-fuwari/commit/"+Data.sha;
-            const gurl = "/info/";
-                link.href = gurl;
-                link.title = "("+Data.commit.committer.date + ")" + " " + Data.commit.message;
+            if (!latestCommit) {
+                throw new Error('未获取到提交信息');
+            }
+
+            if (statsElement) {
+                statsElement.textContent = `当前提交：${latestCommit.sha.slice(0, 7)}`;
+            }
+
+            if (link instanceof HTMLAnchorElement) {
+                const infoUrl = "/info/";
+                link.href = infoUrl;
+                link.title = `(${latestCommit.commit.committer.date}) ${latestCommit.commit.message}`;
             }
         } catch (error) {
-            console.error('获取 Commit 信息失败:', error);  
+            console.error('获取 Commit 信息失败:', error);
             const statsElement = document.getElementById('github-commit');
             if (statsElement) {
                 statsElement.textContent = '提交信息不可用';

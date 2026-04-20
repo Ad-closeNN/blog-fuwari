@@ -1,9 +1,32 @@
-import type { AstroIntegration } from "@swup/astro";
+export {};
+
+type SwupHookHandler = (...args: unknown[]) => void;
+
+type SwupLike = {
+	hooks: {
+		on: (eventName: string, handler: SwupHookHandler) => void;
+	};
+};
+
+type BlogPhotoSwipeState = {
+	lightbox: {
+		destroy: () => void;
+		on: (eventName: string, handler: (...args: unknown[]) => void) => void;
+		pswp?: {
+			ui?: {
+				registerElement: (options: Record<string, unknown>) => void;
+			};
+		};
+	} | null;
+	hookRegistered: boolean;
+	pageLoadRegistered: boolean;
+};
 
 declare global {
 	interface Window {
-		// type from '@swup/astro' is incorrect
-		swup: AstroIntegration;
+		swup?: SwupLike;
+		__blogPhotoSwipe?: BlogPhotoSwipeState;
+		dataLayer?: unknown[];
 		pagefind: {
 			search: (query: string) => Promise<{
 				results: Array<{
@@ -13,6 +36,9 @@ declare global {
 		};
 	}
 }
+
+declare function gtag(...args: unknown[]): void;
+declare let dataLayer: unknown[];
 
 interface SearchResult {
 	url: string;

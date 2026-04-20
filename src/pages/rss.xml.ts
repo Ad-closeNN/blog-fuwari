@@ -1,7 +1,6 @@
 import rss from '@astrojs/rss';
 import sanitizeHtml from 'sanitize-html';
 import MarkdownIt from 'markdown-it';
-import { getCollection } from 'astro:content';
 import { siteConfig } from '@/config';
 import { parse as htmlParser } from 'node-html-parser';
 import { getImage } from 'astro:assets';
@@ -27,7 +26,7 @@ export async function GET(context: APIContext) {
 
 	for (const post of posts) {
 		// convert markdown to html string
-		const body = markdownParser.render(post.body);
+		const body = markdownParser.render(post.body ?? '');
 		// convert html string to DOM-like structure
 		const html = htmlParser.parse(body);
 		// hold all img tags in variable images
@@ -66,7 +65,7 @@ export async function GET(context: APIContext) {
 			title: post.data.title,
 			description: post.data.description,
 			pubDate: post.data.published,
-			link: `/posts/${post.slug}/`,
+			link: `/posts/${post.id}/`,
 			// sanitize the new html string with corrected image paths
 			content: sanitizeHtml(html.toString(), {
 				allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img']),
