@@ -33,3 +33,6 @@ src/content/.obsidian
 .claude
 
 .obsidian
+.cache
+
+build.log
