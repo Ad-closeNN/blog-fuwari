@@ -30,6 +30,9 @@ interface Props {
 const { entry }: Props = Astro.props;
 const { Content, headings, remarkPluginFrontmatter } = await render(entry);
 const postSlug = entry.id;
+const lastUpdatedAt = entry.data.updated ?? entry.data.published;
+const lastUpdatedLabel = formatDateToYYYYMMDD(lastUpdatedAt);
+const lastUpdatedTimestamp = lastUpdatedAt.getTime();
 
 const jsonLd = {
 	"@context": "https://schema.org",
@@ -111,6 +114,16 @@ const customcover = entry.data.customcover;
                 </div>
             )}
 
+            <div class="onload-animation mb-4 rounded-xl border border-amber-500/20 bg-amber-500/8 px-4 py-3 text-sm text-amber-700 dark:text-amber-300">
+                <div class="flex items-start gap-2">
+                    <Icon name="material-symbols:info-outline-rounded" class="mt-0.5 shrink-0 text-lg"></Icon>
+                    <div class="leading-relaxed">
+                        本文最后更新于 <span class="font-medium">{lastUpdatedLabel}</span>，距今 <span class="font-medium" id="post-last-updated-distance">计算中...</span>。
+                        随着时间推移，文中描述可能与当前实际情况有出入，请注意甄别。
+                    </div>
+                </div>
+            </div>
+
             <!-- metadata -->
             <div class="onload-animation">
                 <PostMetadata
@@ -172,7 +185,40 @@ const customcover = entry.data.customcover;
         </a>
     </div>
     
-    <script define:vars={{ slug: postSlug }}>
+    <script define:vars={{ slug: postSlug, lastUpdatedTimestamp }}>
+        function formatUpdatedDistance(timestamp) {
+            const now = Date.now();
+            const diff = Math.max(0, now - timestamp);
+            const minute = 60 * 1000;
+            const hour = 60 * minute;
+            const day = 24 * hour;
+            const month = 30 * day;
+            const year = 365 * day;
+
+            if (diff < hour) {
+                const minutes = Math.max(1, Math.floor(diff / minute));
+                return `${minutes} 分钟前`;
+            }
+            if (diff < day) {
+                return `${Math.floor(diff / hour)} 小时前`;
+            }
+            if (diff < month) {
+                return `${Math.floor(diff / day)} 天前`;
+            }
+            if (diff < year) {
+                return `${Math.floor(diff / month)} 个月前`;
+            }
+            return `${Math.floor(diff / year)} 年前`;
+        }
+
+        function renderUpdatedDistance() {
+            const distanceElement = document.getElementById('post-last-updated-distance');
+            if (!distanceElement) {
+                return;
+            }
+            distanceElement.textContent = formatUpdatedDistance(lastUpdatedTimestamp);
+        }
+
         async function fetchTopPageViews() {
             const displayElement = document.getElementById('post-top-page-views');
             if (!displayElement || displayElement.dataset.umamiState === 'loading' || displayElement.dataset.umamiState === 'loaded') {
@@ -203,8 +249,12 @@ const customcover = entry.data.customcover;
         }
 
         if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', fetchTopPageViews);
+            document.addEventListener('DOMContentLoaded', () => {
+                renderUpdatedDistance();
+                fetchTopPageViews();
+            });
         } else {
+            renderUpdatedDistance();
             fetchTopPageViews();
         }
     </script>
