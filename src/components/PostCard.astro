@@ -40,6 +40,7 @@ const className = Astro.props.class;
 const hasCover = image !== undefined && image !== null && image !== "";
 
 const coverWidth = "28%";
+const isOutdated = entry.data.outdated;
 
 const { remarkPluginFrontmatter } = await render(entry);
 ---
@@ -67,13 +68,18 @@ const { remarkPluginFrontmatter } = await render(entry);
 
             
         <!-- word count, read time and page views https://github.com/afoim/fuwari/blob/81f22decb17ff7ee1dd480c10773f7ba8f4df296/src/components/PostCard.astro -->
-        <div class="text-sm text-black/30 dark:text-white/30 flex gap-4 transition">
+        <div class="text-sm text-black/30 dark:text-white/30 flex gap-4 transition flex-wrap items-center">
             <div>{remarkPluginFrontmatter.words} {" " + i18n(I18nKey.wordsCount)}</div>
             <div>|</div>
             <div>{remarkPluginFrontmatter.minutes} {" " + i18n(I18nKey.minutesCount)}</div>
             <div>|</div>
-            <div>
+            <div class="flex items-center gap-2">
                 <span class="text-50 text-sm font-medium" id={`page-views-${entry.id}`}>加载中...</span>
+                {isOutdated && (
+                    <span class="inline-flex items-center rounded-full border border-red-500/20 bg-red-500/8 px-2 py-0.5 text-xs font-medium text-red-700 dark:text-red-300">
+                        已失效
+                    </span>
+                )}
             </div>
         </div>
 
