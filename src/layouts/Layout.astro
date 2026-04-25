@@ -671,7 +671,12 @@ function createPhotoSwipe() {
 		showHideAnimationType: "fade",
 		showAnimationDuration: 160,
 		hideAnimationDuration: 140,
-		secondaryZoomLevel: (zoomLevel) => Math.min(2.5, zoomLevel.max),
+		secondaryZoomLevel: (zoomLevel) => {
+			const fitLevel = zoomLevel.fit
+			const forcedZoomLevel = fitLevel * 1.8
+			return Math.max(forcedZoomLevel, Math.min(3, zoomLevel.max))
+		},
+		maxZoomLevel: (zoomLevel) => Math.max(4, zoomLevel.fit * 2.5, zoomLevel.max),
 		wheelToZoom: true,
 		arrowPrev: false,
 		arrowNext: false,

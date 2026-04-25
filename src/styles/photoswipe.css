@@ -30,8 +30,12 @@
 .pswp__button--open-link .pswp__icn {
     width: 24px !important;
     height: 24px !important;
+    position: static !important;
+    display: block !important;
+    margin: auto !important;
+    transform: none !important;
 }
 
 .pswp__button--open-link .pswp__icn path {
-    fill: currentColor !important;
+    fill: white !important;
 }
