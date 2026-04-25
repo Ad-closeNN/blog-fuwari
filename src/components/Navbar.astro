@@ -24,7 +24,8 @@ let links: NavBarLink[] = navBarConfig.links.map(
     <div class="absolute h-8 left-0 right-0 -top-8 bg-[var(--card-bg)] transition"></div> <!-- used for onload animation -->
     <div class:list={[
         className,
-        "card-base !overflow-visible max-w-[var(--page-width)] h-[4.5rem] !rounded-t-none mx-auto flex items-center justify-between px-4 !bg-[var(--card-bg-transparent)] backdrop-blur-lg"]}>
+        "navbar-blur card-base relative isolate !overflow-visible max-w-[var(--page-width)] h-[4.5rem] !rounded-t-none mx-auto flex items-center justify-between px-4 !bg-white/45 dark:!bg-slate-900/35 backdrop-blur-xl backdrop-saturate-150 border-x border-b border-white/35 dark:border-white/10 shadow-[0_8px_24px_rgba(15,23,42,0.08)] dark:shadow-[0_8px_24px_rgba(2,6,23,0.22)]"]}>
+        <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 h-px bg-white/55 dark:bg-white/12"></div>
         <a href={url('/')} class="btn-plain scale-animation rounded-lg h-[3.25rem] px-5 font-bold active:scale-95">
             <div class="flex flex-row text-[var(--primary)] items-center text-md">
                 <Icon name="material-symbols:home-outline-rounded" class="text-[1.75rem] mb-1 mr-2" />
@@ -103,6 +104,18 @@ function loadButtonScript() {
 
 loadButtonScript();
 </script>
+
+<style>
+	.navbar-blur {
+		background-color: color-mix(in oklab, var(--card-bg) 58%, transparent);
+		backdrop-filter: blur(18px) saturate(160%);
+		-webkit-backdrop-filter: blur(18px) saturate(160%);
+	}
+
+	:global(.dark) .navbar-blur {
+		background-color: color-mix(in oklab, var(--card-bg) 44%, transparent);
+	}
+</style>
 
 {import.meta.env.PROD && <script is:inline define:vars={{scriptUrl: url('/pagefind/pagefind.js')}}>
 async function loadPagefind() {
