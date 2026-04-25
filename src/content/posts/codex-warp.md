@@ -7,6 +7,7 @@ showcover: false
 customcover: /public/pic/codex-warp-banner.png
 tags: ["Codex", "Warp", "注册机", "AI"]
 category: '教程'
+outdated: true
 ---
 # 前言
 

@@ -15,6 +15,7 @@ const postsCollection = defineCollection({
         category: z.string().optional().nullable().default(""),
         showcover: z.boolean().optional().default(true),
         customcover: z.string().optional().default(""),
+        outdated: z.boolean().optional().default(false),
         lang: z.string().optional().default(""),
         prevTitle: z.string().default(""),
         prevSlug: z.string().default(""),

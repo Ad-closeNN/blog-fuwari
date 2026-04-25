@@ -57,6 +57,7 @@ const showcover = entry.data.showcover;
 
 // 获取自定义的头图（Markdown 内部）
 const customcover = entry.data.customcover;
+const isOutdated = entry.data.outdated;
 
 ---
 <MainGridLayout banner={entry.data.image} title={entry.data.title} description={entry.data.description} lang={entry.data.lang} setOGTypeArticle={true} headings={headings}>
@@ -114,12 +115,26 @@ const customcover = entry.data.customcover;
                 </div>
             )}
 
-            <div class="onload-animation mb-4 rounded-xl border border-amber-500/20 bg-amber-500/8 px-4 py-3 text-sm text-amber-700 dark:text-amber-300">
+            <div class:list={[
+                "onload-animation mb-4 rounded-xl px-4 py-3 text-sm",
+                isOutdated
+                    ? "border border-red-500/20 bg-red-500/8 text-red-700 dark:text-red-300"
+                    : "border border-amber-500/20 bg-amber-500/8 text-amber-700 dark:text-amber-300",
+            ]}>
                 <div class="flex items-start gap-2">
-                    <Icon name="material-symbols:info-outline-rounded" class="mt-0.5 shrink-0 text-lg"></Icon>
+                    <Icon
+                        name={isOutdated ? "material-symbols:warning-outline-rounded" : "material-symbols:info-outline-rounded"}
+                        class="mt-0.5 shrink-0 text-lg"
+                    ></Icon>
                     <div class="leading-relaxed">
-                        本文最后更新于 <span class="font-medium">{lastUpdatedLabel}</span>，距今 <span class="font-medium" id="post-last-updated-distance">计算中...</span>。
-                        随着时间推移，文中描述可能与当前实际情况有出入，请注意甄别。
+                        {isOutdated ? (
+                            <>本文内容部分或全部可能已失效，请谨慎参考。</>
+                        ) : (
+                            <>
+                                本文最后更新于 <span class="font-medium">{lastUpdatedLabel}</span>，距今 <span class="font-medium" id="post-last-updated-distance">计算中...</span>。
+                                随着时间推移，文中描述可能与当前实际情况有出入，请注意甄别。
+                            </>
+                        )}
                     </div>
                 </div>
             </div>
