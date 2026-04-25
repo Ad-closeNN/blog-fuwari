@@ -1,6 +1,7 @@
 ---
-title: "[置顶] 新域名！"
-published: 2099-12-31
+title: "新域名！"
+published: 2025-08-06
+pinned: true
 tags: ["域名"]
 description: 获得了一个新域名 *这使我充满了决心
 image: /public/pic/domain-inlist-adclosenn.top.png

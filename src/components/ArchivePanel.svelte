@@ -21,6 +21,7 @@ interface Post {
 		tags: string[];
 		category?: string | null;
 		published: Date;
+		pinned?: boolean;
 	};
 }
 
@@ -131,9 +132,14 @@ onMount(async () => {
                         <div
                                 class="w-[70%] md:max-w-[65%] md:w-[65%] text-left font-bold
                      group-hover:translate-x-1 transition-all group-hover:text-[var(--primary)]
-                     text-75 pr-8 whitespace-nowrap overflow-ellipsis overflow-hidden"
+                     text-75 pr-8 whitespace-nowrap overflow-ellipsis overflow-hidden flex items-center gap-2"
                         >
-                            {post.data.title}
+                            {#if post.data.pinned}
+                                <span class="inline-flex shrink-0 items-center gap-1 rounded-full border border-[var(--primary)]/20 bg-[var(--primary)]/10 px-2 py-0.5 text-[11px] font-semibold text-[var(--primary)] leading-none">
+                                    置顶
+                                </span>
+                            {/if}
+                            <span class="overflow-hidden text-ellipsis whitespace-nowrap">{post.data.title}</span>
                         </div>
 
                         <!-- tag list -->
