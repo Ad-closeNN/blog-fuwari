@@ -1,5 +1,6 @@
 ---
 import ConfigCarrier from "@components/ConfigCarrier.astro";
+import { Icon } from "astro-icon/components";
 import { profileConfig, siteConfig, umamiConfig } from "@/config";
 import {
 	AUTO_MODE,
@@ -273,6 +274,29 @@ const bannerOffset =
 		  data-overlayscrollbars-initialize
 	>
 		<ConfigCarrier></ConfigCarrier>
+		<div id="dns-warning-banner" class="hidden sticky top-0 z-[100] w-full bg-amber-50/90 dark:bg-amber-950/80 backdrop-blur-md border-b border-amber-200/60 dark:border-amber-700/40 text-amber-900 dark:text-amber-100 px-4 py-3 text-sm text-center">
+				<div class="select-none flex items-center justify-center gap-2 max-w-[var(--page-width)] mx-auto">
+					<Icon name="material-symbols:info-outline-rounded" class="pointer-events-none shrink-0 text-lg" aria-hidden="true"></Icon>
+					<span>本站近期遭到反诈部门 DNS 污染，可能无法正常访问。如有需要可开启代理或使用国外 DNS 服务器。</span>
+					<button id="dns-warning-close" class="select-auto shrink-0 btn-plain scale-animation rounded-lg w-7 h-7 flex items-center justify-center text-amber-600 dark:text-amber-400 hover:text-amber-800 dark:hover:text-amber-200 active:scale-90" aria-label="Close notice">
+						<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+					</button>
+				</div>
+			</div>
+			<script>
+			(function() {
+				var banner = document.getElementById('dns-warning-banner');
+				var closeBtn = document.getElementById('dns-warning-close');
+				if (!banner || !closeBtn) return;
+				if (!localStorage.getItem('dns-warning-dismissed')) {
+					banner.classList.remove('hidden');
+				}
+				closeBtn.addEventListener('click', function() {
+					banner.classList.add('hidden');
+					localStorage.setItem('dns-warning-dismissed', '1');
+				});
+			})();
+		</script>
 		<slot />
 
 		<!-- increase the page height during page transition to prevent the scrolling animation from jumping -->

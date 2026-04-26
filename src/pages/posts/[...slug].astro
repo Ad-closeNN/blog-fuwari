@@ -238,18 +238,18 @@ const isOutdated = entry.data.outdated;
 
             if (diff < hour) {
                 const minutes = Math.max(1, Math.floor(diff / minute));
-                return `${minutes} 分钟前`;
+                return `${minutes} 分钟`;
             }
             if (diff < day) {
-                return `${Math.floor(diff / hour)} 小时前`;
+                return `${Math.floor(diff / hour)} 小时`;
             }
             if (diff < month) {
-                return `${Math.floor(diff / day)} 天前`;
+                return `${Math.floor(diff / day)} 天`;
             }
             if (diff < year) {
-                return `${Math.floor(diff / month)} 个月前`;
+                return `${Math.floor(diff / month)} 个月`;
             }
-            return `${Math.floor(diff / year)} 年前`;
+            return `${Math.floor(diff / year)} 年`;
         }
 
         function renderUpdatedDistance() {
