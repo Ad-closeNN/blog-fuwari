@@ -7,8 +7,9 @@ image: /public/pic/giscus-preview.png
 customcover: /public/pic/giscus-no-content.png
 showcover: false
 category: 教程
+aiSummary: "本文介绍了如何在博客��接入 Giscus 评论区，包含在博客仓库或专用仓库存放、获取并粘贴 JS 代码、将评论区嵌入特定页面与页面模板中的具体实现，以及 origin 配置与简单的反垃圾思路。"
+aiSummaryModel: "gpt-5-nano"
 ---
-
 # 前言
 如果你的静态博客没有评论区，又不想自己搭建一个评论系统，那么 Giscus 就是一个不错的选择。  
 接下来就手把手教你添加这个[插](https://giscus.app/client.js)件并配置它。

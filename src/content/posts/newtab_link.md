@@ -7,8 +7,9 @@ image: /public/pic/newtab-link-npm-plugin-info-1.png
 customcover: /public/pic/newtab-link-npm-plugin-info-2.png
 showcover: false
 category: 教程
+aiSummary: "本文介绍了如何使用 rehype-external-links 插件，在 Astro 项目中将文章内外部链接统一设置为在新标签页打开，包含安装与在配置中的具体实现要点与示例。"
+aiSummaryModel: "gpt-5-nano"
 ---
-
 # 前言
 看标题可能不明白在说什么。但是如果我放出这两个链接让你点，你应该知道是什么意思。
 

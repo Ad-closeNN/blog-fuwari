@@ -8,6 +8,8 @@ customcover: /public/pic/codex-warp-banner.png
 tags: ["Codex", "Warp", "注册机", "AI"]
 category: '教程'
 outdated: true
+aiSummary: "本文介绍了通过注册机注册 OpenAI 免费模型的风险、被封禁现状，以及利用 Cloudflare Warp 提高注册成功率的做法与具体使用方法，以及相关注意事项与测试IP示例。"
+aiSummaryModel: "gpt-5-nano"
 ---
 # 前言
 

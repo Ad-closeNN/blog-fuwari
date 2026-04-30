@@ -7,8 +7,9 @@ image: /public/pic/discord-bot-cln-bot-profile.png
 customcover: /public/pic/discord-bot-cln-bot-profile-wide.png
 showcover: false
 category: 教程
+aiSummary: "本文介绍了如何在 Cloudflare Workers 上实现 Discord 与 Telegram 机器人，包括创建机器人、获取必要信息、配置秘密、上传并部署 Worker、设置端点 URL 以及注册命令，强调安全保存密钥并可直接复制粘贴配置，实现快速部署与未来扩展。"
+aiSummaryModel: "gpt-5-nano"
 ---
-
 :::tip[提示]
 ~~赛博菩萨~~ Cloudflare Workers 不仅能运行 Discord 机器人，还能运行 Telegram 机器人。
 :::

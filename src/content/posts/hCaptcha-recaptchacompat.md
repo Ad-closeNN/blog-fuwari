@@ -5,8 +5,9 @@ tags: ["网站", "验证"]
 description: 一次出3个 hCaptcha？瞧瞧你干的好事！
 image: /public/pic/hCaptcha-localhost-errkey.png
 category: 记录
+aiSummary: "本文介绍了在同时使用 Google reCaptcha 与 hCaptcha 时，hCaptcha 会尝试兼容导致界面混乱的情况，并给出通过将脚本 URL 加上 recaptchacompat=off 关闭兼容化的简单解决方法。"
+aiSummaryModel: "gpt-5-nano"
 ---
-
 # 强兼 Google reCaptcha 失败？
 如你所见，这是 hCaptcha 无法验证的样子。当然，如果你在一个页面同时放上 [Google reCaptcha](https://developers.google.com/recaptcha?hl=zh-cn)（我的是 v2）和 [hCaptcha](https://www.hcaptcha.com)，那么聪明的 hCaptcha 会 [开始兼容它](https://docs.hcaptcha.com/configuration) 。
 ![hcaptcha-recaptchacompat-origin](/public/pic/hcaptcha-recaptchacompat-origin.png)

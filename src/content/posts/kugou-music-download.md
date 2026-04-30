@@ -7,8 +7,9 @@ customcover: /public/pic/kugou-music-nodejs-api-self-hosting-menu.png
 showcover: false
 tags: ["酷狗音乐", "狠活"]
 category: '教程'
+aiSummary: "本文介绍了通过开源酷狗API解析音乐URL的后端搭建、登录领取概念版VIP及通过FileHash下载高音质音乐的关键步骤与注意事项。"
+aiSummaryModel: "gpt-5-nano"
 ---
-
 # 前言
 :::caution[警告]
 1. 本教程仅供学习交流，下载的音乐文件请于24小时内删除。  

@@ -6,8 +6,9 @@ description: 在 PCL 启动器上面询问大模型？当然可以~
 image: /public/pic/pcl-gemini-mixed.png
 category: 教程
 draft: false
+aiSummary: "本文介绍了多 API Key 模式的原理、适用场景及如何在 Google Gemini API 的速率限制下通过多钥匙并用来提升请求量。"
+aiSummaryModel: "gpt-5-nano"
 ---
-
 <!-- 小破站防盗链？Referrer 为 localhost 的时候 403 Forbidden -->
 <meta name="referrer" content="no-referrer">
 

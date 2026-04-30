@@ -8,8 +8,9 @@ showcover: false
 customcover: /public/pic/chrome-ext-force-custom-font.png
 category: 教程
 draft: false
+aiSummary: "本文介绍了 Chrome 已停止对 Manifest V2 的支持及其时间线，给出通过开启 flags、添加启动参数或切换浏览器（如 Firefox）等临时解决方案与注意事项。"
+aiSummaryModel: "gpt-5-nano"
 ---
-
 # 前言
 
 :::tip[提示]

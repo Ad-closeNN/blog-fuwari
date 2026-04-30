@@ -11,6 +11,9 @@
     "astro": "astro",
     "type-check": "tsc --noEmit --isolatedDeclarations",
     "new-post": "node scripts/new-post.js",
+    "summary": "node scripts/summary.js",
+    "summary:all": "node scripts/summary.js --all",
+    "summary:force": "node scripts/summary.js --all --force",
     "format": "biome format --write ./src",
     "lint": "biome check --write ./src",
     "preinstall": "npx only-allow pnpm"

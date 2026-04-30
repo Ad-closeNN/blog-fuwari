@@ -7,8 +7,9 @@ image: "/public/pic/custom-frontmatter-cover.svg"
 category: 教程
 showcover: false
 customcover: /public/pic/custom-frontmatter-customcover.svg
+aiSummary: "本文介绍了在 Astro/Fuwari 博客中，通过在 Markdown 顶部自定义前置参数（如 draft、image、customcover、showcover 等）来灵活控制文章头图的显示与替换，并给出在前端模板中按条件渲染头图的实现方法、示例代码及配置要点，帮助提升博客主页与文章内页头图的可控性与个性化展示。"
+aiSummaryModel: "gpt-5-nano"
 ---
-
 # 前言
 如果你用的博客是 [Astro](https://astro.build) 或以它为架构的 [Fuwari](https://github.com/saicaca/fuwari)，那么这篇文章或许适合。  
 

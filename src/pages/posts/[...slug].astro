@@ -34,6 +34,61 @@ const lastUpdatedAt = entry.data.updated ?? entry.data.published;
 const lastUpdatedLabel = formatDateToYYYYMMDD(lastUpdatedAt);
 const lastUpdatedTimestamp = lastUpdatedAt.getTime();
 
+const postSources = import.meta.glob("../../content/posts/**/*.{md,mdx}", {
+	query: "?raw",
+	import: "default",
+	eager: true,
+}) as Record<string, string>;
+const normalizedPostSources = Object.fromEntries(
+	Object.entries(postSources).map(([key, source]) => [key.toLowerCase(), source]),
+);
+
+function parseAiSummaryValue(value: string) {
+	const trimmed = value.trim();
+	if (!trimmed) return "";
+	if (trimmed.startsWith('"')) {
+		try {
+			return JSON.parse(trimmed);
+		} catch {
+			return trimmed;
+		}
+	}
+	return trimmed;
+}
+
+function extractFrontmatterValue(frontmatter: string, key: string) {
+	const valueMatch = frontmatter.match(new RegExp(`^${key}:[ \\t]*(.*)$`, "m"));
+	if (!valueMatch) return "";
+
+	const inlineValue = valueMatch[1].trim();
+	if (inlineValue !== ">" && inlineValue !== "|") {
+		return parseAiSummaryValue(inlineValue);
+	}
+
+	const afterValue = frontmatter.slice(valueMatch.index! + valueMatch[0].length);
+	const lines = afterValue.split(/\r?\n/);
+	const blockLines = [];
+	for (const line of lines) {
+		if (!line.startsWith(" ") && line.trim()) break;
+		blockLines.push(line.replace(/^ {1,2}/, ""));
+	}
+	return blockLines.join("\n").trim();
+}
+
+function getAiSummaryMeta(entryId: string) {
+	const source =
+		normalizedPostSources[`../../content/posts/${entryId}`.toLowerCase()] ??
+		normalizedPostSources[`../../content/posts/${entryId}.md`.toLowerCase()] ??
+		normalizedPostSources[`../../content/posts/${entryId}.mdx`.toLowerCase()];
+	const frontmatter = source?.match(/^---\r?\n([\s\S]*?)\r?\n---/)?.[1];
+	return {
+		summary: frontmatter ? extractFrontmatterValue(frontmatter, "aiSummary") : "",
+		model: frontmatter ? extractFrontmatterValue(frontmatter, "aiSummaryModel") : "",
+	};
+}
+
+const aiSummaryMeta = getAiSummaryMeta(entry.id);
+
 const jsonLd = {
 	"@context": "https://schema.org",
 	"@type": "BlogPosting",
@@ -176,6 +231,22 @@ const isOutdated = entry.data.outdated;
                 ></PostMetadata>
                 {!entry.data.image && <div class="border-[var(--line-divider)] border-dashed border-b-[1px] mb-5"></div>}
             </div>
+
+            {aiSummaryMeta.summary && (
+                <div class="mb-4 rounded-xl p-4 bg-gradient-to-r from-violet-500/10 to-indigo-500/10 dark:from-violet-500/15 dark:to-indigo-500/15 border border-violet-500/20 onload-animation">
+                    <div class="flex items-start gap-3">
+                        <div class="shrink-0 w-8 h-8 rounded-lg bg-violet-500/20 dark:bg-violet-500/30 flex items-center justify-center">
+                            <Icon name="material-symbols:info-outline-rounded" class="text-violet-600 dark:text-violet-400 text-lg"></Icon>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="text-sm font-medium text-violet-700 dark:text-violet-300 mb-1 select-none pointer-events-none">
+                                AI 摘要{aiSummaryMeta.model && <span class="text-violet-600/70 dark:text-violet-300/70"> · {aiSummaryMeta.model}</span>}
+                            </div>
+                            <div class="text-sm text-black/70 dark:text-white/70 leading-relaxed">{aiSummaryMeta.summary}</div>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             <!-- always show cover as long as it has one -->
             <!-- 使用自制 showcover 控制器控制头图的出现 -->

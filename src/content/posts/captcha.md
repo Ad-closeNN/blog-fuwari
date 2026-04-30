@@ -8,6 +8,8 @@ category: 杂项
 draft: false
 showcover: false
 customcover: /public/pic/cloudflare-turnstile-verify-error.png
+aiSummary: "本文介绍了多种验证码实现与集成要点，涵盖 Google reCaptcha、Cloudflare Turnstile、hCaptcha 及 Arkose Labs 的使用场景、 key 配置与前端嵌入方式，帮助开发者快速了解并对比不同方案的适用性与实现流程。"
+aiSummaryModel: "gpt-5-nano"
 ---
 <head>
     <!-- Google reCaptcha v2-->
