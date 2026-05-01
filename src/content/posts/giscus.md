@@ -7,7 +7,7 @@ image: /public/pic/giscus-preview.png
 customcover: /public/pic/giscus-no-content.png
 showcover: false
 category: 教程
-aiSummary: "本文介绍了如何在博客��接入 Giscus 评论区，包含在博客仓库或专用仓库存放、获取并粘贴 JS 代码、将评论区嵌入特定页面与页面模板中的具体实现，以及 origin 配置与简单的反垃圾思路。"
+aiSummary: "本文介绍了如何在博客中接入 Giscus 评论区，包含在博客仓库或专用仓库存放、获取并粘贴 JS 代码、将评论区嵌入特定页面与页面模板中的具体实现，以及 origin 配置与简单的反垃圾思路。"
 aiSummaryModel: "gpt-5-nano"
 ---
 # 前言
