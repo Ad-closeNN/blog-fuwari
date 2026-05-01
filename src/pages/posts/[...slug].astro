@@ -46,9 +46,9 @@ const normalizedPostSources = Object.fromEntries(
 	]),
 );
 
-function getPostSourcePath(entryId: string) {
+function getPostSourceKey(entryId: string) {
 	const normalizedEntryPath = `../../content/posts/${entryId}`.toLowerCase();
-	const sourceKey = Object.keys(postSources).find((key) => {
+	return Object.keys(postSources).find((key) => {
 		const normalizedKey = key.toLowerCase();
 		return (
 			normalizedKey === normalizedEntryPath ||
@@ -56,17 +56,24 @@ function getPostSourcePath(entryId: string) {
 			normalizedKey === `${normalizedEntryPath}.mdx`
 		);
 	});
+}
 
+function getPostSourcePath(sourceKey: string | undefined) {
 	return sourceKey?.replace("../../content/posts/", "src/content/posts/");
 }
 
 function getGitHubPostSourceUrl(repo: string | undefined, sourcePath: string | undefined) {
 	if (!repo || !sourcePath) return "";
 
-	const repoUrl = repo.includes("://") ? repo : `https://github.com/${repo}`;
-	const normalizedRepo = repoUrl.replace(/\.git$/, "").replace(/\/+$/, "");
+	const normalizedRepo = repo.replace(/\.git$/, "").replace(/\/+$/, "");
+	const repoPath = normalizedRepo.includes("://")
+		? new URL(normalizedRepo).pathname.replace(/^\/+|\/+$/g, "")
+		: normalizedRepo.replace(/^\/+|\/+$/g, "");
+	const [owner, repository] = repoPath.split("/");
+	if (!owner || !repository) return "";
+
 	const encodedSourcePath = sourcePath.split("/").map(encodeURIComponent).join("/");
-	return `${normalizedRepo}/blob/main/${encodedSourcePath}?plain=1`;
+	return `https://raw.githubusercontent.com/${encodeURIComponent(owner)}/${encodeURIComponent(repository)}/refs/heads/main/${encodedSourcePath}`;
 }
 
 function parseAiSummaryValue(value: string) {
@@ -120,10 +127,34 @@ function getAiSummaryMeta(entryId: string) {
 }
 
 const aiSummaryMeta = getAiSummaryMeta(entry.id);
-const postSourceUrl = getGitHubPostSourceUrl(
-	siteConfig.githubRepo,
-	getPostSourcePath(entry.id),
-);
+const postSourceKey = getPostSourceKey(entry.id);
+const postSourcePath = getPostSourcePath(postSourceKey);
+const postSourceUrl = getGitHubPostSourceUrl(siteConfig.githubRepo, postSourcePath);
+const copyPageText = postSourceKey ? postSources[postSourceKey] : "";
+const aiPrompt = `Read from ${postSourceUrl} so I can ask questions about it.`;
+const encodedAiPrompt = encodeURIComponent(aiPrompt);
+const copyPageAiLinks = [
+	{
+		label: "ChatGPT",
+		icon: "gpt",
+		href: `https://chatgpt.com/?q=${encodedAiPrompt}`,
+	},
+	{
+		label: "Gemini",
+		icon: "gemini",
+		href: `https://gemini.google.com/app?q=${encodedAiPrompt}`,
+	},
+	{
+		label: "Claude",
+		icon: "claude",
+		href: `https://claude.ai/new?q=${encodedAiPrompt}`,
+	},
+	{
+		label: "Grok",
+		icon: "grok",
+		href: `https://grok.com/?q=${encodedAiPrompt}`,
+	},
+];
 
 const jsonLd = {
 	"@context": "https://schema.org",
@@ -182,17 +213,59 @@ const isOutdated = entry.data.outdated;
                 </div>
                 <div class="flex items-center justify-end gap-2 text-black/40 dark:text-white/40 md:shrink-0">
                     {postSourceUrl && (
-                        <a
-                            href={postSourceUrl}
-                            aria-label="查看文章源代码"
-                            title="查看文章源代码"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            class="btn-card flex h-9 items-center gap-2 rounded-xl px-3 font-medium active:scale-95"
-                        >
-                            <Icon is:inline name="fa6-brands:github" class="text-[1rem] text-[var(--primary)]"></Icon>
-                            <span class="hidden text-sm text-black/75 dark:text-white/75 sm:inline">查看源代码</span>
-                        </a>
+                        <div id="copy-page-menu" class="relative inline-flex shrink-0 select-none rounded-xl border border-black/15 dark:border-white/15">
+                            <button id="copy-page-copy" class="btn-card flex h-9 items-center gap-2 rounded-l-xl rounded-r-none px-3 font-medium" type="button">
+                                <Icon is:inline name="material-symbols:content-copy-outline-rounded" class="text-[1.05rem] text-[var(--primary)]"></Icon>
+                                <span id="copy-page-copy-label" class="text-sm text-black/75 dark:text-white/75">复制页面</span>
+                            </button>
+                            <div class="h-9 w-px bg-black/10 dark:bg-white/10"></div>
+                            <button id="copy-page-switch" class="btn-card flex h-9 w-9 items-center justify-center rounded-l-none rounded-r-xl active:scale-95" type="button" aria-label="打开 AI 菜单" aria-haspopup="menu" aria-expanded="false">
+                                <Icon is:inline name="material-symbols:keyboard-arrow-down-rounded" class="copy-page-arrow text-[1.2rem] text-[var(--primary)] transition"></Icon>
+                            </button>
+                            <div id="copy-page-panel" class="pointer-events-none absolute right-0 top-11 z-50 w-56 -translate-y-1 select-none rounded-2xl border border-black/10 bg-[var(--float-panel-bg)] p-2 opacity-0 shadow-xl transition-all duration-150 ease-out dark:border-white/10 dark:shadow-none" role="menu">
+                                {copyPageAiLinks.map((link) => (
+                                    <a
+                                        href={link.href}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="flex w-full items-center justify-between gap-3 rounded-xl px-3 py-2 text-sm text-black/75 transition hover:bg-[var(--btn-plain-bg-hover)] active:bg-[var(--btn-plain-bg-active)] dark:text-white/75"
+                                        role="menuitem"
+                                    >
+                                        <span class="flex items-center gap-2">
+                                            {link.icon === "gpt" && (
+                                                <svg aria-hidden="true" class="h-4 w-4 text-[var(--primary)]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
+                                                        <path d="M11.745 14.85L6.905 12V7c0-2.21 1.824-4 4.076-4c1.397 0 2.63.69 3.365 1.741" />
+                                                        <path d="M9.6 19.18A4.1 4.1 0 0 0 13.02 21c2.25 0 4.076-1.79 4.076-4v-5L12.16 9.097" />
+                                                        <path d="M9.452 13.5V7.67l4.412-2.5c1.95-1.105 4.443-.45 5.569 1.463a3.93 3.93 0 0 1 .076 3.866" />
+                                                        <path d="M4.49 13.5a3.93 3.93 0 0 0 .075 3.866c1.126 1.913 3.62 2.568 5.57 1.464l4.412-2.5l.096-5.596" />
+                                                        <path d="M17.096 17.63a4.09 4.09 0 0 0 3.357-1.996c1.126-1.913.458-4.36-1.492-5.464l-4.413-2.5l-5.059 2.755" />
+                                                        <path d="M6.905 6.37a4.09 4.09 0 0 0-3.358 1.996c-1.126 1.914-.458 4.36 1.492 5.464l4.413 2.5l5.048-2.75" />
+                                                    </g>
+                                                </svg>
+                                            )}
+                                            {link.icon === "gemini" && (
+                                                <svg aria-hidden="true" class="h-4 w-4 text-[var(--primary)]" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                    <path fill="currentColor" d="M21.996 12.018a10.65 10.65 0 0 0-9.98 9.98h-.04c-.32-5.364-4.613-9.656-9.976-9.98v-.04c5.363-.32 9.656-4.613 9.98-9.976h.04c.324 5.363 4.617 9.656 9.98 9.98v.036z" />
+                                                </svg>
+                                            )}
+                                            {link.icon === "claude" && (
+                                                <svg aria-hidden="true" class="h-4 w-4 text-[var(--primary)]" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                                                    <path fill="currentColor" d="m3.127 10.604l3.135-1.76l.053-.153l-.053-.085H6.11l-.525-.032l-1.791-.048l-1.554-.065l-1.505-.08l-.38-.081L0 7.832l.036-.234l.32-.214l.455.04l1.009.069l1.513.105l1.097.064l1.626.17h.259l.036-.105l-.089-.065l-.068-.064l-1.566-1.062l-1.695-1.121l-.887-.646l-.48-.327l-.243-.306l-.104-.67l.435-.48l.585.04l.15.04l.593.456l1.267.981l1.654 1.218l.242.202l.097-.068l.012-.049l-.109-.181l-.9-1.626l-.96-1.655l-.428-.686l-.113-.411a2 2 0 0 1-.068-.484l.496-.674L4.446 0l.662.089l.279.242l.411.94l.666 1.48l1.033 2.014l.302.597l.162.553l.06.17h.105v-.097l.085-1.134l.157-1.392l.154-1.792l.052-.504l.25-.605l.497-.327l.387.186l.319.456l-.045.294l-.19 1.23l-.37 1.93l-.243 1.29h.142l.161-.16l.654-.868l1.097-1.372l.484-.545l.565-.601l.363-.287h.686l.505.751l-.226.775l-.707.895l-.585.759l-.839 1.13l-.524.904l.048.072l.125-.012l1.897-.403l1.024-.186l1.223-.21l.553.258l.06.263l-.218.536l-1.307.323l-1.533.307l-2.284.54l-.028.02l.032.04l1.029.098l.44.024h1.077l2.005.15l.525.346l.315.424l-.053.323l-.807.411l-3.631-.863l-.872-.218h-.12v.073l.726.71l1.331 1.202l1.667 1.55l.084.383l-.214.302l-.226-.032l-1.464-1.101l-.565-.497l-1.28-1.077h-.084v.113l.295.432l1.557 2.34l.08.718l-.112.234l-.404.141l-.444-.08l-.911-1.28l-.94-1.44l-.759-1.291l-.093.053l-.448 4.821l-.21.246l-.484.186l-.403-.307l-.214-.496l.214-.98l.258-1.28l.21-1.016l.19-1.263l.112-.42l-.008-.028l-.092.012l-.953 1.307l-1.448 1.957l-1.146 1.227l-.274.109l-.477-.247l.045-.44l.266-.39l1.586-2.018l.956-1.25l.617-.723l-.004-.105h-.036l-4.212 2.736l-.75.096l-.324-.302l.04-.496l.154-.162l1.267-.871z" />
+                                                </svg>
+                                            )}
+                                            {link.icon === "grok" && (
+                                                <svg aria-hidden="true" class="h-4 w-4 text-[var(--primary)]" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                    <path fill="currentColor" d="M4.94 4.96a9.97 9.97 0 0 1 10.835-2.182a8.7 8.7 0 0 1 2.033 1.11l-3.006 1.39C12.003 4.101 8.797 4.9 6.84 6.86c-2.564 2.565-3.146 6.954-.36 9.922l.278.284L.124 23c1.875-1.973 3.771-4.427 2.636-7.19c-1.52-3.698-.635-8.03 2.18-10.85M23.9.1c-2.264 3.174-3.184 5.389-2.197 9.64l-.007-.007c.753 3.201-.052 6.75-2.653 9.355c-3.279 3.285-8.526 4.016-12.847 1.06L9.21 18.75c2.758 1.084 5.775.607 7.943-1.564c2.169-2.17 2.655-5.332 1.566-7.963c-.207-.5-.828-.625-1.263-.304L8.59 15.472l12.7-12.77v.01z" />
+                                                </svg>
+                                            )}
+                                            <span>在 {link.label} 中打开</span>
+                                        </span>
+                                        <Icon is:inline name="material-symbols:open-in-new-rounded" class="text-[0.95rem] text-[var(--primary)]"></Icon>
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
                     )}
                     <a
                         href={entry.data.nextSlug ? getPostUrlBySlug(entry.data.nextSlug) : "#"}
@@ -346,7 +419,7 @@ const isOutdated = entry.data.outdated;
         </a>
     </div>
     
-    <script define:vars={{ slug: postSlug, lastUpdatedTimestamp }}>
+    <script define:vars={{ slug: postSlug, lastUpdatedTimestamp, copyPageText }}>
         function formatUpdatedDistance(timestamp) {
             const now = Date.now();
             const diff = Math.max(0, now - timestamp);
@@ -409,15 +482,83 @@ const isOutdated = entry.data.outdated;
             }
         }
 
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', () => {
-                renderUpdatedDistance();
-                fetchTopPageViews();
+        function setupCopyPageMenu() {
+            const menu = document.getElementById('copy-page-menu');
+            const switchButton = document.getElementById('copy-page-switch');
+            const panel = document.getElementById('copy-page-panel');
+            const arrow = menu?.querySelector('.copy-page-arrow');
+            const copyButton = document.getElementById('copy-page-copy');
+            const copyLabel = document.getElementById('copy-page-copy-label');
+            if (!menu || !switchButton || !panel || !copyButton || !copyLabel || switchButton.dataset.copyPageReady) {
+                return;
+            }
+
+            function setMenuOpen(opening) {
+                panel.classList.toggle('pointer-events-none', !opening);
+                panel.classList.toggle('opacity-0', !opening);
+                panel.classList.toggle('-translate-y-1', !opening);
+                panel.classList.toggle('opacity-100', opening);
+                panel.classList.toggle('translate-y-0', opening);
+                arrow?.classList.toggle('rotate-180', opening);
+                switchButton.setAttribute('aria-expanded', String(opening));
+            }
+
+            function closeMenu() {
+                setMenuOpen(false);
+            }
+
+            switchButton.dataset.copyPageReady = 'true';
+            switchButton.addEventListener('click', () => {
+                setMenuOpen(panel.classList.contains('opacity-0'));
             });
-        } else {
+
+            copyButton.addEventListener('click', async () => {
+                try {
+                    await navigator.clipboard.writeText(copyPageText);
+                    copyLabel.textContent = '已复制';
+                    closeMenu();
+                    window.setTimeout(() => {
+                        copyLabel.textContent = '复制页面';
+                    }, 1500);
+                } catch (error) {
+                    console.error('Error copying page:', error);
+                    copyLabel.textContent = '复制失败';
+                    window.setTimeout(() => {
+                        copyLabel.textContent = '复制页面';
+                    }, 1500);
+                }
+            });
+
+            if (!document.body.dataset.copyPageOutsideReady) {
+                document.body.dataset.copyPageOutsideReady = 'true';
+                document.addEventListener('click', (event) => {
+                    const currentMenu = document.getElementById('copy-page-menu');
+                    const currentSwitch = document.getElementById('copy-page-switch');
+                    const currentPanel = document.getElementById('copy-page-panel');
+                    const currentArrow = currentMenu?.querySelector('.copy-page-arrow');
+                    if (!(event.target instanceof Node) || currentMenu?.contains(event.target)) {
+                        return;
+                    }
+                    currentPanel?.classList.add('pointer-events-none', 'opacity-0', '-translate-y-1');
+                    currentPanel?.classList.remove('opacity-100', 'translate-y-0');
+                    currentArrow?.classList.remove('rotate-180');
+                    currentSwitch?.setAttribute('aria-expanded', 'false');
+                });
+            }
+        }
+
+        function initPostPage() {
             renderUpdatedDistance();
             fetchTopPageViews();
+            setupCopyPageMenu();
         }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initPostPage);
+        } else {
+            initPostPage();
+        }
+        document.addEventListener('astro:page-load', initPostPage);
     </script>
 
     <!-- 评论区 -->
