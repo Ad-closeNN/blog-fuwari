@@ -559,6 +559,29 @@ const setup = () => {
 	})
 	window.swup.hooks.on('content:replace', initCustomScrollbar)
 	window.swup.hooks.on('visit:start', (visit: {to: {url: string}}) => {
+		// 切页前断开 observer、关闭并清理 panel
+		// @ts-ignore
+		if (document.body.__copyPageObserver) {
+			// @ts-ignore
+			document.body.__copyPageObserver.disconnect();
+			// @ts-ignore
+			document.body.__copyPageObserver = undefined;
+		}
+		const copyPagePanel = document.getElementById('copy-page-panel');
+		if (copyPagePanel) {
+			copyPagePanel.classList.add('pointer-events-none', 'opacity-0', '-translate-y-1');
+			copyPagePanel.classList.remove('opacity-100', 'translate-y-0');
+			// 如果 panel 已被移到 body（portal 模式），直接移除
+			if (copyPagePanel.parentElement === document.body) {
+				copyPagePanel.remove();
+			}
+		}
+		const copyPageMenu = document.getElementById('copy-page-menu');
+		const copyPageArrow = copyPageMenu?.querySelector('.copy-page-arrow');
+		const copyPageSwitch = document.getElementById('copy-page-switch');
+		if (copyPageArrow) copyPageArrow.classList.remove('rotate-180');
+		if (copyPageSwitch) copyPageSwitch.setAttribute('aria-expanded', 'false');
+
 		// change banner height immediately when a link is clicked
 		const bodyElement = document.querySelector('body')
 		if (pathsEqual(visit.to.url, url('/'))) {

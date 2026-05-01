@@ -222,7 +222,7 @@ const isOutdated = entry.data.outdated;
                             <button id="copy-page-switch" class="btn-card flex h-9 w-9 items-center justify-center rounded-l-none rounded-r-xl active:scale-95" type="button" aria-label="打开 AI 菜单" aria-haspopup="menu" aria-expanded="false">
                                 <Icon is:inline name="material-symbols:keyboard-arrow-down-rounded" class="copy-page-arrow text-[1.2rem] text-[var(--primary)] transition"></Icon>
                             </button>
-                            <div id="copy-page-panel" class="pointer-events-none absolute right-0 top-11 z-50 w-56 -translate-y-1 select-none rounded-2xl border border-black/10 bg-[var(--float-panel-bg)] p-2 opacity-0 shadow-xl transition-all duration-150 ease-out dark:border-white/10 dark:shadow-none" role="menu">
+                            <div id="copy-page-panel" class="pointer-events-none fixed z-[9999] w-56 -translate-y-1 select-none rounded-2xl border border-black/10 bg-[var(--float-panel-bg)] p-2 opacity-0 shadow-xl dark:border-white/10 dark:shadow-none" role="menu" style="transition: opacity 150ms ease-out, transform 150ms ease-out">
                                 {copyPageAiLinks.map((link) => (
                                     <a
                                         href={link.href}
@@ -485,15 +485,38 @@ const isOutdated = entry.data.outdated;
         function setupCopyPageMenu() {
             const menu = document.getElementById('copy-page-menu');
             const switchButton = document.getElementById('copy-page-switch');
-            const panel = document.getElementById('copy-page-panel');
+            let panel = document.getElementById('copy-page-panel');
             const arrow = menu?.querySelector('.copy-page-arrow');
             const copyButton = document.getElementById('copy-page-copy');
             const copyLabel = document.getElementById('copy-page-copy-label');
-            if (!menu || !switchButton || !panel || !copyButton || !copyLabel || switchButton.dataset.copyPageReady) {
-                return;
+
+            if (!menu || !switchButton || !panel || !copyButton || !copyLabel) return;
+
+            // 将 panel 移到 body，彻底避免祖先 transform/overflow 等对 fixed 定位的干扰
+            if (panel.parentElement !== document.body) {
+                // 清理上一页可能残留在 body 中的旧 panel
+                const stale = document.body.querySelector('#copy-page-panel');
+                if (stale && stale !== panel) stale.remove();
+                document.body.appendChild(panel);
             }
 
+            // 强制重置为关闭状态（只改 opacity/transform，不清位置，避免闪现）
+            function resetPanel() {
+                panel.classList.add('pointer-events-none', 'opacity-0', '-translate-y-1');
+                panel.classList.remove('opacity-100', 'translate-y-0');
+                if (arrow) arrow.classList.remove('rotate-180');
+                switchButton.setAttribute('aria-expanded', 'false');
+            }
+            resetPanel();
+
+            if (switchButton.dataset.copyPageReady) return;
+
             function setMenuOpen(opening) {
+                if (opening) {
+                    const menuRect = menu.getBoundingClientRect();
+                    panel.style.top = `${menuRect.bottom + 4}px`;
+                    panel.style.right = `${window.innerWidth - menuRect.right}px`;
+                }
                 panel.classList.toggle('pointer-events-none', !opening);
                 panel.classList.toggle('opacity-0', !opening);
                 panel.classList.toggle('-translate-y-1', !opening);
@@ -501,10 +524,6 @@ const isOutdated = entry.data.outdated;
                 panel.classList.toggle('translate-y-0', opening);
                 arrow?.classList.toggle('rotate-180', opening);
                 switchButton.setAttribute('aria-expanded', String(opening));
-            }
-
-            function closeMenu() {
-                setMenuOpen(false);
             }
 
             switchButton.dataset.copyPageReady = 'true';
@@ -516,7 +535,7 @@ const isOutdated = entry.data.outdated;
                 try {
                     await navigator.clipboard.writeText(copyPageText);
                     copyLabel.textContent = '已复制';
-                    closeMenu();
+                    setMenuOpen(false);
                     window.setTimeout(() => {
                         copyLabel.textContent = '复制页面';
                     }, 1500);
@@ -529,16 +548,29 @@ const isOutdated = entry.data.outdated;
                 }
             });
 
+            // 当菜单按钮滚出视口（被 navbar 遮挡或滚到下方）时自动关闭 panel
+            if (document.body['__copyPageObserver']) {
+                document.body['__copyPageObserver'].disconnect();
+            }
+            document.body['__copyPageObserver'] = new IntersectionObserver((entries) => {
+                if (!entries[0].isIntersecting) {
+                    setMenuOpen(false);
+                }
+            }, { rootMargin: '-80px 0px 0px 0px', threshold: 0 });
+            document.body['__copyPageObserver'].observe(menu);
+
             if (!document.body.dataset.copyPageOutsideReady) {
                 document.body.dataset.copyPageOutsideReady = 'true';
                 document.addEventListener('click', (event) => {
                     const currentMenu = document.getElementById('copy-page-menu');
-                    const currentSwitch = document.getElementById('copy-page-switch');
                     const currentPanel = document.getElementById('copy-page-panel');
+                    const currentSwitch = document.getElementById('copy-page-switch');
                     const currentArrow = currentMenu?.querySelector('.copy-page-arrow');
-                    if (!(event.target instanceof Node) || currentMenu?.contains(event.target)) {
-                        return;
-                    }
+                    // 点击 menu 或 panel 内部时不关闭
+                    if (!(event.target instanceof Node)) return;
+                    if (currentMenu?.contains(event.target)) return;
+                    if (currentPanel?.contains(event.target)) return;
+                    // 关闭
                     currentPanel?.classList.add('pointer-events-none', 'opacity-0', '-translate-y-1');
                     currentPanel?.classList.remove('opacity-100', 'translate-y-0');
                     currentArrow?.classList.remove('rotate-180');
