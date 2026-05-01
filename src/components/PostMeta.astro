@@ -4,7 +4,7 @@ import { Icon } from "astro-icon/components";
 import I18nKey from "../i18n/i18nKey";
 import { i18n } from "../i18n/translation";
 import { formatDateToYYYYMMDD } from "../utils/date-utils";
-import { getCategoryUrl, getTagUrl, getDir, url } from "../utils/url-utils";
+import { getCategoryUrl, getDir, getTagUrl, url } from "../utils/url-utils";
 
 interface Props {
 	class: string;
@@ -14,7 +14,7 @@ interface Props {
 	category: string | null;
 	hideTagsForMobile?: boolean;
 	hideUpdateDate?: boolean;
-    slug?: string;
+	slug?: string;
 }
 const {
 	published,
@@ -23,7 +23,7 @@ const {
 	category,
 	hideTagsForMobile = false,
 	hideUpdateDate = false,
-    slug,
+	slug,
 } = Astro.props;
 const className = Astro.props.class;
 ---
@@ -33,7 +33,7 @@ const className = Astro.props.class;
     <div class="flex items-center">
         <div class="meta-icon"
         >
-            <Icon name="material-symbols:calendar-today-outline-rounded" class="text-xl"></Icon>
+            <Icon is:inline name="material-symbols:calendar-today-outline-rounded" class="text-xl"></Icon>
         </div>
         <span class="text-50 text-sm font-medium">{formatDateToYYYYMMDD(published)}</span>
     </div>
@@ -43,7 +43,7 @@ const className = Astro.props.class;
         <div class="flex items-center">
             <div class="meta-icon"
             >
-                <Icon name="material-symbols:edit-calendar-outline-rounded" class="text-xl"></Icon>
+                <Icon is:inline name="material-symbols:edit-calendar-outline-rounded" class="text-xl"></Icon>
             </div>
             <span class="text-50 text-sm font-medium">{formatDateToYYYYMMDD(updated)}</span>
         </div>
@@ -54,7 +54,7 @@ const className = Astro.props.class;
     <div class="flex items-center">
         <div class="meta-icon"
         >
-            <Icon name="material-symbols:book-2-outline-rounded" class="text-xl"></Icon>
+            <Icon is:inline name="material-symbols:book-2-outline-rounded" class="text-xl"></Icon>
         </div>
         <div class="flex flex-row flex-nowrap items-center">
             <a href={getCategoryUrl(category)} aria-label={`View all posts in the ${category} category`}
@@ -69,7 +69,7 @@ const className = Astro.props.class;
     <div class:list={["items-center", {"flex": !hideTagsForMobile, "hidden md:flex": hideTagsForMobile}]}>
         <div class="meta-icon"
         >
-            <Icon name="material-symbols:tag-rounded" class="text-xl"></Icon>
+            <Icon is:inline name="material-symbols:tag-rounded" class="text-xl"></Icon>
         </div>
         <div class="flex flex-row flex-nowrap items-center">
             {(tags && tags.length > 0) && tags.map((tag, i) => (
@@ -87,7 +87,7 @@ const className = Astro.props.class;
     {slug && (
         <div class="flex items-center">
             <div class="meta-icon">
-                <Icon name="material-symbols:visibility-outline-rounded" class="text-xl"></Icon>
+                <Icon is:inline name="material-symbols:visibility-outline-rounded" class="text-xl"></Icon>
             </div>
             <span class="text-50 text-sm font-medium" id="page-views-display">加载中...</span>
         </div>

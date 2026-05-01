@@ -5,16 +5,20 @@ import MarkdownIt from "markdown-it";
 
 const markdown = new MarkdownIt();
 const siteNameHtml = markdown.renderInline("`Ad_closeNN 的小站`");
-const siteDescriptionHtml = markdown.renderInline("`永远相信美好的事情即将发生`");
+const siteDescriptionHtml = markdown.renderInline(
+	"`永远相信美好的事情即将发生`",
+);
 const siteUrlHtml = markdown.renderInline("`https://blog.adclosenn.top`");
-const siteAvatarHtml = markdown.renderInline("`https://static.adclosenn.top/icon/avatar.jpg`");
+const siteAvatarHtml = markdown.renderInline(
+	"`https://static.adclosenn.top/icon/avatar.jpg`",
+);
 ---
 
 <MainGridLayout title="友情链接">
     <div class="card-base p-6 md:p-8">
         <div class="flex items-center gap-2 mb-6">
             <div class="h-8 w-8 rounded-lg bg-[var(--primary)] flex items-center justify-center text-white dark:text-black/70">
-                <Icon name="material-symbols:diversity-3" class="text-[1.5rem]">
+                <Icon is:inline name="material-symbols:diversity-3" class="text-[1.5rem]" />
             </div>
             <h1 class="text-2xl font-bold text-black dark:text-white">友情链接</h1>
         </div>
@@ -245,11 +249,11 @@ const siteAvatarHtml = markdown.renderInline("`https://static.adclosenn.top/icon
 
         <!-- 申请友链 -->
         <div class="sponsors-section mt-8">
-        	<h2 class="text-xl font-bold text-black dark:text-white mb-4 flex items-center gap-2">
-        		<Icon name="material-symbols:group" class="text-[1.5rem] text-[var(--primary)]"/>
-        		将您的网站加入本站友链板块
-        	</h2>
-        	<p class="text-sm text-black/60 dark:text-white/60">
+            <h2 class="text-xl font-bold text-black dark:text-white mb-4 flex items-center gap-2">
+                <Icon is:inline name="material-symbols:group" class="text-[1.5rem] text-[var(--primary)]" />
+                将您的网站加入本站友链板块
+            </h2>
+            <p class="text-sm text-black/60 dark:text-white/60">
         		请自行提交 GitHub Issue ： <a target="_blank" href="https://github.com/Ad-closeNN/form/issues/new?template=friends-link.yml" class="transition link text-[var(--primary)] font-medium">点击这里提交</a>
         	</p>
             <div class="mt-4 h-px bg-black/10 dark:bg-white/10"></div>

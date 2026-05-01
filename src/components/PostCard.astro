@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from "astro:content";
+import { render } from "astro:content";
 import path from "node:path";
 import { Icon } from "astro-icon/components";
 import I18nKey from "../i18n/i18nKey";
@@ -7,7 +8,6 @@ import { i18n } from "../i18n/translation";
 import { getDir } from "../utils/url-utils";
 import ImageWrapper from "./misc/ImageWrapper.astro";
 import PostMetadata from "./PostMeta.astro";
-import { render } from 'astro:content';
 
 interface Props {
 	class?: string;
@@ -57,15 +57,15 @@ const { remarkPluginFrontmatter } = await render(entry);
             <span class="flex flex-wrap items-center gap-x-3 gap-y-2">
                 {isPinned && (
                     <span class="inline-flex items-center gap-1 rounded-full border border-[var(--primary)]/20 bg-[var(--primary)]/10 px-2.5 py-1 text-xs font-semibold text-[var(--primary)] leading-none">
-                        <Icon name="material-symbols:keep-rounded" class="text-lg"></Icon>
+                        <Icon is:inline name="material-symbols:keep-rounded" class="text-lg"></Icon>
                         置顶
                     </span>
                 )}
                 <span class="min-w-0">
                     {title}
                     <span class="inline-flex items-center align-middle whitespace-nowrap">
-                        <Icon class="inline text-[2rem] text-[var(--primary)] translate-y-0.5 md:hidden" name="material-symbols:chevron-right-rounded" ></Icon>
-                        <Icon class="text-[var(--primary)] text-[2rem] transition hidden md:inline translate-y-0.5 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0" name="material-symbols:chevron-right-rounded"></Icon>
+                        <Icon is:inline class="inline text-[2rem] text-[var(--primary)] translate-y-0.5 md:hidden" name="material-symbols:chevron-right-rounded" ></Icon>
+                        <Icon is:inline class="text-[var(--primary)] text-[2rem] transition hidden md:inline translate-y-0.5 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0" name="material-symbols:chevron-right-rounded"></Icon>
                     </span>
                 </span>
             </span>
@@ -105,7 +105,7 @@ const { remarkPluginFrontmatter } = await render(entry);
                     ]} >
         <div class="absolute pointer-events-none z-10 w-full h-full group-hover:bg-black/30 group-active:bg-black/50 transition"></div>
         <div class="absolute pointer-events-none z-20 w-full h-full flex items-center justify-center ">
-            <Icon name="material-symbols:chevron-right-rounded"
+            <Icon is:inline name="material-symbols:chevron-right-rounded"
                   class="transition opacity-0 group-hover:opacity-100 scale-50 group-hover:scale-100 text-white text-5xl">
             </Icon>
         </div>
@@ -119,7 +119,7 @@ const { remarkPluginFrontmatter } = await render(entry);
          absolute right-3 top-3 bottom-3 rounded-xl bg-[var(--enter-btn-bg)]
          hover:bg-[var(--enter-btn-bg-hover)] active:bg-[var(--enter-btn-bg-active)] active:scale-95
         ">
-            <Icon name="material-symbols:chevron-right-rounded"
+            <Icon is:inline name="material-symbols:chevron-right-rounded"
                   class="transition text-[var(--primary)] text-4xl mx-auto">
             </Icon>
         </a>
