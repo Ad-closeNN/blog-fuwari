@@ -8,12 +8,14 @@ interface Props {
 	alt?: string;
 	position?: string;
 	basePath?: string;
+	loader?: boolean;
+	blur?: boolean;
 }
 
 import { Image } from "astro:assets";
 import { url } from "../../utils/url-utils";
 
-const { id, src, alt, position = "center", basePath = "/" } = Astro.props;
+const { id, src, alt, position = "center", basePath = "/", loader = false, blur = false } = Astro.props;
 const className = Astro.props.class;
 
 const isLocal = !(
@@ -51,7 +53,7 @@ const originalSrc = isLocal && img ? img.src : isPublic ? url(normalizedPublicSr
 const originalWidth = isLocal && img ? img.width : undefined;
 const originalHeight = isLocal && img ? img.height : undefined;
 ---
-<div id={id} class:list={[className, 'overflow-hidden relative']}>
+<div id={id} class:list={[className, "overflow-hidden relative", loader && "image-loading-shell is-loading", blur && "image-blur-shell is-loading"]}>
     <div class="transition absolute inset-0 dark:bg-black/10 bg-opacity-50 pointer-events-none"></div>
     {isLocal && img && <Image src={img} alt={alt || ""} class={imageClass} style={imageStyle} data-pswp-src={originalSrc} data-pswp-width={originalWidth} data-pswp-height={originalHeight} data-original-src={originalSrc}/>}
     {!isLocal && <img src={originalSrc} alt={alt || ""} class={imageClass} style={imageStyle} data-pswp-src={originalSrc} data-original-src={originalSrc}/>}

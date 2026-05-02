@@ -373,12 +373,12 @@ const isOutdated = entry.data.outdated;
             <!-- always show cover as long as it has one -->
             <!-- 使用自制 showcover 控制器控制头图的出现 -->
             {showcover && entry.data.image &&
-                <ImageWrapper id="post-cover" src={entry.data.image} basePath={path.join("content/posts/", getDir(entry.id))} class="mb-8 rounded-xl banner-container onload-animation"/>
+                <ImageWrapper id="post-cover" src={entry.data.image} basePath={path.join("content/posts/", getDir(entry.id))} class="mb-8 rounded-xl banner-container onload-animation" loader/>
             }
             
             <!-- 自制内部头图 customcover-->
             {customcover &&
-                <ImageWrapper id="post-cover" src={entry.data.customcover} basePath={path.join("content/posts/", getDir(entry.id))} class="mb-8 rounded-xl banner-container onload-animation"/>
+                <ImageWrapper id="post-cover" src={entry.data.customcover} basePath={path.join("content/posts/", getDir(entry.id))} class="mb-8 rounded-xl banner-container onload-animation" loader/>
             }
 
             <!-- 头图调试代码

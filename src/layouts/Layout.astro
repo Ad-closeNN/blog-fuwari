@@ -680,6 +680,88 @@ window.onresize = () => {
 </script>
 
 <script>
+type ImageLoaderState = {
+	pageLoadRegistered: boolean
+	swupHookRegistered: boolean
+}
+
+const imageLoaderState = (((window as Window & { __blogImageLoader?: ImageLoaderState }).__blogImageLoader ??= {
+	pageLoadRegistered: false,
+	swupHookRegistered: false,
+}) as ImageLoaderState)
+
+function markImageLoaded(wrapper: HTMLElement) {
+	if (wrapper.classList.contains("image-blur-shell")) {
+		window.setTimeout(() => wrapper.classList.remove("is-loading"), 120)
+		return
+	}
+	wrapper.classList.remove("is-loading")
+}
+
+function bindImageLoader(wrapper: HTMLElement) {
+	if (wrapper.dataset.imageLoadingBound === "true") {
+		return
+	}
+
+	const image = wrapper.querySelector("img")
+	if (!(image instanceof HTMLImageElement)) {
+		markImageLoaded(wrapper)
+		return
+	}
+
+	wrapper.dataset.imageLoadingBound = "true"
+	if (image.complete) {
+		markImageLoaded(wrapper)
+		return
+	}
+
+	image.addEventListener("load", () => markImageLoaded(wrapper), { once: true })
+	image.addEventListener("error", () => markImageLoaded(wrapper), { once: true })
+}
+
+function wrapMarkdownImage(image: HTMLImageElement) {
+	if (image.closest(".image-loading-shell, .image-blur-shell") || !image.parentNode) {
+		return
+	}
+
+	const wrapper = document.createElement("span")
+	wrapper.className = "image-loading-shell image-loading-shell--markdown is-loading"
+	image.parentNode.insertBefore(wrapper, image)
+	wrapper.appendChild(image)
+}
+
+function initImageLoaders() {
+	document.querySelectorAll<HTMLImageElement>(".custom-md img:not([data-image-loading-skip])").forEach(wrapMarkdownImage)
+	document.querySelectorAll<HTMLElement>(".image-loading-shell, .image-blur-shell").forEach(bindImageLoader)
+}
+
+function registerImageLoaderSwupHook() {
+	if (imageLoaderState.swupHookRegistered || !window.swup?.hooks) {
+		return
+	}
+	window.swup.hooks.on("page:view", initImageLoaders)
+	imageLoaderState.swupHookRegistered = true
+}
+
+if (document.readyState === "loading") {
+	document.addEventListener("DOMContentLoaded", initImageLoaders, { once: true })
+} else {
+	initImageLoaders()
+}
+
+if (!imageLoaderState.pageLoadRegistered) {
+	document.addEventListener("astro:page-load", initImageLoaders)
+	imageLoaderState.pageLoadRegistered = true
+}
+
+if (window.swup?.hooks) {
+	registerImageLoaderSwupHook()
+} else {
+	document.addEventListener("swup:enable", registerImageLoaderSwupHook, { once: true })
+}
+</script>
+
+<script>
 import PhotoSwipeLightbox from "photoswipe/lightbox"
 import "photoswipe/style.css"
 import "../styles/photoswipe.css"

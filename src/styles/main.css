@@ -156,6 +156,50 @@
     @apply cursor-zoom-in
 }
 
+.image-loading-shell {
+    background: color-mix(in oklch, var(--card-bg) 92%, var(--btn-regular-bg) 8%);
+}
+
+.image-loading-shell > img {
+    transition: opacity 0.28s ease, filter 0.55s ease;
+}
+
+.image-blur-shell > img {
+    transition: filter 0.28s ease;
+}
+
+.image-loading-shell.is-loading > img {
+    opacity: 0;
+    filter: blur(4px);
+}
+
+.image-blur-shell.is-loading > img {
+    filter: blur(3px);
+}
+
+
+.image-loading-shell--markdown {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    border-radius: 0.75rem;
+}
+
+.image-loading-shell--markdown.is-loading {
+    min-height: 12rem;
+}
+
+.custom-md .image-loading-shell--markdown {
+    margin-top: 2em;
+    margin-bottom: 2em;
+}
+
+.custom-md .image-loading-shell--markdown img {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+
 ::selection {
     background-color: var(--selection-bg);
     color: inherit;
