@@ -65,15 +65,10 @@ function getPostSourcePath(sourceKey: string | undefined) {
 function getGitHubPostSourceUrl(repo: string | undefined, sourcePath: string | undefined) {
 	if (!repo || !sourcePath) return "";
 
-	const normalizedRepo = repo.replace(/\.git$/, "").replace(/\/+$/, "");
-	const repoPath = normalizedRepo.includes("://")
-		? new URL(normalizedRepo).pathname.replace(/^\/+|\/+$/g, "")
-		: normalizedRepo.replace(/^\/+|\/+$/g, "");
-	const [owner, repository] = repoPath.split("/");
-	if (!owner || !repository) return "";
-
+	const repoUrl = repo.includes("://") ? repo : `https://github.com/${repo}`;
+	const normalizedRepo = repoUrl.replace(/\.git$/, "").replace(/\/+$/, "");
 	const encodedSourcePath = sourcePath.split("/").map(encodeURIComponent).join("/");
-	return `https://raw.githubusercontent.com/${encodeURIComponent(owner)}/${encodeURIComponent(repository)}/refs/heads/main/${encodedSourcePath}`;
+	return `${normalizedRepo}/blob/main/${encodedSourcePath}?plain=1`;
 }
 
 function parseAiSummaryValue(value: string) {
@@ -130,7 +125,6 @@ const aiSummaryMeta = getAiSummaryMeta(entry.id);
 const postSourceKey = getPostSourceKey(entry.id);
 const postSourcePath = getPostSourcePath(postSourceKey);
 const postSourceUrl = getGitHubPostSourceUrl(siteConfig.githubRepo, postSourcePath);
-const copyPageText = postSourceKey ? postSources[postSourceKey] : "";
 const aiPrompt = `Read from ${postSourceUrl} so I can ask questions about it.`;
 const encodedAiPrompt = encodeURIComponent(aiPrompt);
 const copyPageAiLinks = [
@@ -214,10 +208,17 @@ const isOutdated = entry.data.outdated;
                 <div class="flex items-center justify-end gap-2 text-black/40 dark:text-white/40 md:shrink-0">
                     {postSourceUrl && (
                         <div id="copy-page-menu" class="relative inline-flex shrink-0 select-none rounded-xl border border-black/15 dark:border-white/15">
-                            <button id="copy-page-copy" class="btn-card flex h-9 items-center gap-2 rounded-l-xl rounded-r-none px-3 font-medium" type="button">
-                                <Icon is:inline name="material-symbols:content-copy-outline-rounded" class="text-[1.05rem] text-[var(--primary)]"></Icon>
-                                <span id="copy-page-copy-label" class="text-sm text-black/75 dark:text-white/75">复制页面</span>
-                            </button>
+                            <a
+                                href={postSourceUrl}
+                                aria-label="在 GitHub 打开文章源文件"
+                                title="在 GitHub 打开文章源文件"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="btn-card flex h-9 items-center gap-2 rounded-l-xl rounded-r-none px-3 font-medium"
+                            >
+                                <Icon is:inline name="fa6-brands:github" class="text-[1rem] text-[var(--primary)]"></Icon>
+                                <span class="text-sm text-black/75 dark:text-white/75">在 GitHub 查看</span>
+                            </a>
                             <div class="h-9 w-px bg-black/10 dark:bg-white/10"></div>
                             <button id="copy-page-switch" class="btn-card flex h-9 w-9 items-center justify-center rounded-l-none rounded-r-xl active:scale-95" type="button" aria-label="打开 AI 菜单" aria-haspopup="menu" aria-expanded="false">
                                 <Icon is:inline name="material-symbols:keyboard-arrow-down-rounded" class="copy-page-arrow text-[1.2rem] text-[var(--primary)] transition"></Icon>
@@ -419,7 +420,7 @@ const isOutdated = entry.data.outdated;
         </a>
     </div>
     
-    <script define:vars={{ slug: postSlug, lastUpdatedTimestamp, copyPageText }}>
+    <script define:vars={{ slug: postSlug, lastUpdatedTimestamp }}>
         function formatUpdatedDistance(timestamp) {
             const now = Date.now();
             const diff = Math.max(0, now - timestamp);
@@ -487,10 +488,8 @@ const isOutdated = entry.data.outdated;
             const switchButton = document.getElementById('copy-page-switch');
             let panel = document.getElementById('copy-page-panel');
             const arrow = menu?.querySelector('.copy-page-arrow');
-            const copyButton = document.getElementById('copy-page-copy');
-            const copyLabel = document.getElementById('copy-page-copy-label');
 
-            if (!menu || !switchButton || !panel || !copyButton || !copyLabel) return;
+            if (!menu || !switchButton || !panel) return;
 
             // 将 panel 移到 body，彻底避免祖先 transform/overflow 等对 fixed 定位的干扰
             if (panel.parentElement !== document.body) {
@@ -531,22 +530,6 @@ const isOutdated = entry.data.outdated;
                 setMenuOpen(panel.classList.contains('opacity-0'));
             });
 
-            copyButton.addEventListener('click', async () => {
-                try {
-                    await navigator.clipboard.writeText(copyPageText);
-                    copyLabel.textContent = '已复制';
-                    setMenuOpen(false);
-                    window.setTimeout(() => {
-                        copyLabel.textContent = '复制页面';
-                    }, 1500);
-                } catch (error) {
-                    console.error('Error copying page:', error);
-                    copyLabel.textContent = '复制失败';
-                    window.setTimeout(() => {
-                        copyLabel.textContent = '复制页面';
-                    }, 1500);
-                }
-            });
 
             // 当菜单按钮滚出视口（被 navbar 遮挡或滚到下方）时自动关闭 panel
             if (document.body['__copyPageObserver']) {
