@@ -6,7 +6,7 @@ import https from "https"
 import readline from "readline"
 
 const targetDir = "./src/content/posts/"
-const summaryModel = "gpt-5-nano"
+const summaryModel = "deepseek-v4-flash-free"
 const batchDelayMs = 1500
 const frontmatterRegex = /^---\r?\n([\s\S]*?)\r?\n---\r?\n?/
 
@@ -274,11 +274,11 @@ async function generateSummary(fileName) {
     const fullPath = path.join(targetDir, fileName)
     const fileContent = fs.readFileSync(fullPath, "utf-8")
     const frontmatterMatch = fileContent.match(frontmatterRegex)
-    const bodyContent = stripAdmonitionMarkers(
-        frontmatterMatch
-            ? fileContent.slice(frontmatterMatch[0].length).trimStart()
-            : fileContent,
-    )
+    const bodyOriginal = frontmatterMatch
+        ? fileContent.slice(frontmatterMatch[0].length).trimStart()
+        : fileContent;
+    const bodyForAI = stripAdmonitionMarkers(bodyOriginal)
+    const eol = fileContent.includes("\r\n") ? "\r\n" : "\n"
 
     console.log("\n生成 AI 摘要中...\n")
 
@@ -293,7 +293,7 @@ async function generateSummary(fileName) {
 - 不要输出 Markdown 语法、admonition 标记或提示框类型，例如 :::warning、:::caution、[!warning]、警告、注意。
 
 文章内容：
-${bodyContent}`
+${bodyForAI}`
 
     const requestBody = JSON.stringify({
         model: summaryModel,
@@ -349,9 +349,9 @@ ${bodyContent}`
             summaryModel,
         )
 
-        newContent = `---\n${newFrontmatter}\n---\n${bodyContent}`
+        newContent = `---${eol}${newFrontmatter}${eol}---${eol}${bodyOriginal}`
     } else {
-        newContent = `---\n${formatFrontmatterField("aiSummary", summary)}\n${formatFrontmatterField("aiSummaryModel", summaryModel)}\n---\n${bodyContent}`
+        newContent = `---${eol}${formatFrontmatterField("aiSummary", summary)}${eol}${formatFrontmatterField("aiSummaryModel", summaryModel)}${eol}---${eol}${bodyOriginal}`
     }
 
     fs.writeFileSync(fullPath, newContent)
