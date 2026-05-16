@@ -99,6 +99,14 @@ function getGiteaRawSourceUrl(repo: string | undefined, sourcePath: string | und
 	return `https://${giteaHost}/${encodeURIComponent(owner)}/${encodeURIComponent(repository)}/src/branch/main/${encodedSourcePath}?display=source`;
 }
 
+function getCnbsSourceUrl(baseUrl: string, sourcePath: string | undefined) {
+	if (!sourcePath) return "";
+
+	const normalizedUrl = baseUrl.replace(/\.git$/, "").replace(/\/+$/, "");
+	const encodedSourcePath = sourcePath.split("/").map(encodeURIComponent).join("/");
+	return `${normalizedUrl}/-/blob/main/${encodedSourcePath}`;
+}
+
 function parseAiSummaryValue(value: string) {
 	const trimmed = value.trim();
 	if (!trimmed) return "";
@@ -155,6 +163,7 @@ const postSourcePath = getPostSourcePath(postSourceKey);
 const postSourceUrl = getGitHubPostSourceUrl(siteConfig.githubRepo, postSourcePath);
 const postRawSourceUrl = getGitHubRawSourceUrl(siteConfig.githubRepo, postSourcePath);
 const postGiteaRawSourceUrl = getGiteaRawSourceUrl(siteConfig.githubRepo, postSourcePath, "git.adclosenn.top");
+const postCnbsSourceUrl = getCnbsSourceUrl("https://cnb.cool/CLN-Grated/blog-fuwari", postSourcePath);
 const aiPrompt = `Read from ${postRawSourceUrl} so I can ask questions about it.`;
 const encodedAiPrompt = encodeURIComponent(aiPrompt);
 const copyPageAiLinks = [
@@ -162,6 +171,11 @@ const copyPageAiLinks = [
 		label: "Gitea",
 		icon: "cln-gitea",
 		href: postGiteaRawSourceUrl,
+	},
+	{
+		label: "CNB",
+		icon: "cnb",
+		href: postCnbsSourceUrl,
 	},
 	{
 		label: "ChatGPT",
@@ -297,6 +311,9 @@ const isOutdated = entry.data.outdated;
                                             )}
                                             {link.icon === "cln-gitea" && (
                                                 <img aria-hidden="true" class="h-4 w-4" src="https://git.adclosenn.top/assets/img/logo.svg" alt="" />
+                                            )}
+                                            {link.icon === "cnb" && (
+                                                <img aria-hidden="true" class="h-4 w-4" src="https://cnb.cool/images/favicon.svg" alt="" />
                                             )}
                                             <span>在 {link.label} 中打开</span>
                                         </span>
