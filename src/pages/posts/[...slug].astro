@@ -71,6 +71,34 @@ function getGitHubPostSourceUrl(repo: string | undefined, sourcePath: string | u
 	return `${normalizedRepo}/blob/main/${encodedSourcePath}?plain=1`;
 }
 
+function getGitHubRawSourceUrl(repo: string | undefined, sourcePath: string | undefined) {
+	if (!repo || !sourcePath) return "";
+
+	const normalizedRepo = repo.replace(/\.git$/, "").replace(/\/+$/, "");
+	const repoPath = normalizedRepo.includes("://")
+		? new URL(normalizedRepo).pathname.replace(/^\/+|\/+$/g, "")
+		: normalizedRepo.replace(/^\/+|\/+$/g, "");
+	const [owner, repository] = repoPath.split("/");
+	if (!owner || !repository) return "";
+
+	const encodedSourcePath = sourcePath.split("/").map(encodeURIComponent).join("/");
+	return `https://raw.githubusercontent.com/${encodeURIComponent(owner)}/${encodeURIComponent(repository)}/refs/heads/main/${encodedSourcePath}`;
+}
+
+function getGiteaRawSourceUrl(repo: string | undefined, sourcePath: string | undefined, giteaHost: string) {
+	if (!repo || !sourcePath) return "";
+
+	const normalizedRepo = repo.replace(/\.git$/, "").replace(/\/+$/, "");
+	const repoPath = normalizedRepo.includes("://")
+		? new URL(normalizedRepo).pathname.replace(/^\/+|\/+$/g, "")
+		: normalizedRepo.replace(/^\/+|\/+$/g, "");
+	const [owner, repository] = repoPath.split("/");
+	if (!owner || !repository) return "";
+
+	const encodedSourcePath = sourcePath.split("/").map(encodeURIComponent).join("/");
+	return `https://${giteaHost}/${encodeURIComponent(owner)}/${encodeURIComponent(repository)}/src/branch/main/${encodedSourcePath}?display=source`;
+}
+
 function parseAiSummaryValue(value: string) {
 	const trimmed = value.trim();
 	if (!trimmed) return "";
@@ -125,9 +153,16 @@ const aiSummaryMeta = getAiSummaryMeta(entry.id);
 const postSourceKey = getPostSourceKey(entry.id);
 const postSourcePath = getPostSourcePath(postSourceKey);
 const postSourceUrl = getGitHubPostSourceUrl(siteConfig.githubRepo, postSourcePath);
-const aiPrompt = `Read from ${postSourceUrl} so I can ask questions about it.`;
+const postRawSourceUrl = getGitHubRawSourceUrl(siteConfig.githubRepo, postSourcePath);
+const postGiteaRawSourceUrl = getGiteaRawSourceUrl(siteConfig.githubRepo, postSourcePath, "git.adclosenn.top");
+const aiPrompt = `Read from ${postRawSourceUrl} so I can ask questions about it.`;
 const encodedAiPrompt = encodeURIComponent(aiPrompt);
 const copyPageAiLinks = [
+	{
+		label: "Gitea",
+		icon: "cln-gitea",
+		href: postGiteaRawSourceUrl,
+	},
 	{
 		label: "ChatGPT",
 		icon: "gpt",
@@ -259,6 +294,9 @@ const isOutdated = entry.data.outdated;
                                                 <svg aria-hidden="true" class="h-4 w-4 text-[var(--primary)]" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                     <path fill="currentColor" d="M4.94 4.96a9.97 9.97 0 0 1 10.835-2.182a8.7 8.7 0 0 1 2.033 1.11l-3.006 1.39C12.003 4.101 8.797 4.9 6.84 6.86c-2.564 2.565-3.146 6.954-.36 9.922l.278.284L.124 23c1.875-1.973 3.771-4.427 2.636-7.19c-1.52-3.698-.635-8.03 2.18-10.85M23.9.1c-2.264 3.174-3.184 5.389-2.197 9.64l-.007-.007c.753 3.201-.052 6.75-2.653 9.355c-3.279 3.285-8.526 4.016-12.847 1.06L9.21 18.75c2.758 1.084 5.775.607 7.943-1.564c2.169-2.17 2.655-5.332 1.566-7.963c-.207-.5-.828-.625-1.263-.304L8.59 15.472l12.7-12.77v.01z" />
                                                 </svg>
+                                            )}
+                                            {link.icon === "cln-gitea" && (
+                                                <img aria-hidden="true" class="h-4 w-4" src="https://git.adclosenn.top/assets/img/logo.svg" alt="" />
                                             )}
                                             <span>在 {link.label} 中打开</span>
                                         </span>
